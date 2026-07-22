@@ -3,68 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الفروع | PAROLE Cafe</title>
+    <title>فروعنا الفاخرة | PAROLE Cafe</title>
+    <!-- إعدادات تحسين محركات البحث SEO -->
+    <meta name="description" content="تعرف على فروع PAROLE Cafe الفاخرة، مواقعنا، أوقات العمل، وطرق التواصل المباشر للاستمتاع بأرقى تجربة قهوة مختصة.">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-          --primary-gold: #c5a059;
-          --dark-bg: #121212;
-          --card-bg: #1e1e1e;
-          --text-light: #f5f5f5;
-          --text-muted: #aaaaaa;
+          --primary-gold: #d4af37;
+          --gold-light: #f3e5ab;
+          --dark-bg: #0b0b0b;
+          --card-bg: #161616;
+          --border-color: #262626;
+          --text-main: #f0f0f0;
+          --text-muted: #999999;
+          --success: #2ecc71;
           --transition: all 0.3s ease;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--dark-bg); color: var(--text-light); line-height: 1.6; direction: rtl; text-align: right; }
-        header { background: rgba(18, 18, 18, 0.95); position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; border-bottom: 1px solid #2a2a2a; }
-        .nav-container { max-width: 1200px; margin: 0 auto; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 24px; font-weight: bold; color: var(--primary-gold); letter-spacing: 2px; text-decoration: none; }
-        .nav-links { display: flex; list-style: none; gap: 20px; flex-wrap: wrap; }
-        .nav-links a { color: var(--text-light); text-decoration: none; font-size: 14px; transition: var(--transition); }
-        .nav-links a:hover { color: var(--primary-gold); }
-        section { padding: 120px 20px 60px; max-width: 1200px; margin: 0 auto; }
-        .section-title { text-align: center; font-size: 32px; margin-bottom: 40px; color: var(--primary-gold); }
-        .branches-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .branch-card { background-color: var(--card-bg); padding: 30px; border-radius: 8px; border: 1px solid #2a2a2a; }
-        .branch-title { font-size: 20px; color: var(--primary-gold); margin-bottom: 10px; }
-        .branch-info { color: var(--text-muted); margin-bottom: 10px; }
-        footer { background-color: #0a0a0a; padding: 30px 20px; text-align: center; border-top: 1px solid #222; color: var(--text-muted); margin-top: 60px; }
+        body { background-color: var(--dark-bg); color: var(--text-main); line-height: 1.6; direction: rtl; text-align: right; }
+        
+        /* شريط التنبيه العلوي المتحرك */
+        .announcement-bar { background-color: var(--primary-gold); color: #000; font-size: 12px; font-weight: 600; text-align: center; padding: 8px 15px; position: fixed; top: 0; left: 0; width: 100%; z-index: 1001; }
+
+        /* القائمة العلويّة المتطورة */
+        header { background: rgba(11, 11, 11, 0.95); backdrop-filter: blur(10px); position: fixed; top: 33px; left: 0; width: 100%; z-index: 1000; border-bottom: 1px solid var(--border-color); }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 22px; font-weight: 300; color: var(--text-main); letter-spacing: 4px; text-decoration: none; text-transform: uppercase; }
+        .logo span { color: var(--primary-gold); font-weight: 500; }
+        .nav-links { display: flex; list-style: none; gap: 15px; flex-wrap: wrap; align-items: center; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 13px; transition: var(--transition); padding: 6px 12px; border-radius: 6px; }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary-gold); background-color: rgba(212, 175, 55, 0.08); }
+
+        /* محتوى قسم الفروع */
+        section { padding: 150px 20px 60px; max-width: 1200px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .section-header h1 { font-size: 32px; color: var(--primary-gold); font-weight: 300; margin-bottom: 10px; letter-spacing: 1px; }
+        .section-header p { color: var(--text-muted); font-size: 14px; }
+
+        /* شبكة الفروع */
+        .branches-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 30px; }
+        
+        .branch-card { background-color: var(--card-bg); padding: 35px; border-radius: 12px; border: 1px solid var(--border-color); transition: var(--transition); position: relative; overflow: hidden; }
+        .branch-card:hover { transform: translateY(-5px); border-color: rgba(212, 175, 55, 0.4); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .branch-card::before { content: ''; position: absolute; top: 0; right: 0; width: 4px; height: 100%; background-color: var(--primary-gold); opacity: 0; transition: var(--transition); }
+        .branch-card:hover::before { opacity: 1; }
+
+        .branch-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; }
+        .branch-title { font-size: 18px; color: var(--primary-gold); font-weight: 500; }
+        .branch-badge { background-color: rgba(46, 204, 113, 0.1); color: var(--success); font-size: 11px; padding: 4px 10px; border-radius: 20px; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; }
+
+        .branch-info-list { list-style: none; margin-bottom: 25px; }
+        .branch-info-list li { display: flex; align-items: flex-start; gap: 12px; color: var(--text-muted); font-size: 13px; margin-bottom: 12px; }
+        .branch-info-list li i { color: var(--primary-gold); font-size: 15px; margin-top: 3px; min-width: 18px; }
+        .branch-info-list li strong { color: var(--text-main); font-weight: 500; }
+
+        .branch-actions { display: flex; gap: 10px; }
+        .btn-map { flex: 1; background-color: transparent; border: 1px solid var(--primary-gold); color: var(--primary-gold); padding: 10px; border-radius: 8px; text-decoration: none; text-align: center; font-size: 13px; font-weight: 500; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .btn-map:hover { background-color: var(--primary-gold); color: #000; }
+
+        .btn-call { background-color: var(--border-color); color: var(--text-main); width: 42px; height: 42px; border-radius: 8px; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 15px; transition: var(--transition); border: 1px solid var(--border-color); }
+        .btn-call:hover { background-color: var(--text-main); color: #000; }
+
+        /* التذييل */
+        footer { background-color: #070707; padding: 30px 20px; text-align: center; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 12px; margin-top: 80px; }
     </style>
 </head>
 <body>
+
+    <!-- شريط إعلاني علوي متحرك -->
+    <div class="announcement-bar">
+        <i class="fa-solid fa-mug-hot" style="margin-left: 5px;"></i> اكتشف فرعنا الأقرب إليك واستمتع بأجواء استثنائية وضيافة راقية.
+    </div>
+
+    <!-- القائمة العلويّة -->
     <header>
         <div class="nav-container">
-            <a href="index.html" class="logo">PAROLE</a>
+            <a href="index.html" class="logo">PAROLE <span>CAFE</span></a>
             <ul class="nav-links">
                 <li><a href="index.html">الرئيسية</a></li>
                 <li><a href="about.html">من نحن</a></li>
                 <li><a href="shop.html">المتجر</a></li>
                 <li><a href="offers.html">العروض</a></li>
-                <li><a href="branches.html" style="color: var(--primary-gold);">الفروع</a></li>
+                <li><a href="branches.html" class="active"><i class="fa-solid fa-location-dot" style="color: var(--primary-gold);"></i> الفروع</a></li>
                 <li><a href="blog.html">المدونة</a></li>
                 <li><a href="contact.html">تواصل معنا</a></li>
                 <li><a href="faq.html">الأسئلة الشائعة</a></li>
                 <li><a href="policies.html">السياسات</a></li>
+                <li><a href="cart.html">السلة</a></li>
             </ul>
         </div>
     </header>
+
+    <!-- محتوى الفروع -->
     <section>
-        <h2 class="section-title">فروعنا حول المملكة</h2>
+        <div class="section-header">
+            <h1>فروعنا الفاخرة حول المملكة</h1>
+            <p>نستقبلكم بكل حب وشغف في فروعنا المصممة بعناية لتمنحكم تجربة قهوة استثنائية.</p>
+        </div>
+
         <div class="branches-grid">
+            <!-- فرع الرياض -->
             <div class="branch-card">
-                <h3 class="branch-title">فرع الرياض - طريق الملك فهد</h3>
-                <p class="branch-info"><i class="fa-solid fa-location-dot"></i> حي الياسمين، الرياض</p>
-                <p class="branch-info"><i class="fa-solid fa-clock"></i> أوقات العمل: 6:00 صباحاً - 12:00 منتصف الليل</p>
+                <div class="branch-header">
+                    <h3 class="branch-title">فرع الرياض - طريق الملك فهد</h3>
+                    <span class="branch-badge"><i class="fa-solid fa-circle" style="font-size: 8px;"></i> مفتوح الآن</span>
+                </div>
+                <ul class="branch-info-list">
+                    <li><i class="fa-solid fa-location-dot"></i> <div><strong>العنوان:</strong> حي الياسمين، طريق الملك فهد، الرياض</div></li>
+                    <li><i class="fa-solid fa-clock"></i> <div><strong>أوقات العمل:</strong> 6:00 صباحاً - 12:00 منتصف الليل يومياً</div></li>
+                    <li><i class="fa-solid fa-phone"></i> <div><strong>هاتف الفرع:</strong> +966 11 000 0001</div></li>
+                </ul>
+                <div class="branch-actions">
+                    <a href="https://maps.google.com" target="_blank" class="btn-map"><i class="fa-solid fa-diamond-turn-right"></i> الاتجاهات على الخريطة</a>
+                    <a href="tel:+966110000001" class="btn-call" title="اتصال بالفرع"><i class="fa-solid fa-phone"></i></a>
+                </div>
             </div>
+
+            <!-- فرع جدة -->
             <div class="branch-card">
-                <h3 class="branch-title">فرع جدة - الكورنيش</h3>
-                <p class="branch-info"><i class="fa-solid fa-location-dot"></i> حي الشاطئ، جدة</p>
-                <p class="branch-info"><i class="fa-solid fa-clock"></i> أوقات العمل: 6:00 صباحاً - 1:00 طوال الأسبوع</p>
+                <div class="branch-header">
+                    <h3 class="branch-title">فرع جدة - الكورنيش</h3>
+                    <span class="branch-badge"><i class="fa-solid fa-circle" style="font-size: 8px;"></i> مفتوح الآن</span>
+                </div>
+                <ul class="branch-info-list">
+                    <li><i class="fa-solid fa-location-dot"></i> <div><strong>العنوان:</strong> حي الشاطئ، طريق الكورنيش، جدة</div></li>
+                    <li><i class="fa-solid fa-clock"></i> <div><strong>أوقات العمل:</strong> 6:00 صباحاً - 1:00 طوال الأسبوع</div></li>
+                    <li><i class="fa-solid fa-phone"></i> <div><strong>هاتف الفرع:</strong> +966 12 000 0002</div></li>
+                </ul>
+                <div class="branch-actions">
+                    <a href="https://maps.google.com" target="_blank" class="btn-map"><i class="fa-solid fa-diamond-turn-right"></i> الاتجاهات على الخريطة</a>
+                    <a href="tel:+966120000002" class="btn-call" title="اتصال بالفرع"><i class="fa-solid fa-phone"></i></a>
+                </div>
             </div>
         </div>
     </section>
+
+    <!-- التذييل -->
     <footer>
         <p>&copy; 2026 PAROLE Cafe. جميع الحقوق محفوظة.</p>
     </footer>
+
+    <!-- زر الواتساب العائم -->
+    <a href="https://wa.me/966500000000?text=مرحباً، أريد الاستفسار عن فروع PAROLE Cafe" target="_blank" style="position: fixed; bottom: 25px; left: 25px; background-color: #25d366; color: #fff; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 9999; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
 </body>
 </html>
