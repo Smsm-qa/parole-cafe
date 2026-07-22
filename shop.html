@@ -156,30 +156,26 @@
         <p>&copy; 2026 AURA Cafe. جميع الحقوق محفوظة.</p>
     </footer>
 
-    <script>
-        function addToCart(name, price) {
-            let cart = JSON.parse(localStorage.getItem('aura_cart')) || [];
-            let existingItem = cart.find(item => item.name === name);
-            
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({ name: name, price: price, quantity: 1 });
-            }
-            
-            localStorage.setItem('aura_cart', JSON.stringify(cart));
-            updateCartCount();
-            alert(`تمت إضافة "${name}" إلى السلة بنجاح!`);
+ 
+<script>
+    function addToCart(name, price) {
+        // تنظيف السعر ليكون رقماً صافياً (مثال: "16 ر.س" تتحول إلى 16)
+        let numericPrice = parseFloat(price.toString().replace(/[^\d.]/g, '')) || 0;
+        
+        let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
+        let found = cart.find(item => item.name === name);
+        
+        if(found) {
+            found.quantity += 1;
+        } else {
+            cart.push({ name: name, price: numericPrice, quantity: 1 });
         }
-
-        function updateCartCount() {
-            let cart = JSON.parse(localStorage.getItem('aura_cart')) || [];
-            let totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            let badge = document.getElementById('cart-count');
-            if(badge) badge.textContent = totalItems;
-        }
-
-        document.addEventListener('DOMContentLoaded', updateCartCount);
-    </script>
+        
+        localStorage.setItem('parole_cart', JSON.stringify(cart));
+        
+        // رسالة تأكيد فورية تظهر عند الإضافة
+        alert('تمت إضافة ' + name + ' إلى السلة بنجاح!');
+    }
+</script>
 </body>
 </html>
