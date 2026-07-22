@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>العروض | PAROLE Cafe</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+          --primary-gold: #c5a059;
+          --dark-bg: #121212;
+          --card-bg: #1e1e1e;
+          --text-light: #f5f5f5;
+          --text-muted: #aaaaaa;
+          --transition: all 0.3s ease;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--dark-bg); color: var(--text-light); line-height: 1.6; direction: rtl; text-align: right; }
+        header { background: rgba(18, 18, 18, 0.95); position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; border-bottom: 1px solid #2a2a2a; }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 24px; font-weight: bold; color: var(--primary-gold); letter-spacing: 2px; text-decoration: none; }
+        .nav-links { display: flex; list-style: none; gap: 20px; flex-wrap: wrap; }
+        .nav-links a { color: var(--text-light); text-decoration: none; font-size: 14px; transition: var(--transition); }
+        .nav-links a:hover { color: var(--primary-gold); }
+        section { padding: 120px 20px 60px; max-width: 1200px; margin: 0 auto; }
+        .section-title { text-align: center; font-size: 32px; margin-bottom: 40px; color: var(--primary-gold); }
+        .offers-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .offer-card { background-color: var(--card-bg); border-radius: 8px; padding: 30px; border: 1px solid #2a2a2a; text-align: center; transition: var(--transition); }
+        .offer-card:hover { border-color: var(--primary-gold); transform: translateY(-5px); }
+        .offer-title { font-size: 20px; color: var(--primary-gold); margin-bottom: 15px; }
+        .offer-desc { color: var(--text-muted); margin-bottom: 20px; }
+        .offer-price { font-size: 18px; font-weight: bold; margin-bottom: 20px; }
+        .btn-offer { background-color: var(--primary-gold); color: #000; padding: 10px 20px; border-radius: 4px; text-decoration: none; font-weight: bold; display: inline-block; }
+        footer { background-color: #0a0a0a; padding: 30px 20px; text-align: center; border-top: 1px solid #222; color: var(--text-muted); margin-top: 60px; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo">PAROLE</a>
+            <ul class="nav-links">
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="about.html">من نحن</a></li>
+                <li><a href="shop.html">المتجر</a></li>
+                <li><a href="offers.html" style="color: var(--primary-gold);">العروض</a></li>
+                <li><a href="branches.html">الفروع</a></li>
+                <li><a href="blog.html">المدونة</a></li>
+                <li><a href="contact.html">تواصل معنا</a></li>
+                <li><a href="faq.html">الأسئلة الشائعة</a></li>
+                <li><a href="policies.html">السياسات</a></li>
+            </ul>
+        </div>
+    </header>
+    <section>
+        <h2 class="section-title">العروض والحزم الخاصة</h2>
+        <div class="offers-grid">
+            <div class="offer-card">
+                <h3 class="offer-title">باقة الصباح الفاخرة</h3>
+                <p class="offer-desc">احصل على إسبانيش لاتيه + كولد برو مركز بتخفيض خاص.</p>
+                <div class="offer-price">48 ر.س <span style="text-decoration: line-through; color: var(--text-muted); font-size: 14px;">60 ر.س</span></div>
+                <a href="shop.html" class="btn-offer">اطلب الباقة</a>
+            </div>
+            <div class="offer-card">
+                <h3 class="offer-title">صندوق حبوب القهوة الإثيوبية</h3>
+                <p class="offer-desc">عبوتان من حبوب القهوة الإثيوبية الفاخرة مع توصيل مجاني.</p>
+                <div class="offer-price">110 ر.س <span style="text-decoration: line-through; color: var(--text-muted); font-size: 14px;">130 ر.س</span></div>
+                <a href="shop.html" class="btn-offer">اطلب الباقة</a>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <p>&copy; 2026 PAROLE Cafe. جميع الحقوق محفوظة.</p>
+    </footer>
+</body>
+</html>

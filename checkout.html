@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إتمام الطلب | PAROLE Cafe</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+          --primary-gold: #c5a059;
+          --dark-bg: #121212;
+          --card-bg: #1e1e1e;
+          --text-light: #f5f5f5;
+          --text-muted: #aaaaaa;
+          --transition: all 0.3s ease;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--dark-bg); color: var(--text-light); line-height: 1.6; direction: rtl; text-align: right; }
+        header { background: rgba(18, 18, 18, 0.95); position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; border-bottom: 1px solid #2a2a2a; }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 24px; font-weight: bold; color: var(--primary-gold); letter-spacing: 2px; text-decoration: none; }
+        .nav-links { display: flex; list-style: none; gap: 20px; flex-wrap: wrap; }
+        .nav-links a { color: var(--text-light); text-decoration: none; font-size: 14px; transition: var(--transition); }
+        .nav-links a:hover { color: var(--primary-gold); }
+        section { padding: 120px 20px 60px; max-width: 700px; margin: 0 auto; }
+        .section-title { text-align: center; font-size: 32px; margin-bottom: 40px; color: var(--primary-gold); }
+        .checkout-form { background-color: var(--card-bg); padding: 30px; border-radius: 8px; border: 1px solid #2a2a2a; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; color: var(--primary-gold); }
+        .form-group input, .form-group select { width: 100%; padding: 12px; background-color: #121212; border: 1px solid #2a2a2a; color: var(--text-light); border-radius: 4px; }
+        .btn-submit { width: 100%; background-color: var(--primary-gold); color: #000; padding: 14px; border: none; border-radius: 4px; font-weight: bold; font-size: 16px; cursor: pointer; transition: var(--transition); }
+        .btn-submit:hover { background-color: #b08d4c; }
+        footer { background-color: #0a0a0a; padding: 30px 20px; text-align: center; border-top: 1px solid #222; color: var(--text-muted); margin-top: 60px; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo">PAROLE</a>
+            <ul class="nav-links">
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="shop.html">المتجر</a></li>
+                <li><a href="cart.html">السلة</a></li>
+            </ul>
+        </div>
+    </header>
+    <section>
+        <h2 class="section-title">إتمام الطلب والدفع</h2>
+        <form class="checkout-form" onsubmit="completeOrder(event)">
+            <div class="form-group">
+                <label>الاسم الكامل</label>
+                <input type="text" id="name" required placeholder="أدخل اسمك الكريم">
+            </div>
+            <div class="form-group">
+                <label>رقم الجوال</label>
+                <input type="tel" id="phone" required placeholder="05xxxxxxxx">
+            </div>
+            <div class="form-group">
+                <label>عنوان التوصيل (المدينة / الحي / الشارع)</label>
+                <input type="text" id="address" required placeholder="مثال: الرياض، حي الياسمين">
+            </div>
+            <div class="form-group">
+                <label>طريقة الدفع</label>
+                <select id="payment">
+                    <option value="Apple Pay">Apple Pay</option>
+                    <option value="Mada / Visa">بطاقة بنكية (Mada / Visa / Mastercard)</option>
+                    <option value="STC Pay">STC Pay</option>
+                    <option value="Cash">الدفع عند الاستلام</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-submit">تأكيد وإرسال الطلب</button>
+        </form>
+    </section>
+    <footer>
+        <p>&copy; 2026 PAROLE Cafe. جميع الحقوق محفوظة.</p>
+    </footer>
+    <script>
+        function completeOrder(event) {
+            event.preventDefault();
+            
+            let name = document.getElementById('name').value;
+            let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
+            
+            // حساب إجمالي السلة الحالية
+            let totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            if (totalAmount === 0) totalAmount = 95; // قيمة افتراضية في حال كانت السلة فارغة للتجربة
+
+            let newOrder = {
+                id: '#ORD-' + Math.floor(1000 + Math.random() * 9000),
+                customer: name,
+                status: 'قيد التجهيز',
+                total: totalAmount + ' ر.س'
+            };
+
+            // حفظ الطلب في قائمة الطلبات بلوحة التحكم
+            let orders = JSON.parse(localStorage.getItem('parole_admin_orders')) || [
+                { id: '#ORD-8921', customer: 'محمد العتيبي', status: 'تم التوصيل', total: '120 ر.س' },
+                { id: '#ORD-8922', customer: 'سارة أحمد', status: 'قيد التجهيز', total: '65 ر.س' }
+            ];
+            
+            orders.unshift(newOrder); // إضافة الطلب الجديد في أداة البدء
+            localStorage.setItem('parole_admin_orders', JSON.stringify(orders));
+
+            alert('تم استلام طلبك بنجاح وتم إرساله إلى لوحة التحكم!');
+            localStorage.removeItem('parole_cart');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

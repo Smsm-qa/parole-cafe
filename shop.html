@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قائمة المنيو الفاخرة | Parole Cafe</title>
+    <meta name="description" content="استمتع بأرقى تجربة قهوة مختصة وحلويات فاخرة مع قائمة Aura Cafe المتكاملة.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+          --gold: #d4af37;
+          --gold-light: #f3e5ab;
+          --dark-bg: #0b0b0b;
+          --card-bg: #161616;
+          --border-color: #262626;
+          --text-main: #f0f0f0;
+          --text-muted: #999999;
+          --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--dark-bg); color: var(--text-main); line-height: 1.7; direction: rtl; text-align: right; }
+        
+        /* Header */
+        header { background: rgba(11, 11, 11, 0.9); backdrop-filter: blur(10px); position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; border-bottom: 1px solid var(--border-color); }
+        .nav-container { max-width: 1300px; margin: 0 auto; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 26px; font-weight: 300; color: var(--gold); letter-spacing: 4px; text-decoration: none; text-transform: uppercase; }
+        .nav-links { display: flex; list-style: none; gap: 30px; }
+        .nav-links a { color: var(--text-main); text-decoration: none; font-size: 14px; letter-spacing: 1px; transition: var(--transition); }
+        .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+        .nav-icons { font-size: 20px; cursor: pointer; color: var(--gold); position: relative; }
+        
+        /* Main Section */
+        section { padding: 140px 40px 80px; max-width: 1300px; margin: 0 auto; }
+        .hero-title { text-align: center; font-size: 40px; font-weight: 300; color: var(--gold); margin-bottom: 10px; letter-spacing: 2px; }
+        .hero-subtitle { text-align: center; color: var(--text-muted); margin-bottom: 60px; font-size: 16px; letter-spacing: 1px; }
+        
+        .category-title { font-size: 22px; color: var(--gold); margin: 60px 0 25px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; font-weight: 400; letter-spacing: 1px; display: flex; align-items: center; gap: 12px; }
+        
+        /* Products Grid */
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+        .product-card { background-color: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); transition: var(--transition); display: flex; flex-direction: column; }
+        .product-card:hover { border-color: var(--gold); transform: translateY(-6px); box-shadow: 0 15px 30px rgba(212, 175, 55, 0.08); }
+        
+        .product-info { padding: 25px; display: flex; flex-direction: column; flex-grow: 1; }
+        .product-title { font-size: 18px; color: var(--text-main); margin-bottom: 10px; font-weight: 500; }
+        .product-price { color: var(--gold); font-size: 17px; font-weight: 600; margin-bottom: 20px; }
+        
+        .btn-add { margin-top: auto; background-color: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 12px; width: 100%; border-radius: 6px; font-weight: 500; font-size: 14px; cursor: pointer; transition: var(--transition); letter-spacing: 1px; }
+        .btn-add:hover { background-color: var(--gold); color: #000; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2); }
+        
+        /* Footer */
+        footer { background-color: #070707; padding: 40px 20px; text-align: center; border-top: 1px solid var(--border-color); color: var(--text-muted); margin-top: 80px; font-size: 14px; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo">AURA CAFE</a>
+            <ul class="nav-links">
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="shop.html" class="active">المتجر والمنيو</a></li>
+                <li><a href="cart.html">السلة</a></li>
+                <!-- تم إخفاء لوحة التحكم من هنا بحيث تظل خاصة للإدارة فقط عبر الرابط المباشر dashboard.html -->
+            </ul>
+            <div class="nav-icons">
+                <a href="cart.html" style="color: inherit; position: relative;">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span id="cart-count" style="position: absolute; top: -8px; right: -12px; background: var(--gold); color: #000; font-size: 11px; padding: 2px 6px; border-radius: 50%; font-weight: bold;">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section>
+        <h1 class="hero-title">قائمة المنيو الحصرية</h1>
+        <p class="hero-subtitle">تذوق أفقاً جديداً من الفخامة والجودة في كل رشفة</p>
+
+        <!-- 1. المشروبات الساخنة -->
+        <h2 class="category-title"><i class="fa-solid fa-mug-hot"></i> المشروبات الساخنة (Hot Drinks)</h2>
+        <div class="products-grid">
+            <div class="product-card"><div class="product-info"><h3 class="product-title">إسبريسو</h3><div class="product-price">7 ر.س</div><button class="btn-add" onclick="addToCart('إسبريسو', 7)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">ماتشاتو / ميكياتو</h3><div class="product-price">9 ر.س</div><button class="btn-add" onclick="addToCart('ميكياتو', 9)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">كورتادو</h3><div class="product-price">11 ر.س</div><button class="btn-add" onclick="addToCart('كورتادو', 11)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">لاتيه</h3><div class="product-price">12 ر.س</div><button class="btn-add" onclick="addToCart('لاتيه', 12)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">كابتشينو</h3><div class="product-price">12 ر.س</div><button class="btn-add" onclick="addToCart('كابتشينو', 12)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">فلات وايت</h3><div class="product-price">12 ر.س</div><button class="btn-add" onclick="addToCart('فلات وايت', 12)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">أمريكانو</h3><div class="product-price">9 ر.س</div><button class="btn-add" onclick="addToCart('أمريكانو', 9)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">سبانيش لاتيه</h3><div class="product-price">14 ر.س</div><button class="btn-add" onclick="addToCart('سبانيش لاتيه', 14)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">هوت شوكلت</h3><div class="product-price">14 ر.س</div><button class="btn-add" onclick="addToCart('هوت شوكلت', 14)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">موكا</h3><div class="product-price">14 ر.س</div><button class="btn-add" onclick="addToCart('موكا', 14)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">بلورلد فلفيت (Red Velvet)</h3><div class="product-price">14 ر.س</div><button class="btn-add" onclick="addToCart('بلورلد فلفيت', 14)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">V60</h3><div class="product-price">13 ر.س</div><button class="btn-add" onclick="addToCart('V60', 13)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">كيمكس</h3><div class="product-price">13 ر.س</div><button class="btn-add" onclick="addToCart('كيمكس', 13)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">قهوة عربي (كوب)</h3><div class="product-price">9 ر.س</div><button class="btn-add" onclick="addToCart('قهوة عربي كوب', 9)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">قهوة عربي (دلة)</h3><div class="product-price">30 ر.س</div><button class="btn-add" onclick="addToCart('قهوة عربي دلة', 30)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">قهوة تركية</h3><div class="product-price">9 ر.س</div><button class="btn-add" onclick="addToCart('قهوة تركية', 9)">إضافة للسلة</button></div></div>
+        </div>
+
+        <!-- 2. المشروبات الباردة -->
+        <h2 class="category-title"><i class="fa-solid fa-glass-water"></i> المشروبات الباردة (Cold Drinks)</h2>
+        <div class="products-grid">
+            <div class="product-card"><div class="product-info"><h3 class="product-title">ايس سبانيش لاتيه</h3><div class="product-price">16 ر.س</div><button class="btn-add" onclick="addToCart('ايس سبانيش لاتيه', 16)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">ايس فيستاشيو</h3><div class="product-price">19 ر.س</div><button class="btn-add" onclick="addToCart('ايس فيستاشيو', 19)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">ايس تشوكلت</h3><div class="product-price">16 ر.س</div><button class="btn-add" onclick="addToCart('ايس تشوكلت', 16)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">وايت موكا</h3><div class="product-price">17 ر.س</div><button class="btn-add" onclick="addToCart('وايت موكا', 17)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">كاراميل ميكياتو</h3><div class="product-price">16 ر.س</div><button class="btn-add" onclick="addToCart('كاراميل ميكياتو', 16)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">كولد برو</h3><div class="product-price">16 ر.س</div><button class="btn-add" onclick="addToCart('كولد برو', 16)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">ايس أمريكانو</h3><div class="product-price">11 ر.س</div><button class="btn-add" onclick="addToCart('ايس أمريكانو', 11)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">ايس بلات كوفي</h3><div class="product-price">11 ر.س</div><button class="btn-add" onclick="addToCart('ايس بلات كوفي', 11)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">ايس دريب</h3><div class="product-price">14 ر.س</div><button class="btn-add" onclick="addToCart('ايس دريب', 14)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">ايس موكا</h3><div class="product-price">16 ر.س</div><button class="btn-add" onclick="addToCart('ايس موكا', 16)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">ايس ردفلفيت</h3><div class="product-price">17 ر.س</div><button class="btn-add" onclick="addToCart('ايس ردفلفيت', 17)">إضافة للسلة</button></div></div>
+        </div>
+
+        <!-- 3. مشروبات الموهيتو -->
+        <h2 class="category-title"><i class="fa-solid fa-lemon"></i> مشروبات الموهيتو (Mojito Drinks)</h2>
+        <div class="products-grid">
+            <div class="product-card"><div class="product-info"><h3 class="product-title">بلودي ماري</h3><div class="product-price">18 ر.س</div><button class="btn-add" onclick="addToCart('بلودي ماري', 18)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">جولد ديسيرت</h3><div class="product-price">18 ر.س</div><button class="btn-add" onclick="addToCart('جولد ديسيرت', 18)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">بلو سكاي</h3><div class="product-price">16 ر.س</div><button class="btn-add" onclick="addToCart('بلو سكاي', 16)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">صن دايز</h3><div class="product-price">16 ر.س</div><button class="btn-add" onclick="addToCart('صن دايز', 16)">إضافة للسلة</button></div></div>
+        </div>
+
+        <!-- 4. العصائر ومشروبات الطاقة -->
+        <h2 class="category-title"><i class="fa-solid fa-glass-citrus"></i> العصائر ومشروبات الطاقة</h2>
+        <div class="products-grid">
+            <div class="product-card"><div class="product-info"><h3 class="product-title">عصير مانجو</h3><div class="product-price">16 ر.س</div><button class="btn-add" onclick="addToCart('عصير مانجو', 16)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">عصير ليمونة</h3><div class="product-price">16 ر.س</div><button class="btn-add" onclick="addToCart('عصير ليمونة', 16)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">عصير برتقال</h3><div class="product-price">16 ر.س</div><button class="btn-add" onclick="addToCart('عصير برتقال', 16)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">مشروب كود ريد باور</h3><div class="product-price">16 ر.س</div><button class="btn-add" onclick="addToCart('كود ريد باور', 16)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">مكس طاقة خاص</h3><div class="product-price">16 ر.س</div><button class="btn-add" onclick="addToCart('مكس طاقة', 16)">إضافة للسلة</button></div></div>
+        </div>
+
+        <!-- 5. الشاي -->
+        <h2 class="category-title"><i class="fa-solid fa-mug-saucer"></i> قسم الشاي (Tea)</h2>
+        <div class="products-grid">
+            <div class="product-card"><div class="product-info"><h3 class="product-title">شاي أحمر</h3><div class="product-price">6 ر.س</div><button class="btn-add" onclick="addToCart('شاي أحمر', 6)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">شاي أخضر</h3><div class="product-price">6 ر.س</div><button class="btn-add" onclick="addToCart('شاي أخضر', 6)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">شاي إنجليزي</h3><div class="product-price">6 ر.س</div><button class="btn-add" onclick="addToCart('شاي إنجليزي', 6)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">شاي مغربي</h3><div class="product-price">6 ر.س</div><button class="btn-add" onclick="addToCart('شاي مغربي', 6)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">شاي تركي</h3><div class="product-price">6 ر.س</div><button class="btn-add" onclick="addToCart('شاي تركي', 6)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">شاي كرك</h3><div class="product-price">7 ر.س</div><button class="btn-add" onclick="addToCart('شاي كرك', 7)">إضافة للسلة</button></div></div>
+        </div>
+
+        <!-- 6. الحلويات -->
+        <h2 class="category-title"><i class="fa-solid fa-cake-candles"></i> الحلويات (Desserts)</h2>
+        <div class="products-grid">
+            <div class="product-card"><div class="product-info"><h3 class="product-title">كريب</h3><div class="product-price">22 ر.س</div><button class="btn-add" onclick="addToCart('كريب', 22)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">ميني بان كيك</h3><div class="product-price">22 ر.س</div><button class="btn-add" onclick="addToCart('ميني بان كيك', 22)">إضافة للسلة</button></div></div>
+            <div class="product-card"><div class="product-info"><h3 class="product-title">وافل</h3><div class="product-price">22 ر.س</div><button class="btn-add" onclick="addToCart('وافل', 22)">إضافة للسلة</button></div></div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 AURA Cafe. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <script>
+        function addToCart(name, price) {
+            let cart = JSON.parse(localStorage.getItem('aura_cart')) || [];
+            let existingItem = cart.find(item => item.name === name);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ name: name, price: price, quantity: 1 });
+            }
+            
+            localStorage.setItem('aura_cart', JSON.stringify(cart));
+            updateCartCount();
+            alert(`تمت إضافة "${name}" إلى السلة بنجاح!`);
+        }
+
+        function updateCartCount() {
+            let cart = JSON.parse(localStorage.getItem('aura_cart')) || [];
+            let totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            let badge = document.getElementById('cart-count');
+            if(badge) badge.textContent = totalItems;
+        }
+
+        document.addEventListener('DOMContentLoaded', updateCartCount);
+    </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سياسات المتجر | PAROLE Cafe</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+          --primary-gold: #c5a059;
+          --dark-bg: #121212;
+          --card-bg: #1e1e1e;
+          --text-light: #f5f5f5;
+          --text-muted: #aaaaaa;
+          --transition: all 0.3s ease;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--dark-bg); color: var(--text-light); line-height: 1.8; direction: rtl; text-align: right; }
+        header { background: rgba(18, 18, 18, 0.95); position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; border-bottom: 1px solid #2a2a2a; }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 24px; font-weight: bold; color: var(--primary-gold); letter-spacing: 2px; text-decoration: none; }
+        .nav-links { display: flex; list-style: none; gap: 20px; flex-wrap: wrap; }
+        .nav-links a { color: var(--text-light); text-decoration: none; font-size: 14px; transition: var(--transition); }
+        .nav-links a:hover { color: var(--primary-gold); }
+        section { padding: 120px 20px 60px; max-width: 900px; margin: 0 auto; }
+        .section-title { text-align: center; font-size: 32px; margin-bottom: 30px; color: var(--primary-gold); }
+        .policy-box { background-color: var(--card-bg); padding: 30px; border-radius: 8px; border: 1px solid #2a2a2a; margin-bottom: 20px; }
+        .policy-box h3 { color: var(--primary-gold); margin-bottom: 10px; font-size: 20px; }
+        .policy-box p { color: var(--text-muted); font-size: 15px; }
+        footer { background-color: #0a0a0a; padding: 30px 20px; text-align: center; border-top: 1px solid #222; color: var(--text-muted); margin-top: 60px; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo">PAROLE</a>
+            <ul class="nav-links">
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="about.html">من نحن</a></li>
+                <li><a href="shop.html">المتجر</a></li>
+                <li><a href="offers.html">العروض</a></li>
+                <li><a href="branches.html">الفروع</a></li>
+                <li><a href="blog.html">المدونة</a></li>
+                <li><a href="contact.html">تواصل معنا</a></li>
+                <li><a href="faq.html">الأسئلة الشائعة</a></li>
+                <li><a href="policies.html" style="color: var(--primary-gold);">السياسات</a></li>
+            </ul>
+        </div>
+    </header>
+    <section>
+        <h2 class="section-title">سياسات المتجر والأحكام</h2>
+        <div class="policy-box">
+            <h3>سياسة الاستبدال والاسترجاع</h3>
+            <p>حرصاً منا على تقديم أفضل جودة، يمكن استبدال المنتجات غير التالفة خلال 3 أيام من تاريخ الاستلام بشرط أن تكون بحالتها الأصلية.</p>
+        </div>
+        <div class="policy-box">
+            <h3>سياسة الخصوصية</h3>
+            <p>نحن نلتزم بحماية بياناتك الشخصية ومعلومات الدفع الخاصة بك وفق أعلى معايير الأمان الرقمي.</p>
+        </div>
+    </section>
+    <footer>
+        <p>&copy; 2026 PAROLE Cafe. جميع الحقوق محفوظة.</p>
+    </footer>
+</body>
+</html>

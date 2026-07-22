@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الأسئلة الشائعة | PAROLE Cafe</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+          --primary-gold: #c5a059;
+          --dark-bg: #121212;
+          --card-bg: #1e1e1e;
+          --text-light: #f5f5f5;
+          --text-muted: #aaaaaa;
+          --transition: all 0.3s ease;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--dark-bg); color: var(--text-light); line-height: 1.6; direction: rtl; text-align: right; }
+        header { background: rgba(18, 18, 18, 0.95); position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; border-bottom: 1px solid #2a2a2a; }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 24px; font-weight: bold; color: var(--primary-gold); letter-spacing: 2px; text-decoration: none; }
+        .nav-links { display: flex; list-style: none; gap: 20px; flex-wrap: wrap; }
+        .nav-links a { color: var(--text-light); text-decoration: none; font-size: 14px; transition: var(--transition); }
+        .nav-links a:hover { color: var(--primary-gold); }
+        section { padding: 120px 20px 60px; max-width: 900px; margin: 0 auto; }
+        .section-title { text-align: center; font-size: 32px; margin-bottom: 40px; color: var(--primary-gold); }
+        .faq-item { background-color: var(--card-bg); padding: 20px; border-radius: 8px; border: 1px solid #2a2a2a; margin-bottom: 20px; }
+        .faq-q { font-size: 18px; color: var(--primary-gold); margin-bottom: 8px; font-weight: bold; }
+        .faq-a { color: var(--text-muted); font-size: 15px; }
+        footer { background-color: #0a0a0a; padding: 30px 20px; text-align: center; border-top: 1px solid #222; color: var(--text-muted); margin-top: 60px; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo">PAROLE</a>
+            <ul class="nav-links">
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="about.html">من نحن</a></li>
+                <li><a href="shop.html">المتجر</a></li>
+                <li><a href="offers.html">العروض</a></li>
+                <li><a href="branches.html">الفروع</a></li>
+                <li><a href="blog.html">المدونة</a></li>
+                <li><a href="contact.html">تواصل معنا</a></li>
+                <li><a href="faq.html" style="color: var(--primary-gold);">الأسئلة الشائعة</a></li>
+                <li><a href="policies.html">السياسات</a></li>
+            </ul>
+        </div>
+    </header>
+    <section>
+        <h2 class="section-title">الأسئلة الشائعة</h2>
+        <div class="faq-item">
+            <div class="faq-q">ما هي طرق الدفع المتاحة في المتجر؟</div>
+            <div class="faq-a">نحن ندعم الدفع عبر البطاقات البنكية، Apple Pay، Mada، Visa، Mastercard، بالإضافة إلى STC Pay وخيار الدفع عند الاستلام.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">كم تستغرق مدة التوصيل؟</div>
+            <div class="faq-a">يتم توصيل الطلبات داخل المدن الرئيسية خلال 24 إلى 48 ساعة من تأكيد الطلب.</div>
+        </div>
+    </section>
+    <footer>
+        <p>&copy; 2026 PAROLE Cafe. جميع الحقوق محفوظة.</p>
+    </footer>
+</body>
+</html>
