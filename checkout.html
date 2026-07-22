@@ -3,380 +3,246 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إتمام الطلب والدفع الذكي | PAROLE Cafe</title>
+    <title>PAROLE Cafe | إتمام الطلب والدفع</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-          --primary-gold: #d4af37;
+          --gold: #d4af37;
           --gold-light: #f3e5ab;
           --dark-bg: #0b0b0b;
           --card-bg: #161616;
           --border-color: #262626;
           --text-main: #f0f0f0;
           --text-muted: #999999;
-          --success: #2ecc71;
-          --transition: all 0.3s ease;
+          --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--dark-bg); color: var(--text-main); line-height: 1.6; direction: rtl; text-align: right; }
+        body { background-color: var(--dark-bg); color: var(--text-main); line-height: 1.7; direction: rtl; text-align: right; padding: 40px 20px; }
         
-        /* شريط التنبيه العلوي (عروض حية وتوصيل) */
-        .announcement-bar { background-color: var(--primary-gold); color: #000; font-size: 12px; font-weight: 600; text-align: center; padding: 8px 15px; position: fixed; top: 0; left: 0; width: 100%; z-index: 1001; }
-
-        /* القائمة العلويّة */
-        header { background: rgba(11, 11, 11, 0.95); backdrop-filter: blur(10px); position: fixed; top: 33px; left: 0; width: 100%; z-index: 1000; border-bottom: 1px solid var(--border-color); }
-        .nav-container { max-width: 1200px; margin: 0 auto; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 22px; font-weight: 300; color: var(--text-main); letter-spacing: 4px; text-decoration: none; text-transform: uppercase; }
-        .logo span { color: var(--primary-gold); font-weight: 500; }
-        .nav-links { display: flex; list-style: none; gap: 15px; flex-wrap: wrap; align-items: center; }
-        .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 13px; transition: var(--transition); padding: 6px 12px; border-radius: 6px; }
-        .nav-links a:hover, .nav-links a.active { color: var(--primary-gold); background-color: rgba(212, 175, 55, 0.08); }
-
-        /* محتوى صفحة إتمام الطلب الاحترافية */
-        .checkout-wrapper { max-width: 1200px; margin: 150px auto 60px; padding: 0 20px; }
-        .section-header { text-align: center; margin-bottom: 40px; }
-        .section-header h1 { font-size: 30px; color: var(--primary-gold); font-weight: 300; margin-bottom: 10px; letter-spacing: 1px; }
-        .section-header p { color: var(--text-muted); font-size: 13px; }
-
-        .checkout-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 30px; }
-        @media(max-width: 900px) { .checkout-grid { grid-template-columns: 1fr; } }
-
-        /* البطاقات الإدارية والتشغيلية */
-        .card-box { background-color: var(--card-bg); border: 1px solid var(--border-color); padding: 30px; border-radius: 12px; margin-bottom: 25px; transition: var(--transition); }
-        .card-box:hover { border-color: rgba(212, 175, 55, 0.3); }
-        .card-box h3 { font-size: 16px; color: var(--text-main); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; font-weight: 400; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; }
-        .card-box h3 i { color: var(--primary-gold); font-size: 18px; }
+        .checkout-container { max-width: 900px; margin: 0 auto; }
+        .back-link { color: var(--text-muted); text-decoration: none; font-size: 13px; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 25px; transition: var(--transition); }
+        .back-link:hover { color: var(--gold); }
         
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .form-group.full-width { grid-column: span 2; }
-        @media(max-width: 600px) { .form-grid { grid-template-columns: 1fr; } .form-group.full-width { grid-column: span 1; } }
+        .checkout-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 30px; }
+        @media (max-width: 768px) { .checkout-grid { grid-template-columns: 1fr; } }
 
-        .form-group label { display: block; margin-bottom: 6px; color: var(--text-muted); font-size: 13px; }
-        .form-group input, .form-group select, .form-group textarea {
-            width: 100%; padding: 12px 16px; background-color: var(--dark-bg);
-            border: 1px solid var(--border-color); color: var(--text-main);
-            border-radius: 8px; font-size: 13px; outline: none; transition: var(--transition);
-        }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary-gold); }
+        .checkout-box { background: var(--card-bg); border: 1px solid var(--border-color); padding: 30px; border-radius: 16px; }
+        .checkout-box h2 { font-size: 20px; color: var(--gold); margin-bottom: 20px; font-weight: 400; }
 
-        /* خيارات الدفع الحديثة المتقدمة */
-        .payment-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 10px; }
-        @media(max-width: 500px) { .payment-options { grid-template-columns: 1fr; } }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; background: var(--dark-bg); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 8px; font-size: 14px; }
+        .form-group input:focus, .form-group select:focus { border-color: var(--gold); outline: none; }
+
+        .order-summary-item { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 12px; color: var(--text-muted); }
+        .order-total { display: flex; justify-content: space-between; font-size: 18px; font-weight: 600; color: var(--text-main); margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border-color); }
+        .order-total span:last-child { color: var(--gold); }
+
+        .btn-submit { background-color: var(--gold); color: #000; padding: 14px; width: 100%; border-radius: 8px; font-weight: 600; font-size: 15px; border: none; cursor: pointer; transition: var(--transition); margin-top: 25px; text-transform: uppercase; }
+        .btn-submit:hover { background-color: var(--gold-light); transform: translateY(-2px); }
+
+        .payment-methods { margin-top: 20px; border-top: 1px solid var(--border-color); padding-top: 20px; }
+        .payment-option { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; cursor: pointer; font-size: 14px; }
         
-        .pay-card {
-            border: 1px solid var(--border-color); background-color: var(--dark-bg);
-            padding: 15px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 12px;
-            transition: var(--transition); font-size: 13px; color: var(--text-muted);
-        }
-        .pay-card input { accent-color: var(--primary-gold); }
-        .pay-card:hover, .pay-card.active { border-color: var(--primary-gold); background-color: rgba(212, 175, 55, 0.05); color: var(--text-main); }
-        .pay-card i { font-size: 20px; color: var(--primary-gold); }
+        #card-details-container { margin-top: 15px; background: var(--dark-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color); }
 
-        /* تفاصيل إضافية لبطاقة ائتمان وهمية تظهر عند اختيار الدفع الإلكتروني */
-        #creditCardDetails { display: none; margin-top: 15px; padding-top: 15px; border-top: 1px dashed var(--border-color); }
-
-        /* ملخص السلة الجانبي */
-        .summary-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed var(--border-color); font-size: 13px; color: var(--text-muted); }
-        .summary-item strong { color: var(--text-main); }
-        .summary-total { display: flex; justify-content: space-between; font-size: 16px; font-weight: 500; color: var(--primary-gold); margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--border-color); }
-
-        /* حقل كود الخصم المتقدم المتصل بلوحة التحكم */
-        .coupon-box { display: flex; gap: 10px; margin-top: 15px; }
-        .coupon-box input { flex: 1; text-transform: uppercase; }
-        .btn-coupon { background-color: var(--border-color); color: var(--text-main); border: none; padding: 0 16px; border-radius: 8px; cursor: pointer; font-size: 12px; transition: var(--transition); }
-        .btn-coupon:hover { background-color: var(--primary-gold); color: #000; }
-
-        /* زر التأكيد الرئيسي */
-        .btn-submit {
-            background-color: var(--primary-gold); color: #000; border: none; width: 100%;
-            padding: 15px; border-radius: 8px; font-weight: 600; font-size: 15px;
-            cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 8px;
-            margin-top: 20px;
-        }
-        .btn-submit:hover { background-color: var(--gold-light); }
-
-        /* مؤشر الأمان والتشفير */
-        .secure-badge { display: flex; align-items: center; justify-content: center; gap: 8px; color: var(--text-muted); font-size: 12px; margin-top: 15px; }
-        .secure-badge i { color: var(--success); }
-
-        /* التذييل */
-        footer { background-color: #070707; padding: 30px 20px; text-align: center; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 12px; margin-top: 60px; }
+        /* تنسيق صندوق الكوبونات المضاف حديثاً */
+        .coupon-box { display: flex; gap: 10px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color); }
+        .coupon-box input { flex: 1; padding: 10px; background: var(--dark-bg); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 6px; font-size: 13px; }
+        .coupon-box input:focus { border-color: var(--gold); outline: none; }
+        .btn-coupon { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 0 15px; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; transition: var(--transition); }
+        .btn-coupon:hover { background: var(--gold); color: #000; }
+        #couponMessage { font-size: 12px; margin-top: -10px; margin-bottom: 15px; display: block; }
     </style>
 </head>
 <body>
 
-    <!-- شريط إعلاني علوي متحرك -->
-    <div class="announcement-bar">
-        <i class="fa-solid fa-fire" style="margin-left: 5px;"></i> عرض خاص لفترة محدودة: استخدم كود الخصم <strong style="text-decoration: underline;">PAROLE2026</strong> واحصل على خصم فوري!
-    </div>
-
-    <!-- القائمة العلويّة -->
-    <header>
-        <div class="nav-container">
-            <a href="index.html" class="logo">PAROLE <span>CAFE</span></a>
-            <ul class="nav-links">
-                <li><a href="index.html">الرئيسية</a></li>
-                <li><a href="shop.html">المتجر</a></li>
-                <li><a href="cart.html">السلة</a></li>
-                <li><a href="contact.html">الدعم</a></li>
-                <li><a href="admin.html"><i class="fa-solid fa-user-shield" style="color: var(--primary-gold);"></i> الإدارة</a></li>
-            </ul>
-        </div>
-    </header>
-
-    <!-- محتوى صفحة إتمام الطلب المتقدمة -->
-    <div class="checkout-wrapper">
-        <div class="section-header">
-            <h1>إتمام الطلب والدفع الآمن</h1>
-            <p>أدخل بيانات التوصيل واختر طريقة الدفع المناسبة لتأكيد طلبك مباشرة إلى لوحة تحكم المتجر.</p>
-        </div>
-
-        <form onsubmit="completeAdvancedOrder(event)">
-            <div class="checkout-grid">
-                
-                <!-- القسم الأول: تفاصيل الشحن والعميل وطريقة الدفع -->
-                <div>
-                    <!-- بيانات العميل والتوصيل -->
-                    <div class="card-box">
-                        <h3><i class="fa-solid fa-truck-fast"></i> بيانات الشحن والاستلام</h3>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>الاسم الكريم <span style="color:var(--primary-gold);">*</span></label>
-                                <input type="text" id="clientName" required placeholder="أدخل اسمك الثلاثي">
-                            </div>
-                            <div class="form-group">
-                                <label>رقم الجوال <span style="color:var(--primary-gold);">*</span></label>
-                                <input type="tel" id="clientPhone" required placeholder="05xxxxxxxx">
-                            </div>
-                            <div class="form-group full-width">
-                                <label>البريد الإلكتروني (لتتبع حالة الطلب) <span style="color:var(--primary-gold);">*</span></label>
-                                <input type="email" id="clientEmail" required placeholder="name@example.com">
-                            </div>
-                            <div class="form-group full-width">
-                                <label>عنوان التوصيل المفصل (المدينة / الحي / الشارع / رقم المبنى) <span style="color:var(--primary-gold);">*</span></label>
-                                <textarea id="clientAddress" required placeholder="مثال: الرياض، حي الياسمين، شارع التخصصي، مبنى رقم 14..." style="height: 80px; resize: none;"></textarea>
-                            </div>
-                            <div class="form-group full-width">
-                                <label>ملاحظات إضافية للتوصيل (اختياري)</label>
-                                <input type="text" id="clientNotes" placeholder="مثال: يرجى الاتصال عند الوصول، أو ترك الطلب عند الباب...">
-                            </div>
-                        </div>
+    <div class="checkout-container">
+        <a href="cart.html" class="back-link"><i class="fa-solid fa-arrow-right"></i> العودة إلى حقيبة التسوق</a>
+        
+        <div class="checkout-grid">
+            <!-- نموذج بيانات العميل والدفع -->
+            <div class="checkout-box">
+                <h2>بيانات التوصيل والدفع</h2>
+                <form id="checkoutForm" onsubmit="completeOrder(event)">
+                    <div class="form-group">
+                        <label>الاسم الكامل</label>
+                        <input type="text" id="fullName" required placeholder="أدخل اسمك الكريم">
+                    </div>
+                    <div class="form-group">
+                        <label>رقم الجوال (قطر)</label>
+                        <input type="tel" id="phone" required placeholder="+974 0000 0000">
+                    </div>
+                    <div class="form-group">
+                        <label>المنطقة / العنوان</label>
+                        <input type="text" id="address" required placeholder="مثال: الدوحة، الحي الدبلوماسي، شارع اللؤلؤة">
                     </div>
 
-                    <!-- اختيار طريقة الدفع الذكية -->
-                    <div class="card-box" style="margin-bottom: 0;">
-                        <h3><i class="fa-solid fa-credit-card"></i> طريقة الدفع المفضلة</h3>
-                        <div class="payment-options">
-                            <label class="pay-card active" onclick="toggleCardFields(false)">
-                                <input type="radio" name="paymentMethod" value="Apple Pay" checked>
-                                <i class="fa-brands fa-apple-pay"></i>
-                                <span>Apple Pay</span>
-                            </label>
-                            <label class="pay-card" onclick="toggleCardFields(true)">
-                                <input type="radio" name="paymentMethod" value="بطاقة بنكية (مدى / فيزا)">
-                                <i class="fa-solid fa-credit-card"></i>
-                                <span>بطاقة بنكية (مدى / فيزا)</span>
-                            </label>
-                            <label class="pay-card" onclick="toggleCardFields(false)">
-                                <input type="radio" name="paymentMethod" value="STC Pay">
-                                <i class="fa-solid fa-wallet"></i>
-                                <span>STC Pay</span>
-                            </label>
-                            <label class="pay-card" onclick="toggleCardFields(false)">
-                                <input type="radio" name="paymentMethod" value="الدفع عند الاستلام">
-                                <i class="fa-solid fa-money-bill-wave"></i>
-                                <span>الدفع عند الاستلام</span>
-                            </label>
-                        </div>
-
-                        <!-- تفاصيل إضافية تظهر عند اختيار البطاقة البنكية -->
-                        <div id="creditCardDetails">
-                            <div class="form-group" style="margin-bottom: 12px;">
-                                <label>رقم البطاقة الائتمانية</label>
-                                <input type="text" placeholder="XXXX XXXX XXXX XXXX" maxlength="19">
-                            </div>
-                            <div class="form-grid">
-                                <div class="form-group" style="margin-bottom: 0;"><input type="text" placeholder="MM / YY" maxlength="5"></div>
-                                <div class="form-group" style="margin-bottom: 0;"><input type="password" placeholder="CVV" maxlength="4"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- القسم الثاني: ملخص السلة والحسابات والخصم المتزامن -->
-                <div>
-                    <div class="card-box">
-                        <h3><i class="fa-solid fa-receipt"></i> ملخص محتويات السلة</h3>
+                    <!-- خيارات الدفع -->
+                    <div class="payment-methods">
+                        <label style="color: var(--gold); font-size: 14px; margin-bottom: 10px; display: block; font-weight: 500;">طريقة الدفع</label>
                         
-                        <div id="dynamicCartContainer">
-                            <!-- يتم تعبئة المنتجات تلقائياً من نظام التخزين المحلي -->
+                        <label class="payment-option">
+                            <input type="radio" name="payment_method" value="online" checked style="accent-color: var(--gold);">
+                            <span><i class="fa-solid fa-credit-card" style="color: var(--gold); margin-left: 5px;"></i> الدفع الإلكتروني (بطاقة ائتمان / مدى / Apple Pay)</span>
+                        </label>
+
+                        <label class="payment-option">
+                            <input type="radio" name="payment_method" value="cash" style="accent-color: var(--gold);">
+                            <span><i class="fa-solid fa-money-bill-wave" style="color: var(--gold); margin-left: 5px;"></i> الدفع النقدي عند الاستلام</span>
+                        </label>
+                    </div>
+
+                    <!-- تفاصيل البطاقة الإلكترونية -->
+                    <div id="card-details-container">
+                        <div class="form-group" style="margin-bottom: 10px;">
+                            <label>رقم البطاقة</label>
+                            <input type="text" placeholder="4532 •••• •••• ••••">
                         </div>
-
-                        <!-- كود الخصم المرتبط بلوحة التحكم -->
-                        <div class="coupon-box">
-                            <input type="text" id="appliedCouponInput" placeholder="أدخل رمز الكوبون">
-                            <button type="button" class="btn-coupon" onclick="validateAndApplyCoupon()">تطبيق الكوبون</button>
-                        </div>
-
-                        <!-- العمليات والحسابات المالية -->
-                        <div style="margin-top: 20px;">
-                            <div class="summary-item">
-                                <span>إجمالي المنتجات:</span>
-                                <strong id="subtotalDisplay">0.00 ر.س</strong>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label>تاريخ الانتهاء</label>
+                                <input type="text" placeholder="MM/YY">
                             </div>
-                            <div class="summary-item">
-                                <span>رسوم التوصيل والشحن:</span>
-                                <strong id="shippingDisplay">18.00 ر.س</strong>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label>رمز الأمان (CVV)</label>
+                                <input type="password" placeholder="123">
                             </div>
-                            <div id="discountContainerRow" class="summary-item" style="display:none; color: var(--success);">
-                                <span>قيمة الخصم المطبق:</span>
-                                <strong id="discountValueDisplay">-0.00 ر.س</strong>
-                            </div>
-                            <div class="summary-total">
-                                <span>المبلغ الإجمالي النهائي:</span>
-                                <strong id="grandTotalDisplay">18.00 ر.س</strong>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn-submit">
-                            <i class="fa-solid fa-lock"></i> تأكيد وإرسال الطلب الآمن
-                        </button>
-
-                        <div class="secure-badge">
-                            <i class="fa-solid fa-shield-halved"></i> اتصال مشفر وآمن بالكامل مع لوحة الإدارة
                         </div>
                     </div>
+
+                    <button type="submit" class="btn-submit">تأكيد ودفع الطلب</button>
+                </form>
+            </div>
+
+            <!-- ملخص الفاتورة مع خانة الكوبون -->
+            <div class="checkout-box" style="height: fit-content;">
+                <h2>ملخص الطلب</h2>
+                
+                <!-- قسم إدخال كود الخصم -->
+                <div class="coupon-box">
+                    <input type="text" id="couponInput" placeholder="أدخل كود الخصم (مثل: PAROLE10)">
+                    <button type="button" class="btn-coupon" onclick="applyCoupon()">تطبيق</button>
+                </div>
+                <span id="couponMessage"></span>
+
+                <div id="checkoutSummaryItems">
+                    <!-- سيتم تعبئتها ديناميكياً -->
                 </div>
 
+                <div class="order-summary-item" style="margin-top: 15px;">
+                    <span>رسوم التوصيل</span>
+                    <span style="color: var(--gold);">18.00 ر.س</span>
+                </div>
+
+                <div class="order-summary-item" id="discountRow" style="display: none; color: #2ecc71;">
+                    <span>قيمة الخصم</span>
+                    <span id="discountAmount">0.00 ر.س</span>
+                </div>
+
+                <div class="order-total">
+                    <span>الإجمالي الكلي</span>
+                    <span id="checkoutTotalAmount">0.00 ر.س</span>
+                </div>
             </div>
-        </form>
+        </div>
     </div>
 
-    <!-- التذييل -->
-    <footer>
-        <p>&copy; 2026 PAROLE Cafe. جميع الحقوق محفوظة.</p>
-    </footer>
-
-    <!-- البرمجة التفاعلية المتقدمة والتكامل اللحظي مع لوحة التحكم -->
     <script>
-        let appliedDiscountAmount = 0;
-        let finalCalculatedTotal = 0;
+        let discountPercentage = 0; // نسبة الخصم الافتراضية
 
-        // تفعيل أو إخفاء حقول البطاقة البنكية حسب الاختيار
-        function toggleCardFields(show) {
-            document.getElementById('creditCardDetails').style.display = show ? 'block' : 'none';
+        // التحكم في إظهار أو إخفاء حقول البطاقة الائتمانية
+        document.querySelectorAll('input[name="payment_method"]').forEach((elem) => {
+            elem.addEventListener('change', function(event) {
+                const cardContainer = document.getElementById('card-details-container');
+                if (event.target.value === 'online') {
+                    cardContainer.style.display = 'block';
+                } else {
+                    cardContainer.style.display = 'none';
+                }
+            });
+        });
+
+        // وظيفة تطبيق الكوبون
+        function applyCoupon() {
+            const code = document.getElementById('couponInput').value.trim().toUpperCase();
+            const msg = document.getElementById('couponMessage');
+            
+            // الكوبونات المتاحة (يمكنك تعديلها أو إضافتها)
+            if (code === 'PAROLE10') {
+                discountPercentage = 0.10; // خصم 10%
+                msg.style.color = '#2ecc71';
+                msg.innerText = 'تم تطبيق خصم 10% بنجاح!';
+            } else if (code === 'QA2026') {
+                discountPercentage = 0.20; // خصم 20%
+                msg.style.color = '#2ecc71';
+                msg.innerText = 'تم تطبيق خصم 20% بنجاح!';
+            } else {
+                discountPercentage = 0;
+                msg.style.color = '#e74c3c';
+                msg.innerText = 'كود الخصم غير صحيح أو منتهي الصلاحية.';
+            }
+            loadCheckoutSummary();
         }
 
-        // تحميل وعرض تفاصيل السلة عند فتح الصفحة ومزامنتها
-        window.addEventListener('DOMContentLoaded', () => {
+        // تحميل ملخص السلة والحسابات
+        function loadCheckoutSummary() {
             let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
-            let container = document.getElementById('dynamicCartContainer');
+            const container = document.getElementById('checkoutSummaryItems');
+            const totalElement = document.getElementById('checkoutTotalAmount');
+            const discountRow = document.getElementById('discountRow');
+            const discountSpan = document.getElementById('discountAmount');
             
-            if (cart.length === 0) {
-                // سلة افتراضية في حال لم تكن هناك منتجات سابقة للتجربة الفورية
-                cart = [ { name: 'إسبانيش لاتيه فاخر (عينة تجريبية)', price: 28, quantity: 2 } ];
+            if(cart.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-muted); font-size: 13px;">حقيبة التسوق فارغة.</p>';
+                totalElement.innerText = '18.00 ر.س';
+                return;
             }
 
+            let html = '';
             let subtotal = 0;
-            container.innerHTML = '';
             
             cart.forEach(item => {
                 let itemTotal = item.price * (item.quantity || 1);
                 subtotal += itemTotal;
-                container.innerHTML += `
-                    <div class="summary-item">
-                        <div>
-                            <strong>${item.name}</strong>
-                            <br><small style="color:var(--text-muted);">الكمية: ${item.quantity || 1}</small>
-                        </div>
-                        <span>${itemTotal.toFixed(2)} ر.س</span>
-                    </div>
-                `;
+                html += `<div class="order-summary-item">
+                    <span>${item.name} (x${item.quantity || 1})</span>
+                    <span>${itemTotal.toFixed(2)} ر.س</span>
+                </div>`;
             });
 
-            let shippingFee = 18.00;
-            finalCalculatedTotal = subtotal + shippingFee;
+            container.innerHTML = html;
 
-            document.getElementById('subtotalDisplay').innerText = subtotal.toFixed(2) + ' ر.س';
-            document.getElementById('shippingDisplay').innerText = shippingFee.toFixed(2) + ' ر.س';
-            document.getElementById('grandTotalDisplay').innerText = finalCalculatedTotal.toFixed(2) + ' ر.س';
-
-            // تفاعل تصميم بطاقات الدفع
-            document.querySelectorAll('.pay-card').forEach(card => {
-                card.addEventListener('click', () => {
-                    document.querySelectorAll('.pay-card').forEach(c => c.classList.remove('active'));
-                    card.classList.add('active');
-                    card.querySelector('input').checked = true;
-                });
-            });
-        });
-
-        // التحقق من كود الخصم وتطبيقه بالربط مع الكوبونات المتاحة في localStorage أو الكوبون الافتراضي
-        function validateAndApplyCoupon() {
-            let userCode = document.getElementById('appliedCouponInput').value.trim().toUpperCase();
-            if (!userCode) return alert('الرجاء إدخال رمز الكوبون أولاً.');
-
-            // جلب الكوبونات من لوحة التحكم إن وجدت أو اعتماد الكوبون الافتراضي
-            let adminCoupons = JSON.parse(localStorage.getItem('parole_admin_coupons')) || [{ code: 'PAROLE2026', value: 10 }];
-            let foundCoupon = adminCoupons.find(c => c.code.toUpperCase() === userCode);
-
-            if (foundCoupon || userCode === 'PAROLE') {
-                appliedDiscountAmount = foundCoupon ? foundCoupon.value : 10;
-                document.getElementById('discountContainerRow').style.display = 'flex';
-                document.getElementById('discountValueDisplay').innerText = '-' + appliedDiscountAmount.toFixed(2) + ' ر.س';
-                
-                let subtotal = parseFloat(document.getElementById('subtotalDisplay').innerText);
-                let shipping = parseFloat(document.getElementById('shippingDisplay').innerText);
-                finalCalculatedTotal = (subtotal + shipping) - appliedDiscountAmount;
-                
-                document.getElementById('grandTotalDisplay').innerText = finalCalculatedTotal.toFixed(2) + ' ر.س';
-                alert('مبارك! تم تطبيق الكوبون بنجاح بقيمة خصم ' + appliedDiscountAmount + ' ر.س');
+            // حساب الخصم
+            let discountValue = subtotal * discountPercentage;
+            if (discountPercentage > 0) {
+                discountRow.style.display = 'flex';
+                discountSpan.innerText = '-' + discountValue.toFixed(2) + ' ر.س';
             } else {
-                alert('عذراً، رمز الكوبون غير صحيح أو منتهي الصلاحية.');
+                discountRow.style.display = 'none';
             }
+
+            let deliveryFee = 18.00;
+            let finalTotal = (subtotal - discountValue) + deliveryFee;
+            totalElement.innerText = finalTotal.toFixed(2) + ' ر.س';
         }
 
-        // إتمام الطلب بالكامل وربطه بقاعدة بيانات لوحة التحكم (الطلبات والعملاء)
-        function completeAdvancedOrder(event) {
+        // إتمام الطلب وتفريغ السلة
+        function completeOrder(event) {
             event.preventDefault();
+            const paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
             
-            let name = document.getElementById('clientName').value.trim();
-            let phone = document.getElementById('clientPhone').value.trim();
-            let email = document.getElementById('clientEmail').value.trim();
-            let address = document.getElementById('clientAddress').value.trim();
-            let notes = document.getElementById('clientNotes').value.trim();
-            let paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+            if(paymentMethod === 'online') {
+                alert('تم معالجة الدفع الإلكتروني بنجاح! شكراً لطلبك من PAROLE Cafe.');
+            } else {
+                alert('تم تسجيل طلبك بنجاح! يرجى تجهيز مبلغ الدفع عند استلام الطلب.');
+            }
 
-            let generatedOrderId = '#ORD-' + Math.floor(100000 + Math.random() * 900000);
-            
-            let newOrderObject = {
-                id: generatedOrderId,
-                customer: name + ' (' + phone + ')',
-                status: 'قيد التجهيز',
-                total: finalCalculatedTotal.toFixed(2) + ' ر.س (' + paymentMethod + ')'
-            };
-
-            // 1. تحديث الطلبات في لوحة التحكم الإدارية
-            let existingOrders = JSON.parse(localStorage.getItem('parole_admin_orders')) || [];
-            existingOrders.unshift(newOrderObject);
-            localStorage.setItem('parole_admin_orders', JSON.stringify(existingOrders));
-
-            // 2. تحديث سجل العملاء في لوحة التحكم الإدارية
-            let existingCustomers = JSON.parse(localStorage.getItem('parole_admin_customers')) || [];
-            existingCustomers.push({
-                name: name,
-                contact: phone + ' / ' + email,
-                ordersCount: 1
-            });
-            localStorage.setItem('parole_admin_customers', JSON.stringify(existingCustomers));
-
-            // إشعار نجاح وتوجيه
-            alert('تم إتمام الطلب بنجاح برقم (' + generatedOrderId + ')! وتم إرسال كافة تفاصيل الشحن وسجل العميل إلى لوحة التحكم الإدارية بشكل فوري.');
-            
-            // تفريغ السلة وتوجيه العميل للرئيسية
             localStorage.removeItem('parole_cart');
             window.location.href = 'index.html';
         }
+
+        document.addEventListener('DOMContentLoaded', loadCheckoutSummary);
     </script>
 </body>
 </html>
