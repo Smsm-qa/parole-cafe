@@ -3,63 +3,482 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سياسات المتجر | PAROLE Cafe</title>
+    <title>PAROLE Cafe | السياسات والأحكام المتقدمة</title>
+    
+    <meta name="description" content="دليل سياسات المتجر الشاملة لـ PAROLE Cafe في قطر: الاسترجاع، الشحن، الخصوصية، وشروط استخدام المنصة.">
+    <meta name="keywords" content="سياسات المتجر, الشروط والأحكام, سياسة الاسترجاع, بارول كافيه, PAROLE Cafe">
+    <meta name="author" content="PAROLE Cafe">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-          --primary-gold: #c5a059;
-          --dark-bg: #121212;
-          --card-bg: #1e1e1e;
-          --text-light: #f5f5f5;
-          --text-muted: #aaaaaa;
-          --transition: all 0.3s ease;
+          --gold: #d4af37;
+          --gold-light: #f3e5ab;
+          --dark-bg: #0b0b0b;
+          --card-bg: #161616;
+          --border-color: #262626;
+          --text-main: #f0f0f0;
+          --text-muted: #999999;
+          --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--dark-bg); color: var(--text-light); line-height: 1.8; direction: rtl; text-align: right; }
-        header { background: rgba(18, 18, 18, 0.95); position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; border-bottom: 1px solid #2a2a2a; }
-        .nav-container { max-width: 1200px; margin: 0 auto; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 24px; font-weight: bold; color: var(--primary-gold); letter-spacing: 2px; text-decoration: none; }
-        .nav-links { display: flex; list-style: none; gap: 20px; flex-wrap: wrap; }
-        .nav-links a { color: var(--text-light); text-decoration: none; font-size: 14px; transition: var(--transition); }
-        .nav-links a:hover { color: var(--primary-gold); }
-        section { padding: 120px 20px 60px; max-width: 900px; margin: 0 auto; }
-        .section-title { text-align: center; font-size: 32px; margin-bottom: 30px; color: var(--primary-gold); }
-        .policy-box { background-color: var(--card-bg); padding: 30px; border-radius: 8px; border: 1px solid #2a2a2a; margin-bottom: 20px; }
-        .policy-box h3 { color: var(--primary-gold); margin-bottom: 10px; font-size: 20px; }
-        .policy-box p { color: var(--text-muted); font-size: 15px; }
-        footer { background-color: #0a0a0a; padding: 30px 20px; text-align: center; border-top: 1px solid #222; color: var(--text-muted); margin-top: 60px; }
+        body { background-color: var(--dark-bg); color: var(--text-main); line-height: 1.7; direction: rtl; text-align: right; overflow-x: hidden; scroll-behavior: smooth; }
+        
+        /* الهيدر */
+        .site-header {
+            background: rgba(11, 11, 11, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+            transition: all 0.4s ease;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 300;
+            color: var(--text-main);
+            letter-spacing: 5px;
+            text-decoration: none;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .logo span {
+            color: var(--gold);
+            font-weight: 500;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 13.5px;
+            letter-spacing: 0.8px;
+            font-weight: 400;
+            transition: color 0.3s ease;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--gold) !important;
+            font-weight: 500 !important;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--gold);
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        /* تخطيط الصفحة المتقدم (تخطيط شبكي جانبي) */
+        .page-section { 
+            padding: 140px 20px 80px; 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            min-height: 100vh; 
+        }
+        
+        .section-header { text-align: center; margin-bottom: 40px; }
+        .menu-main-title { font-size: 38px; font-weight: 300; color: var(--gold); margin-bottom: 10px; letter-spacing: 3px; }
+        .menu-sub-title { color: var(--text-muted); font-size: 14px; letter-spacing: 1px; }
+
+        /* شريط البحث السريع داخل السياسات */
+        .search-policy-container {
+            max-width: 600px;
+            margin: 0 auto 50px;
+            position: relative;
+        }
+        .search-policy-input {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 15px 20px 15px 50px;
+            border-radius: 30px;
+            color: var(--text-main);
+            font-size: 14px;
+            outline: none;
+            transition: var(--transition);
+        }
+        .search-policy-input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
+        }
+        .search-policy-container i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gold);
+            font-size: 18px;
+        }
+
+        /* التخطيط الثنائي (قائمة جانبية + محتوى تفصيلي) */
+        .policies-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        /* القائمة الجانبية للتنقل السريع */
+        .policies-sidebar {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            position: sticky;
+            top: 110px;
+        }
+        .policies-sidebar h4 {
+            font-size: 14px;
+            color: var(--gold);
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .sidebar-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .sidebar-menu a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 13.5px;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .sidebar-menu a:hover, .sidebar-menu a.active-link {
+            background: rgba(212, 175, 55, 0.08);
+            color: var(--gold);
+            font-weight: 500;
+        }
+
+        /* المحتوى والبطاقات */
+        .policies-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .policy-box {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 35px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            scroll-margin-top: 120px;
+        }
+
+        .policy-box:hover {
+            border-color: rgba(212, 175, 55, 0.4);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .policy-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .policy-header i {
+            color: var(--gold);
+            font-size: 22px;
+            background: rgba(212, 175, 55, 0.08);
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+        }
+
+        .policy-box h3 {
+            font-size: 22px;
+            color: var(--text-main);
+            font-weight: 400;
+        }
+
+        .policy-box p {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .policy-list {
+            list-style: none;
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .policy-list li {
+            color: var(--text-muted);
+            font-size: 13.5px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            line-height: 1.6;
+        }
+
+        .policy-list li i {
+            color: var(--gold);
+            font-size: 11px;
+            background: none;
+            padding: 4px 0 0 0;
+            border: none;
+        }
+
+        /* التذييل والاتصال */
+        footer { background-color: #070707; padding: 50px 20px 30px; text-align: center; border-top: 1px solid var(--border-color); margin-top: 80px; }
+        .social-links { display: flex; justify-content: center; gap: 25px; margin-bottom: 20px; font-size: 22px; }
+        .social-links a { color: var(--text-muted); transition: var(--transition); }
+        .social-links a:hover { color: var(--gold); transform: translateY(-3px); }
+        .footer-text { color: var(--text-muted); font-size: 13px; }
+
+        .whatsapp-float { position: fixed; bottom: 25px; left: 25px; background-color: #25d366; color: #fff; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); z-index: 9999; transition: var(--transition); text-decoration: none; }
+        .whatsapp-float:hover { transform: scale(1.1); }
+
+        @media (max-width: 992px) {
+            .policies-layout { grid-template-columns: 1fr; }
+            .policies-sidebar { position: static; margin-bottom: 10px; }
+            .menu-toggle { display: block; }
+            .nav-container { padding: 15px 20px; }
+            .nav-links {
+                position: fixed;
+                top: 73px;
+                right: -100%;
+                width: 100%;
+                height: calc(100vh - 73px);
+                background: rgba(11, 11, 11, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                justify-content: center;
+                transition: right 0.4s ease;
+                border-top: 1px solid rgba(212, 175, 55, 0.15);
+                display: flex;
+            }
+            .nav-links.active { right: 0; }
+        }
     </style>
 </head>
 <body>
-    <header>
+
+    <!-- الهيدر المطور -->
+    <header class="site-header">
         <div class="nav-container">
-            <a href="index.html" class="logo">PAROLE</a>
-            <ul class="nav-links">
-                <li><a href="index.html">الرئيسية</a></li>
-                <li><a href="about.html">من نحن</a></li>
-                <li><a href="shop.html">المتجر</a></li>
-                <li><a href="offers.html">العروض</a></li>
-                <li><a href="branches.html">الفروع</a></li>
-                <li><a href="blog.html">المدونة</a></li>
-                <li><a href="contact.html">تواصل معنا</a></li>
-                <li><a href="faq.html">الأسئلة الشائعة</a></li>
-                <li><a href="policies.html" style="color: var(--primary-gold);">السياسات</a></li>
-            </ul>
+            <a href="index.html" class="logo">PAROLE <span>CAFE</span></a>
+            
+            <nav>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="about.html">من نحن</a></li>
+                    <li><a href="index.html">المتجر</a></li>
+                    <li><a href="offers.html">العروض</a></li>
+                    <li><a href="index.html">الفروع</a></li>
+                    <li><a href="blog.html">المدونة</a></li>
+                    <li><a href="contact.html">تواصل معنا</a></li>
+                    <li><a href="faq.html">الأسئلة الشائعة</a></li>
+                    <li><a href="policies.html" class="active">السياسات</a></li>
+                </ul>
+            </nav>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="القائمة">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
         </div>
     </header>
-    <section>
-        <h2 class="section-title">سياسات المتجر والأحكام</h2>
-        <div class="policy-box">
-            <h3>سياسة الاستبدال والاسترجاع</h3>
-            <p>حرصاً منا على تقديم أفضل جودة، يمكن استبدال المنتجات غير التالفة خلال 3 أيام من تاريخ الاستلام بشرط أن تكون بحالتها الأصلية.</p>
+
+    <!-- محتوى سياسات المتجر المتقدمة -->
+    <section class="page-section">
+        <div class="section-header">
+            <h1 class="menu-main-title">دليل السياسات والأحكام التنظيمية</h1>
+            <p class="menu-sub-title">نلتزم بالشفافية التامة لضمان تجربة استثنائية وآمنة لعملائنا في قطر</p>
         </div>
-        <div class="policy-box">
-            <h3>سياسة الخصوصية</h3>
-            <p>نحن نلتزم بحماية بياناتك الشخصية ومعلومات الدفع الخاصة بك وفق أعلى معايير الأمان الرقمي.</p>
+
+        <!-- شريط البحث الذكي -->
+        <div class="search-policy-container">
+            <input type="text" id="policySearch" class="search-policy-input" placeholder="ابحث في السياسات (مثال: استبدال، شحن، خصوصية)..." onkeyup="searchPolicies()">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+
+        <div class="policies-layout">
+            <!-- القائمة الجانبية السريعة -->
+            <aside class="policies-sidebar">
+                <h4>أقسام السياسات</h4>
+                <ul class="sidebar-menu">
+                    <li><a href="#return-policy" class="sidebar-link active-link"><i class="fa-solid fa-rotate-left"></i> الاستبدال والاسترجاع</a></li>
+                    <li><a href="#privacy-policy" class="sidebar-link"><i class="fa-solid fa-shield-halved"></i> الخصوصية وأمن البيانات</a></li>
+                    <li><a href="#shipping-policy" class="sidebar-link"><i class="fa-solid fa-truck-fast"></i> الشحن والتوصيل</a></li>
+                    <li><a href="#terms-policy" class="sidebar-link"><i class="fa-solid fa-file-contract"></i> شروط الاستخدام</a></li>
+                </ul>
+            </aside>
+
+            <!-- محتوى السياسات التفصيلي -->
+            <div class="policies-content" id="policiesContainer">
+                
+                <!-- 1. الاستبدال والاسترجاع -->
+                <div class="policy-box" id="return-policy" data-keywords="استبدال استرجاع استرداد منتجات تلف ضمان">
+                    <div class="policy-header">
+                        <i class="fa-solid fa-rotate-left"></i>
+                        <h3>سياسة الاستبدال والاسترجاع</h3>
+                    </div>
+                    <p>حرصاً منا على تقديم أعلى معايير الجودة والنقاء لمحاصيلنا ومنتجاتنا، فإننا نطبق الأحكام التالية:</p>
+                    <ul class="policy-list">
+                        <li><i class="fa-solid fa-circle-check"></i> يمكن استبدال المنتجات غير التالفة أو الأدوات غير المفتوحة خلال 3 أيام من تاريخ الاستلام.</li>
+                        <li><i class="fa-solid fa-circle-check"></i> يشترط أن يكون المنتج في حالته الأصلية، بغلافه المغلق وكامل ملصقاته دون أي أثر للاستخدام.</li>
+                        <li><i class="fa-solid fa-circle-check"></i> لا يمكن استرجاع أو استبدال المشروبات والأغذية الطازجة المحضرة فورياً في الفرع حفاظاً على الصحة العامة.</li>
+                        <li><i class="fa-solid fa-circle-check"></i> في حال وجود علف مصنعي أو خطأ في الطلب، يتحمل المتجر كافة تكاليف الاستبدال فوراً.</li>
+                    </ul>
+                </div>
+
+                <!-- 2. الخصوصية وأمن البيانات -->
+                <div class="policy-box" id="privacy-policy" data-keywords="خصوصية بيانات أمان سرية الدفع">
+                    <div class="policy-header">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <h3>سياسة الخصوصية وأمن البيانات</h3>
+                    </div>
+                    <p>نحن في PAROLE Cafe نولي سرية معلوماتك الشخصية عناية فائقة وفقاً لأحدث المعايير الرقمية:</p>
+                    <ul class="policy-list">
+                        <li><i class="fa-solid fa-circle-check"></i> يتم استخدام بيانات التواصل ورقم الهاتف حصرياً لتأكيد الطلبات، التوصيل، وإرسال عروض الولاء.</li>
+                        <li><i class="fa-solid fa-circle-check"></i> نلتزم التزاماً قانونياً تاماً بعدم مشاركة، بيع، أو تأجير أي بيانات شخصية لأي طرف ثالث.</li>
+                        <li><i class="fa-solid fa-circle-check"></i> كافة عمليات الدفع الإلكتروني والبطاقات البنكية تتم عبر بوابات دفع آمنة ومشفرة بالكامل.</li>
+                    </ul>
+                </div>
+
+                <!-- 3. الطلب والتوصيل -->
+                <div class="policy-box" id="shipping-policy" data-keywords="توصيل شحن طلبات استلام فرع وقت">
+                    <div class="policy-header">
+                        <i class="fa-solid fa-truck-fast"></i>
+                    <h3>سياسة الطلب والتوصيل</h3>
+                    </div>
+                    <p>نعمل جاهدين لتوصيل طلباتكم بأسرع وقت ممكن وبأعلى كفاءة لحفظ جودة القهوة:</p>
+                    <ul class="policy-list">
+                        <li><i class="fa-solid fa-circle-check"></i> يتم تجهيز الطلبات فور تأكيدها لضمان وصول المشروبات والمخبوزات في أفضل درجة حرارة.</li>
+                        <li><i class="fa-solid fa-circle-check"></i> يتوفر خيار الاستلام السريع من الفرع أو التوصيل المباشر ضمن نطاق مناطق الخدمة المعتمدة.</li>
+                        <li><i class="fa-solid fa-circle-check"></i> يجب التأكد من صحة عنوان الاستلام ورقم الهاتف لضمان عدم تأخير مندوب التوصيل.</li>
+                    </ul>
+                </div>
+
+                <!-- 4. شروط الاستخدام -->
+                <div class="policy-box" id="terms-policy" data-keywords="شروط استخدام حقوق ملكية فكرية حسابات">
+                    <div class="policy-header">
+                        <i class="fa-solid fa-file-contract"></i>
+                        <h3>شروط وأحكام الاستخدام</h3>
+                    </div>
+                    <p>باستخدامك لموقع ومنصة PAROLE Cafe، فإنك توافق على الالتزام بالشروط الآتية:</p>
+                    <ul class="policy-list">
+                        <li><i class="fa-solid fa-circle-check"></i> كافة التصاميم، النصوص، الشعارات، والمحتويات المرئية هي ملكية فكرية حصرية للعلامة التجارية.</li>
+                        <li><i class="fa-solid fa-circle-check"></i> يمنع استخدام أو نسخ محتوى الموقع لأغراض تجارية دون إذن كتابي مسبق.</li>
+                        <li><i class="fa-solid fa-circle-check"></i> يحتفظ المتجر بحق تعديل أو تحديث هذه السياسات في أي وقت، ويعتبر استمرار استخدامك للموقع موافقة ضمنية عليها.</li>
+                    </ul>
+                </div>
+
+            </div>
         </div>
     </section>
+
+    <!-- زر الواتساب العائم -->
+    <a href="https://wa.me/97400000000?text=مرحباً، لدي استفسار إضافي بخصوص سياسات المتجر" target="_blank" class="whatsapp-float" aria-label="تواصل عبر الواتساب">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- التذييل -->
     <footer>
-        <p>&copy; 2026 PAROLE Cafe. جميع الحقوق محفوظة.</p>
+        <div class="social-links">
+            <a href="https://instagram.com" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://tiktok.com" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="https://snapchat.com" target="_blank"><i class="fa-brands fa-snapchat"></i></a>
+            <a href="https://wa.me/97400000000" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+        <p class="footer-text">&copy; 2026 PAROLE Cafe. جميع الحقوق محفوظة.</p>
     </footer>
+
+    <!-- الجافاسكريبت المتقدم -->
+    <script>
+        // وظيفة البحث الحي داخل السياسات
+        function searchPolicies() {
+            let input = document.getElementById('policySearch').value.toLowerCase();
+            let boxes = document.querySelectorAll('.policy-box');
+
+            boxes.forEach(box => {
+                let keywords = box.getAttribute('data-keywords') || '';
+                let text = box.innerText.toLowerCase();
+                if(text.includes(input) || keywords.includes(input)) {
+                    box.style.display = 'block';
+                } else {
+                    box.style.display = 'none';
+                }
+            });
+        }
+
+        // تفاعل القائمة الجانبية أثناء التمرير
+        const sidebarLinks = document.querySelectorAll('.sidebar-link');
+        const policyBoxes = document.querySelectorAll('.policy-box');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            policyBoxes.forEach(box => {
+                const boxTop = box.offsetTop;
+                if(window.scrollY >= (boxTop - 150)) {
+                    current = box.getAttribute('id');
+                }
+            });
+
+            sidebarLinks.forEach(link => {
+                link.classList.remove('active-link');
+                if(link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active-link');
+                }
+            });
+        });
+
+        // القائمة المتجاوبة للهاتف
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        if(menuToggle && navLinks) {
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                let icon = menuToggle.querySelector('i');
+                icon.classList.toggle('fa-bars-staggered');
+                icon.classList.toggle('fa-xmark');
+            });
+        }
+    </script>
 </body>
 </html>
