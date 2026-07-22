@@ -3,63 +3,532 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الأسئلة الشائعة | PAROLE Cafe</title>
+    <title>PAROLE Cafe | الأسئلة الشائعة والدعم الشامل</title>
+    
+    <meta name="description" content="مرجع الأسئلة الشائعة المتكامل لـ PAROLE Cafe في قطر: إجابات فورية حول الطلبات، الدفع، التوصيل، وبرنامج الولاء.">
+    <meta name="keywords" content="الأسئلة الشائعة, استفسارات, دعم العملاء, بارول كافيه, PAROLE Cafe">
+    <meta name="author" content="PAROLE Cafe">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-          --primary-gold: #c5a059;
-          --dark-bg: #121212;
-          --card-bg: #1e1e1e;
-          --text-light: #f5f5f5;
-          --text-muted: #aaaaaa;
-          --transition: all 0.3s ease;
+          --gold: #d4af37;
+          --gold-light: #f3e5ab;
+          --dark-bg: #0b0b0b;
+          --card-bg: #161616;
+          --border-color: #262626;
+          --text-main: #f0f0f0;
+          --text-muted: #999999;
+          --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--dark-bg); color: var(--text-light); line-height: 1.6; direction: rtl; text-align: right; }
-        header { background: rgba(18, 18, 18, 0.95); position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; border-bottom: 1px solid #2a2a2a; }
-        .nav-container { max-width: 1200px; margin: 0 auto; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 24px; font-weight: bold; color: var(--primary-gold); letter-spacing: 2px; text-decoration: none; }
-        .nav-links { display: flex; list-style: none; gap: 20px; flex-wrap: wrap; }
-        .nav-links a { color: var(--text-light); text-decoration: none; font-size: 14px; transition: var(--transition); }
-        .nav-links a:hover { color: var(--primary-gold); }
-        section { padding: 120px 20px 60px; max-width: 900px; margin: 0 auto; }
-        .section-title { text-align: center; font-size: 32px; margin-bottom: 40px; color: var(--primary-gold); }
-        .faq-item { background-color: var(--card-bg); padding: 20px; border-radius: 8px; border: 1px solid #2a2a2a; margin-bottom: 20px; }
-        .faq-q { font-size: 18px; color: var(--primary-gold); margin-bottom: 8px; font-weight: bold; }
-        .faq-a { color: var(--text-muted); font-size: 15px; }
-        footer { background-color: #0a0a0a; padding: 30px 20px; text-align: center; border-top: 1px solid #222; color: var(--text-muted); margin-top: 60px; }
+        body { background-color: var(--dark-bg); color: var(--text-main); line-height: 1.7; direction: rtl; text-align: right; overflow-x: hidden; }
+        
+        /* الهيدر */
+        .site-header {
+            background: rgba(11, 11, 11, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+            transition: all 0.4s ease;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 300;
+            color: var(--text-main);
+            letter-spacing: 5px;
+            text-decoration: none;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .logo span {
+            color: var(--gold);
+            font-weight: 500;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 13.5px;
+            letter-spacing: 0.8px;
+            font-weight: 400;
+            transition: color 0.3s ease;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--gold) !important;
+            font-weight: 500 !important;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--gold);
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        /* محتوى الصفحة */
+        .page-section { padding: 140px 20px 80px; max-width: 1000px; margin: 0 auto; min-height: 100vh; }
+        
+        .section-header { text-align: center; margin-bottom: 35px; }
+        .menu-main-title { font-size: 38px; font-weight: 300; color: var(--gold); margin-bottom: 10px; letter-spacing: 3px; }
+        .menu-sub-title { color: var(--text-muted); font-size: 14px; letter-spacing: 1px; }
+
+        /* شريط البحث الذكي */
+        .search-faq-container {
+            max-width: 600px;
+            margin: 0 auto 25px;
+            position: relative;
+        }
+        .search-faq-input {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 15px 20px 15px 50px;
+            border-radius: 30px;
+            color: var(--text-main);
+            font-size: 14px;
+            outline: none;
+            transition: var(--transition);
+        }
+        .search-faq-input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
+        }
+        .search-faq-container i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gold);
+            font-size: 18px;
+        }
+
+        /* أزرار الفلترة السريعة (Category Pills) */
+        .faq-filters {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        .faq-filter-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12.5px;
+            transition: var(--transition);
+        }
+        .faq-filter-btn:hover, .faq-filter-btn.active {
+            background: var(--gold);
+            color: #000;
+            border-color: var(--gold);
+            font-weight: 500;
+        }
+
+        /* عناصر الأسئلة الشائعة (Accordion) */
+        .faq-container { display: flex; flex-direction: column; gap: 20px; }
+
+        .faq-item {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .faq-item:hover {
+            border-color: rgba(212, 175, 55, 0.4);
+        }
+
+        .faq-question {
+            padding: 25px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            gap: 20px;
+        }
+
+        .faq-question h3 {
+            font-size: 18px;
+            color: var(--text-main);
+            font-weight: 400;
+            transition: color 0.3s ease;
+        }
+
+        .faq-item.active .faq-question h3 {
+            color: var(--gold);
+        }
+
+        .faq-question i {
+            color: var(--gold);
+            font-size: 16px;
+            transition: transform 0.4s ease;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            padding: 0 30px;
+            color: var(--text-muted);
+            font-size: 14.5px;
+            line-height: 1.8;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            padding: 0 30px 20px 30px;
+        }
+
+        /* نظام تقييم الإجابة الداخلي */
+        .faq-feedback {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12.5px;
+            color: var(--text-muted);
+        }
+        .feedback-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .feedback-btn {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 4px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .feedback-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        /* صندوق الدعم الفوري المساعد */
+        .help-box {
+            background: linear-gradient(135deg, rgba(212,175,55,0.08) 0%, rgba(22,22,22,0.95) 100%);
+            border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .help-box h3 { font-size: 20px; color: var(--gold); margin-bottom: 10px; font-weight: 400; }
+        .help-box p { color: var(--text-muted); font-size: 13.5px; margin-bottom: 20px; }
+        .btn-gold {
+            background-color: var(--gold);
+            color: #000;
+            padding: 10px 25px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 13px;
+            transition: var(--transition);
+            display: inline-block;
+        }
+        .btn-gold:hover { background-color: var(--gold-light); transform: translateY(-2px); }
+
+        /* التذييل والاتصال */
+        footer { background-color: #070707; padding: 50px 20px 30px; text-align: center; border-top: 1px solid var(--border-color); margin-top: 80px; }
+        .social-links { display: flex; justify-content: center; gap: 25px; margin-bottom: 20px; font-size: 22px; }
+        .social-links a { color: var(--text-muted); transition: var(--transition); }
+        .social-links a:hover { color: var(--gold); transform: translateY(-3px); }
+        .footer-text { color: var(--text-muted); font-size: 13px; }
+
+        .whatsapp-float { position: fixed; bottom: 25px; left: 25px; background-color: #25d366; color: #fff; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); z-index: 9999; transition: var(--transition); text-decoration: none; }
+        .whatsapp-float:hover { transform: scale(1.1); }
+
+        @media (max-width: 992px) {
+            .menu-toggle { display: block; }
+            .nav-container { padding: 15px 20px; }
+            .nav-links {
+                position: fixed;
+                top: 73px;
+                right: -100%;
+                width: 100%;
+                height: calc(100vh - 73px);
+                background: rgba(11, 11, 11, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                justify-content: center;
+                transition: right 0.4s ease;
+                border-top: 1px solid rgba(212, 175, 55, 0.15);
+                display: flex;
+            }
+            .nav-links.active { right: 0; }
+        }
     </style>
 </head>
 <body>
-    <header>
+
+    <!-- الهيدر المطور -->
+    <header class="site-header">
         <div class="nav-container">
-            <a href="index.html" class="logo">PAROLE</a>
-            <ul class="nav-links">
-                <li><a href="index.html">الرئيسية</a></li>
-                <li><a href="about.html">من نحن</a></li>
-                <li><a href="shop.html">المتجر</a></li>
-                <li><a href="offers.html">العروض</a></li>
-                <li><a href="branches.html">الفروع</a></li>
-                <li><a href="blog.html">المدونة</a></li>
-                <li><a href="contact.html">تواصل معنا</a></li>
-                <li><a href="faq.html" style="color: var(--primary-gold);">الأسئلة الشائعة</a></li>
-                <li><a href="policies.html">السياسات</a></li>
-            </ul>
+            <a href="index.html" class="logo">PAROLE <span>CAFE</span></a>
+            
+            <nav>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="about.html">من نحن</a></li>
+                    <li><a href="index.html">المتجر</a></li>
+                    <li><a href="offers.html">العروض</a></li>
+                    <li><a href="index.html">الفروع</a></li>
+                    <li><a href="blog.html">المدونة</a></li>
+                    <li><a href="contact.html">تواصل معنا</a></li>
+                    <li><a href="faq.html" class="active">الأسئلة الشائعة</a></li>
+                    <li><a href="policies.html">السياسات</a></li>
+                </ul>
+            </nav>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="القائمة">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
         </div>
     </header>
-    <section>
-        <h2 class="section-title">الأسئلة الشائعة</h2>
-        <div class="faq-item">
-            <div class="faq-q">ما هي طرق الدفع المتاحة في المتجر؟</div>
-            <div class="faq-a">نحن ندعم الدفع عبر البطاقات البنكية، Apple Pay، Mada، Visa، Mastercard، بالإضافة إلى STC Pay وخيار الدفع عند الاستلام.</div>
+
+    <!-- محتوى الأسئلة الشائعة -->
+    <section class="page-section">
+        <div class="section-header">
+            <h1 class="menu-main-title">الأسئلة الشائعة والدعم الفوري</h1>
+            <p class="menu-sub-title">إجابات دقيقة واحترافية لكافة استفساراتكم حول خدماتنا في قطر</p>
         </div>
-        <div class="faq-item">
-            <div class="faq-q">كم تستغرق مدة التوصيل؟</div>
-            <div class="faq-a">يتم توصيل الطلبات داخل المدن الرئيسية خلال 24 إلى 48 ساعة من تأكيد الطلب.</div>
+
+        <!-- شريط البحث الذكي -->
+        <div class="search-faq-container">
+            <input type="text" id="faqSearch" class="search-faq-input" placeholder="ابحث عن سؤالك هنا (مثال: الدفع، التوصيل، الفروع)..." onkeyup="searchFaq()">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+
+        <!-- أزرار التصنيف السريع (Filter Pills) -->
+        <div class="faq-filters">
+            <button class="faq-filter-btn active" onclick="filterCategory('all', this)">جميع الأسئلة</button>
+            <button class="faq-filter-btn" onclick="filterCategory('payment', this)">💳 الدفع والأسعار</button>
+            <button class="faq-filter-btn" onclick="filterCategory('delivery', this)">🚚 الطلبات والتوصيل</button>
+            <button class="faq-filter-btn" onclick="filterCategory('branches', this)">📍 الفروع والمواقع</button>
+        </div>
+
+        <div class="faq-container" id="faqContainer">
+            
+            <!-- سؤال 1 -->
+            <div class="faq-item" data-category="payment" data-keywords="طرق الدفع بطاقات ابل باي فيزا ماستر كارد">
+                <div class="faq-question">
+                    <h3>ما هي طرق الدفع المتاحة في المتجر؟</h3>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    نحن ندعم وسائل دفع متعددة وآمنة تشمل: البطاقات البنكية (Visa, Mastercard)، Apple Pay، شبكة مادا، بالإضافة إلى خيار الدفع النقدي أو الإلكتروني عند الاستلام.
+                    <div class="faq-feedback">
+                        <span>هل كانت هذه الإجابة مفيدة؟</span>
+                        <div class="feedback-actions">
+                            <button class="feedback-btn" onclick="alert('شكراً لك على تقييمك!')">نعم 👍</button>
+                            <button class="feedback-btn" onclick="alert('شكراً لك، سنعمل على تحسينها.')">لا 👎</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- سؤال 2 -->
+            <div class="faq-item" data-category="delivery" data-keywords="مدة التوصيل الوقت الاستلام الطلبات">
+                <div class="faq-question">
+                    <h3>كم تستغرق مدة التوصيل؟</h3>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    حرصاً منا على تقديم المشروبات والمخبوزات طازجة، يتم توصيل الطلبات خلال وقت قياسي يتراوح بين 30 إلى 60 دقيقة داخل مناطق الخدمة المعتمدة، أو حسب الجدول الزمني المحدد للطلبات الخاصة.
+                    <div class="faq-feedback">
+                        <span>هل كانت هذه الإجابة مفيدة؟</span>
+                        <div class="feedback-actions">
+                            <button class="feedback-btn" onclick="alert('شكراً لك على تقييمك!')">نعم 👍</button>
+                            <button class="feedback-btn" onclick="alert('شكراً لك، سنعمل على تحسينها.')">لا 👎</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- سؤال 3 -->
+            <div class="faq-item" data-category="delivery" data-keywords="تعديل إلغاء الطلب">
+                <div class="faq-question">
+                    <h3>هل يمكنني تعديل أو إلغاء طلبي بعد تأكيده؟</h3>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    يمكنك تعديل أو إلغاء الطلب خلال دقائق معدودة من إرساله عبر التواصل المباشر مع خدمة العملاء عبر الواتساب، طالما لم يتم البدء في تجهيز وتحضير الطلب.
+                    <div class="faq-feedback">
+                        <span>هل كانت هذه الإجابة مفيدة؟</span>
+                        <div class="feedback-actions">
+                            <button class="feedback-btn" onclick="alert('شكراً لك على تقييمك!')">نعم 👍</button>
+                            <button class="feedback-btn" onclick="alert('شكراً لك، سنعمل على تحسينها.')">لا 👎</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- سؤال 4 -->
+            <div class="faq-item" data-category="branches" data-keywords="الفروع الموقع القهوة الأماكن">
+                <div class="faq-question">
+                    <h3>أين تقع فروع PAROLE Cafe؟</h3>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    نتواجد في مواقع مميزة وحيوية لخدمتكم دائماً في قطر. يمكنك زيارة صفحة "الفروع" في الموقع للاطلاع على العناوين الدقيقة وأوقات العمل الرسمية لكل فرع.
+                    <div class="faq-feedback">
+                        <span>هل كانت هذه الإجابة مفيدة؟</span>
+                        <div class="feedback-actions">
+                            <button class="feedback-btn" onclick="alert('شكراً لك على تقييمك!')">نعم 👍</button>
+                            <button class="feedback-btn" onclick="alert('شكراً لك، سنعمل على تحسينها.')">لا 👎</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- سؤال 5 -->
+            <div class="faq-item" data-category="payment" data-keywords="استرداد استبدال منتجات سياسة">
+                <div class="faq-question">
+                    <h3>ما هي سياسة الاستبدال والاسترجاع للمنتجات؟</h3>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    يمكن استبدال الأدوات أو المنتجات غير الغذائية غير المفتوحة خلال 3 أيام من الاستلام. بينما لا يمكن استرجاع المشروبات والأغذية الطازجة المحضرة فوراً حفاظاً على الصحة العامة.
+                    <div class="faq-feedback">
+                        <span>هل كانت هذه الإجابة مفيدة؟</span>
+                        <div class="feedback-actions">
+                            <button class="feedback-btn" onclick="alert('شكراً لك على تقييمك!')">نعم 👍</button>
+                            <button class="feedback-btn" onclick="alert('شكراً لك، سنعمل على تحسينها.')">لا 👎</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- صندوق الدعم الإضافي -->
+        <div class="help-box">
+            <h3>لم تجد إجابة لسؤالك؟</h3>
+            <p>فريق خدمة العملاء جاهز للإجابة على كافة استفساراتكم بشكل مباشر طوال ساعات العمل.</p>
+            <a href="https://wa.me/97400000000?text=مرحباً، لدي استفسار خاص لم أجده في الأسئلة الشائعة" target="_blank" class="btn-gold">تواصل مع الدعم عبر الواتساب</a>
         </div>
     </section>
+
+    <!-- زر الواتساب العائم -->
+    <a href="https://wa.me/97400000000?text=مرحباً، لدي استفسار إضافي لم أجده في الأسئلة الشائعة" target="_blank" class="whatsapp-float" aria-label="تواصل عبر الواتساب">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- التذييل -->
     <footer>
-        <p>&copy; 2026 PAROLE Cafe. جميع الحقوق محفوظة.</p>
+        <div class="social-links">
+            <a href="https://instagram.com" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://tiktok.com" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="https://snapchat.com" target="_blank"><i class="fa-brands fa-snapchat"></i></a>
+            <a href="https://wa.me/97400000000" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+        <p class="footer-text">&copy; 2026 PAROLE Cafe. جميع الحقوق محفوظة.</p>
     </footer>
+
+    <!-- الجافاسكريبت التفاعلي المتقدم -->
+    <script>
+        // تفعيل خاصية الطي والفتح (Accordion)
+        const faqItems = document.querySelectorAll('.faq-item');
+
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+                item.classList.toggle('active');
+            });
+        });
+
+        // وظيفة البحث الذكي في الأسئلة
+        function searchFaq() {
+            let input = document.getElementById('faqSearch').value.toLowerCase();
+            let items = document.querySelectorAll('.faq-item');
+
+            items.forEach(item => {
+                let keywords = item.getAttribute('data-keywords') || '';
+                let text = item.innerText.toLowerCase();
+                if (text.includes(input) || keywords.includes(input)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // تصفية الأسئلة حسب الفئة (Category Pills)
+        function filterCategory(category, btnElement) {
+            document.querySelectorAll('.faq-filter-btn').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            let items = document.querySelectorAll('.faq-item');
+            items.forEach(item => {
+                if (category === 'all' || item.getAttribute('data-category') === category) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // القائمة المتجاوبة للهاتف
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        if(menuToggle && navLinks) {
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                let icon = menuToggle.querySelector('i');
+                icon.classList.toggle('fa-bars-staggered');
+                icon.classList.toggle('fa-xmark');
+            });
+        }
+    </script>
 </body>
 </html>
