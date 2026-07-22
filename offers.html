@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PAROLE Cafe | العروض والحزم الحصرية المتقدمة</title>
+    <title>PAROLE Cafe | النطاق الاحترافي المتقدم للعروض والحزم الفاخرة</title>
     
-    <meta name="description" content="استمتع بأرقى الباقات والعروض الحصرية للقهوة المختصة والحلويات الفاخرة من PAROLE Cafe في قطر.">
-    <meta name="keywords" content="عروض كافيهات قطر, خصومات قهوة مختصة, عروض بارول كافيه, باقات الفطور, PAROLE Cafe">
+    <meta name="description" content="اكتشف أحدث وأرقى الباقات والعروض الحصرية للقهوة المختصة والحلويات الفاخرة من PAROLE Cafe مع نظام الحجز التفاعلي المتقدم في قطر.">
+    <meta name="keywords" content="عروض كافيهات قطر, خصومات قهوة مختصة, عروض بارول كافيه, باقات الفطور, PAROLE Cafe, قهوة مختصة الدوحة">
     <meta name="author" content="PAROLE Cafe">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -204,6 +204,16 @@
             color: var(--gold);
             font-size: 45px;
             border-bottom: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .offer-img-box::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(212,175,55,0.08) 0%, transparent 70%);
         }
 
         .offer-content { padding: 25px; display: flex; flex-direction: column; flex-grow: 1; }
@@ -250,6 +260,42 @@
             text-transform: uppercase;
         }
         .btn-primary:hover { background-color: var(--gold-light); transform: translateY(-2px); }
+
+        /* قسم حاسبة توفير العروض المتقدمة */
+        .calculator-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 60px;
+        }
+        .calculator-header { text-align: center; margin-bottom: 30px; }
+        .calculator-header h3 { font-size: 24px; color: var(--gold); font-weight: 300; margin-bottom: 8px; }
+        .calculator-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; align-items: center; }
+        .calc-input-group { display: flex; flex-direction: column; gap: 10px; }
+        .calc-input-group label { font-size: 14px; color: var(--text-main); }
+        .calc-select { background: var(--dark-bg); border: 1px solid var(--border-color); color: var(--text-main); padding: 12px 15px; border-radius: 8px; font-size: 14px; outline: none; cursor: pointer; }
+        .calc-select:focus { border-color: var(--gold); }
+        .calc-result-box { background: rgba(212,175,55,0.05); border: 1px solid var(--gold); padding: 25px; border-radius: 12px; text-align: center; }
+        .calc-result-title { font-size: 13px; color: var(--text-muted); margin-bottom: 5px; }
+        .calc-result-value { font-size: 28px; color: var(--gold); font-weight: 600; }
+
+        /* قسم نظام حجز الطاولات المتقدم (ميزة جديدة إضافية) */
+        .booking-section {
+            background: linear-gradient(135deg, rgba(22,22,22,0.98), rgba(11,11,11,0.95));
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 60px;
+        }
+        .booking-header { text-align: center; margin-bottom: 35px; }
+        .booking-header h3 { font-size: 26px; color: var(--gold); font-weight: 300; margin-bottom: 8px; }
+        .booking-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        .form-group label { font-size: 13.5px; color: var(--text-muted); }
+        .form-control { background: var(--dark-bg); border: 1px solid var(--border-color); color: var(--text-main); padding: 12px 16px; border-radius: 8px; font-size: 14px; outline: none; transition: var(--transition); }
+        .form-control:focus { border-color: var(--gold); box-shadow: 0 0 10px rgba(212,175,55,0.1); }
+        .booking-submit-container { grid-column: 1 / -1; margin-top: 10px; }
 
         /* قسم برنامج الولاء والمزايا الخاصة */
         .vip-banner {
@@ -340,7 +386,7 @@
     <section class="page-section">
         <div class="section-header">
             <h1 class="menu-main-title">الباقات والعروض الحصرية</h1>
-            <p class="menu-sub-title">ارتقِ بتجربتك اليومية مع باقاتنا المختارة بعناية فائقة</p>
+            <p class="menu-sub-title">ارتقِ بتجربتك اليومية مع باقاتنا المختارة بعناية فائقة في قطر</p>
         </div>
 
         <!-- شريط العد التنازلي لعرض لفترة محدودة -->
@@ -425,6 +471,66 @@
             </div>
         </div>
 
+        <!-- قسم حاسبة توفير العروض التفاعلية -->
+        <div class="calculator-section">
+            <div class="calculator-header">
+                <h3>حاسبة التوفير الذكية</h3>
+                <p style="color: var(--text-muted); font-size: 13px;">اختر الباقة وعدد المرات التي تطلبها أسبوعياً لمعرفة مقدار ما توفره مع عروضنا</p>
+            </div>
+            <div class="calculator-grid">
+                <div class="calc-input-group">
+                    <label for="calcPackage">اختر الباقة المفضلة:</label>
+                    <select id="calcPackage" class="calc-select" onchange="calculateSavings()">
+                        <option value="28" data-saving="7">باقة الصباح الفاخرة (توفير 7 ر.س لكل طلب)</option>
+                        <option value="30" data-saving="6">ثنائي الموهيتو المنعش (توفير 6 ر.س لكل طلب)</option>
+                        <option value="75" data-saving="15">بوكس المحاصيل المختصة (توفير 15 ر.س لكل طلب)</option>
+                    </select>
+                </div>
+                <div class="calc-input-group">
+                    <label for="calcFrequency">عدد مرات الطلب أسبوعياً:</label>
+                    <select id="calcFrequency" class="calc-select" onchange="calculateSavings()">
+                        <option value="1">مرة واحدة في الأسبوع</option>
+                        <option value="3" selected>3 مرات في الأسبوع</option>
+                        <option value="5">5 مرات في الأسبوع</option>
+                        <option value="7">يومياً (7 مرات أسبوعياً)</option>
+                    </select>
+                </div>
+                <div class="calc-result-box">
+                    <div class="calc-result-title">إجمالي التوفير المتوقع شهرياً</div>
+                    <div class="calc-result-value" id="calcResultValue">72 ر.س</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- قسم نظام حجز الطاولات المتقدم (ميزة إضافية جديدة) -->
+        <div class="booking-section">
+            <div class="booking-header">
+                <h3>حجز طاولة مسبق للاستفادة من العروض</h3>
+                <p style="color: var(--text-muted); font-size: 13.5px;">احجز طاولتك الآن في فرعنا بقطر لضمان تجربة هادئة ومميزة</p>
+            </div>
+            <form class="booking-form" onsubmit="handleTableBooking(event)">
+                <div class="form-group">
+                    <label for="clientName">الاسم الكريم</label>
+                    <input type="text" id="clientName" class="form-control" placeholder="أدخل اسمك الكامل" required>
+                </div>
+                <div class="form-group">
+                    <label for="clientPhone">رقم الهاتـف</label>
+                    <input type="tel" id="clientPhone" class="form-control" placeholder="+974 ..." required>
+                </div>
+                <div class="form-group">
+                    <label for="bookingDate">تاريخ الحجز</label>
+                    <input type="date" id="bookingDate" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="bookingTime">وقت الحضور</label>
+                    <input type="time" id="bookingTime" class="form-control" required>
+                </div>
+                <div class="booking-submit-container">
+                    <button type="submit" class="btn-primary" style="padding: 15px;">تأكيد حجز الطاولة الفوري</button>
+                </div>
+            </form>
+        </div>
+
         <!-- قسم برنامج الولاء والمزايا الخاصة -->
         <div class="vip-banner">
             <div class="vip-info">
@@ -498,6 +604,34 @@
             });
         }
 
+        // حاسبة التوفير الذكية
+        function calculateSavings() {
+            const packageSelect = document.getElementById('calcPackage');
+            const frequencySelect = document.getElementById('calcFrequency');
+            const resultValue = document.getElementById('calcResultValue');
+
+            if(!packageSelect || !frequencySelect || !resultValue) return;
+
+            const selectedOption = packageSelect.options[packageSelect.selectedIndex];
+            const savingPerOrder = parseInt(selectedOption.getAttribute('data-saving')) || 0;
+            const frequencyPerWeek = parseInt(frequencySelect.value) || 1;
+
+            // حساب التوفير الشهري (4.3 أسبوع تقريباً في الشهر)
+            const monthlySavings = Math.round(savingPerOrder * frequencyPerWeek * 4.3);
+            resultValue.innerText = monthlySavings + ' ر.س';
+        }
+
+        // معالجة نموذج حجز الطاولة الفوري
+        function handleTableBooking(event) {
+            event.preventDefault();
+            const name = document.getElementById('clientName').value;
+            const date = document.getElementById('bookingDate').value;
+            const time = document.getElementById('bookingTime').value;
+
+            alert('شكراً لك يا ' + name + '! تم تأكيد حجز طاولتك المسبق في فرعنا بقطر بتاريخ ' + date + ' الساعة ' + time + ' بنجاح.');
+            event.target.reset();
+        }
+
         // قائمة الهاتف المحمول
         const menuToggle = document.getElementById('menuToggle');
         const navLinks = document.getElementById('navLinks');
@@ -511,7 +645,10 @@
         }
 
         // تشغيل الوظائف عند تحميل الصفحة
-        document.addEventListener('DOMContentLoaded', updateCartBadge);
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartBadge();
+            calculateSavings();
+        });
     </script>
 </body>
 </html>
