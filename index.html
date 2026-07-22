@@ -3,21 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PAROLE Cafe | تجربة القهوة الفاخرة</title>
-    <!-- إعدادات تحسين محركات البحث SEO -->
-    <meta name="description" content="متجر PAROLE Cafe - تسوق أجود أنواع القهوة المختصة والمشروبات الفاخرة مع توصيل سريع.">
-    <meta name="keywords" content="قهوة مختصة, إسبانيش لاتيه, كولد برو, حبوب قهوة, متجر قهوة, PAROLE Cafe">
-    <meta name="author" content="PAROLE Cafe">
+    <title>PAROLE Cafe | الصفحة الرئيسية - تجربة القهوة الفاخرة</title>
     
-    <!-- بيانات الهيكلة Schema لتصدر نتائج البحث -->
+    <!-- Meta Data الأساسية للـ SEO -->
+    <meta name="description" content="اكتشف فخامة القهوة المختصة والحلويات الراقية في PAROLE Cafe. تصفح المنيو، اطلب أونلاين، وتعرف على فروعنا ومواقعنا في قطر.">
+    <meta name="keywords" content="قهوة مختصة قطر, كافيهات الدوحة, اسبريسو فاخر, منيو بارول كافيه, حلويات راقية, PAROLE Cafe">
+    <meta name="author" content="PAROLE Cafe">
+
+    <!-- Open Graph لمحركات البحث ووسائل التواصل الاجتماعي -->
+    <meta property="og:title" content="PAROLE Cafe | تجربة القهوة الفاخرة">
+    <meta property="og:description" content="تذوق أجود محاصيل القهوة المختصة والمشروبات المصممة خصيصاً لذوقك الرفيع.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourdomain.com/">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1200&q=80">
+
+    <!-- بيانات المخطط الهيكلي (Schema.org - JSON-LD) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "CafeOrCoffeeShop",
       "name": "PAROLE Cafe",
-      "image": "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb",
-      "currenciesAccepted": "SAR",
-      "paymentAccepted": "Cash, Credit Card, Apple Pay, STC Pay",
+      "image": "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1200&q=80",
+      "@id": "https://yourdomain.com",
+      "url": "https://yourdomain.com",
+      "telephone": "+97400000000",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "شارع اللؤلؤة، الحي الدبلوماسي",
+        "addressLocality": "الدوحة",
+        "addressRegion": "الدوحة",
+        "addressCountry": "QA"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 25.2854,
+        "longitude": 51.53104
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        "opens": "06:00",
+        "closes": "00:00"
+      },
       "priceRange": "$$"
     }
     </script>
@@ -37,175 +64,529 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: var(--dark-bg); color: var(--text-main); line-height: 1.7; direction: rtl; text-align: right; overflow-x: hidden; }
         
-        /* Header & Navigation */
-        header { background: rgba(11, 11, 11, 0.9); backdrop-filter: blur(12px); position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; border-bottom: 1px solid var(--border-color); }
-        .nav-container { max-width: 1400px; margin: 0 auto; padding: 18px 30px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 24px; font-weight: 300; color: var(--gold); letter-spacing: 4px; text-decoration: none; text-transform: uppercase; }
-        
-        .nav-links { display: flex; list-style: none; gap: 15px; align-items: center; }
-        .nav-links a { color: var(--text-main); text-decoration: none; font-size: 13px; letter-spacing: 0.5px; transition: var(--transition); white-space: nowrap; }
-        .nav-links a:hover, .nav-links a.active { color: var(--gold); }
-        
-        .nav-icons { display: flex; align-items: center; gap: 20px; }
-        
-        /* زر قائمة للجوال */
-        .menu-toggle { display: none; font-size: 22px; color: var(--gold); cursor: pointer; background: none; border: none; }
-
-        /* Hero Section */
-        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 20px; background: linear-gradient(rgba(11,11,11,0.75), rgba(11,11,11,0.9)), url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat; position: relative; }
-        .hero-content { max-width: 800px; margin-top: 80px; }
-        .hero-tag { display: inline-block; color: var(--gold); text-transform: uppercase; letter-spacing: 4px; font-size: 13px; margin-bottom: 20px; border-bottom: 1px solid var(--gold); padding-bottom: 5px; }
-        .hero-title { font-size: 52px; font-weight: 300; color: var(--text-main); margin-bottom: 20px; letter-spacing: 2px; line-height: 1.2; }
-        .hero-title span { color: var(--gold); font-weight: 400; }
-        .hero-desc { font-size: 17px; color: var(--text-muted); margin-bottom: 40px; letter-spacing: 1px; font-weight: 300; max-width: 650px; margin-left: auto; margin-right: auto; }
-        
-        .hero-btns { display: flex; gap: 20px; justify-content: center; }
-        .btn-primary { background-color: var(--gold); color: #000; padding: 14px 35px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 14px; letter-spacing: 1px; transition: var(--transition); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2); }
-        .btn-primary:hover { background-color: var(--gold-light); transform: translateY(-3px); }
-        
-        .btn-secondary { background-color: transparent; border: 1px solid var(--border-color); color: var(--text-main); padding: 14px 35px; border-radius: 6px; text-decoration: none; font-weight: 500; font-size: 14px; letter-spacing: 1px; transition: var(--transition); }
-        .btn-secondary:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-3px); }
-
-        /* Features Section */
-        .features { padding: 120px 40px; max-width: 1300px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .feature-card { background-color: var(--card-bg); border: 1px solid var(--border-color); padding: 40px 30px; border-radius: 12px; transition: var(--transition); text-align: center; }
-        .feature-card:hover { border-color: var(--gold); transform: translateY(-6px); box-shadow: 0 15px 30px rgba(212, 175, 55, 0.05); }
-        .feature-icon { font-size: 32px; color: var(--gold); margin-bottom: 20px; }
-        .feature-title { font-size: 20px; font-weight: 400; margin-bottom: 12px; color: var(--text-main); letter-spacing: 1px; }
-        .feature-desc { font-size: 14px; color: var(--text-muted); line-height: 1.8; }
-
-        /* Footer */
-        footer { background-color: #070707; padding: 40px 20px; text-align: center; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 14px; letter-spacing: 1px; }
-
-        /* استعلامات الوسائط للجوال (Responsive Design) */
-        @media (max-width: 1150px) {
-            .menu-toggle { display: block; }
-            .nav-links { 
-                position: fixed; 
-                top: 75px; 
-                right: -100%; 
-                flex-direction: column; 
-                background-color: rgba(15, 15, 15, 0.98); 
-                width: 100%; 
-                height: calc(100vh - 75px); 
-                padding: 40px 0; 
-                transition: 0.4s ease-in-out; 
-                border-top: 1px solid var(--border-color);
-                align-items: center;
-                gap: 25px;
-            }
-            .nav-links.active { right: 0; }
-            .nav-links a { font-size: 16px; }
+        /* الهيدر الأكثر رقياً وتحضراً */
+        .site-header {
+            background: rgba(11, 11, 11, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+            transition: all 0.4s ease;
         }
 
-        @media (max-width: 768px) {
-            .hero-title { font-size: 36px; }
-            .hero-btns { flex-direction: column; }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 300;
+            color: var(--text-main);
+            letter-spacing: 5px;
+            text-decoration: none;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .logo span {
+            color: var(--gold);
+            font-weight: 500;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 13.5px;
+            letter-spacing: 0.8px;
+            font-weight: 400;
+            transition: color 0.3s ease, transform 0.3s ease;
+            position: relative;
+            padding-bottom: 4px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 0;
+            height: 1px;
+            background-color: var(--gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+            left: 0;
+            right: auto;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--gold);
+        }
+
+        .highlight-offer {
+            color: var(--gold) !important;
+            font-weight: 500 !important;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .cart-icon-btn {
+            color: var(--text-main);
+            font-size: 18px;
+            text-decoration: none;
+            position: relative;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .cart-icon-btn:hover {
+            color: var(--gold);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            left: -10px;
+            background-color: var(--gold);
+            color: #000;
+            font-size: 10px;
+            font-weight: 600;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--gold);
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        .page-section { display: none; padding: 130px 20px 80px; max-width: 1400px; margin: 0 auto; min-height: 100vh; }
+        .page-section.active { display: block; }
+
+        /* صفحة الرئيسية */
+        .hero { min-height: 80vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 20px; background: linear-gradient(rgba(11,11,11,0.75), rgba(11,11,11,0.9)), url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat; border-radius: 12px; }
+        .hero-content { max-width: 800px; }
+        .hero-tag { display: inline-block; color: var(--gold); text-transform: uppercase; letter-spacing: 4px; font-size: 13px; margin-bottom: 20px; border-bottom: 1px solid var(--gold); padding-bottom: 5px; }
+        .hero-title { font-size: 48px; font-weight: 300; color: var(--text-main); margin-bottom: 20px; letter-spacing: 2px; line-height: 1.2; }
+        .hero-title span { color: var(--gold); font-weight: 400; }
+        .hero-desc { font-size: 16px; color: var(--text-muted); margin-bottom: 40px; font-weight: 300; max-width: 650px; margin-left: auto; margin-right: auto; }
+        
+        .hero-btns { display: flex; gap: 20px; justify-content: center; }
+        .btn-primary { background-color: var(--gold); color: #000; padding: 14px 35px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 14px; transition: var(--transition); cursor: pointer; border: none; display: inline-block; text-align: center; }
+        .btn-primary:hover { background-color: var(--gold-light); transform: translateY(-3px); }
+        .btn-secondary { background-color: transparent; border: 1px solid var(--border-color); color: var(--text-main); padding: 14px 35px; border-radius: 6px; text-decoration: none; font-weight: 500; font-size: 14px; transition: var(--transition); cursor: pointer; }
+        .btn-secondary:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-3px); }
+
+        /* المتجر والمنيو */
+        .menu-main-title { text-align: center; font-size: 38px; font-weight: 300; color: var(--gold); margin-bottom: 10px; letter-spacing: 3px; }
+        .menu-sub-title { text-align: center; color: var(--text-muted); margin-bottom: 40px; font-size: 14px; letter-spacing: 1px; }
+        .filter-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 40px; flex-wrap: wrap; }
+        .filter-btn { background: transparent; border: 1px solid var(--border-color); color: var(--text-muted); padding: 8px 18px; border-radius: 30px; cursor: pointer; transition: var(--transition); font-size: 13px; }
+        .filter-btn:hover, .filter-btn.active { background: var(--gold); color: #000; border-color: var(--gold); font-weight: 500; }
+
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px; }
+        .product-card { background-color: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); transition: var(--transition); display: flex; flex-direction: column; position: relative; }
+        .product-card:hover { border-color: var(--gold); transform: translateY(-5px); }
+        .product-badge { background: var(--gold); color: #000; font-size: 10px; padding: 4px 10px; position: absolute; top: 15px; right: 15px; border-radius: 20px; font-weight: 600; z-index: 2; }
+        .product-card-img { width: 100%; height: 170px; background: rgba(255,255,255,0.02); display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 32px; border-bottom: 1px solid var(--border-color); cursor: pointer; }
+        .product-info { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
+        .product-title { font-size: 16px; color: var(--text-main); margin-bottom: 8px; font-weight: 400; cursor: pointer; }
+        .product-title:hover { color: var(--gold); }
+        .product-price { color: var(--gold); font-size: 15px; font-weight: 500; margin-bottom: 15px; }
+        .btn-add { margin-top: auto; background-color: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 10px; width: 100%; border-radius: 6px; font-size: 12px; cursor: pointer; transition: var(--transition); text-transform: uppercase; }
+        .btn-add:hover { background-color: var(--gold); color: #000; }
+
+        /* تفاصيل المنتج */
+        .back-btn { background: transparent; border: 1px solid var(--border-color); color: var(--text-muted); padding: 8px 16px; border-radius: 6px; cursor: pointer; margin-bottom: 25px; transition: var(--transition); font-size: 13px; display: inline-flex; align-items: center; gap: 8px; }
+        .back-btn:hover { border-color: var(--gold); color: var(--gold); }
+        .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 35px; }
+        .gallery-container { display: flex; flex-direction: column; gap: 15px; }
+        .main-img-box { width: 100%; height: 280px; background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 65px; color: var(--gold); }
+        .thumb-list { display: flex; gap: 10px; }
+        .thumb-box { width: 60px; height: 60px; background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--gold); cursor: pointer; transition: var(--transition); }
+        .thumb-box:hover, .thumb-box.active { border-color: var(--gold); background: rgba(212,175,55,0.05); }
+        .details-content h2 { font-size: 28px; color: var(--gold); margin-bottom: 10px; font-weight: 400; }
+        .details-price { font-size: 20px; color: var(--gold); font-weight: 500; margin-bottom: 15px; }
+        .details-desc { color: var(--text-muted); margin-bottom: 20px; font-size: 14px; }
+        .details-box { background: rgba(212,175,55,0.03); padding: 12px 18px; border-radius: 8px; border-right: 3px solid var(--gold); border: 1px solid var(--border-color); margin-bottom: 20px; }
+        .details-box h4 { font-size: 12px; color: var(--gold); margin-bottom: 5px; text-transform: uppercase; }
+        .details-box p { font-size: 13px; color: var(--text-muted); }
+
+        /* الفروع */
+        .branches-container { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center; background: var(--card-bg); border: 1px solid var(--border-color); padding: 35px; border-radius: 16px; }
+        .branch-info h3 { color: var(--gold); font-size: 24px; margin-bottom: 15px; font-weight: 300; }
+        .branch-info p { color: var(--text-muted); margin-bottom: 15px; font-size: 14px; }
+        .map-box { width: 100%; height: 350px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); }
+
+        /* التذييل والاتصال */
+        footer { background-color: #070707; padding: 50px 20px 30px; text-align: center; border-top: 1px solid var(--border-color); margin-top: 80px; }
+        .social-links { display: flex; justify-content: center; gap: 25px; margin-bottom: 20px; font-size: 22px; }
+        .social-links a { color: var(--text-muted); transition: var(--transition); }
+        .social-links a:hover { color: var(--gold); transform: translateY(-3px); }
+        .footer-text { color: var(--text-muted); font-size: 13px; }
+
+        .whatsapp-float { position: fixed; bottom: 25px; left: 25px; background-color: #25d366; color: #fff; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); z-index: 9999; transition: var(--transition); text-decoration: none; }
+        .whatsapp-float:hover { transform: scale(1.1); }
+
+        /* التجاوب مع الأجهزة الذكية */
+        @media (max-width: 1100px) {
+            .menu-toggle { display: block; }
             .nav-container { padding: 15px 20px; }
+            .nav-wrapper {
+                position: fixed;
+                top: 73px;
+                right: -100%;
+                width: 100%;
+                height: calc(100vh - 73px);
+                background: rgba(11, 11, 11, 0.98);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                flex-direction: column;
+                justify-content: center;
+                transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                border-top: 1px solid rgba(212, 175, 55, 0.15);
+                box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+                display: flex;
+            }
+            .nav-wrapper.active { right: 0; }
+            .nav-links { flex-direction: column; gap: 25px; text-align: center; }
+            .nav-links a { font-size: 16px; }
+            .details-grid, .branches-container { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
-    <header>
+    <!-- الهيدر المحدث والأكثر رقياً -->
+    <header class="site-header">
         <div class="nav-container">
-            <a href="index.html" class="logo">PAROLE Cafe</a>
+            <a onclick="switchPage('home')" class="logo">PAROLE <span>CAFE</span></a>
             
-            <ul class="nav-links" id="navLinks">
-                <li><a href="index.html" class="active">الرئيسية</a></li>
-                <li><a href="about.html">من نحن</a></li>
-                <li><a href="shop.html">المتجر</a></li>
-                 <li><a href="offers.html">العروض</a></li>
-                <li><a href="branches.html">الفروع</a></li>
-                <li><a href="blog.html">المدونة</a></li>
-                <li><a href="faq.html">الأسئلة</a></li>
-                <li><a href="policies.html">السياسات</a></li>
-                <li><a href="contact.html">تواصل معنا</a></li>
-                <li><a href="cart.html">السلة</a></li>
-                <li><a href="checkout.html">الدفع</a></li>
-            </ul>
+            <nav class="nav-wrapper" id="navWrapper">
+                <ul class="nav-links">
+                    <li><a onclick="switchPage('home')" id="link-home" class="active">الرئيسية</a></li>
+                    <li><a href="about.html">من نحن</a></li>
+                    <li><a onclick="switchPage('shop')" id="link-shop">المتجر</a></li>
+                    <li><a href="offers.html" class="highlight-offer">العروض</a></li>
+                    <li><a onclick="switchPage('branches')" id="link-branches">الفروع</a></li>
+                    <li><a onclick="switchPage('blog')" id="link-blog">المدونة</a></li>
+                    <li><a href="contact.html">تواصل معنا</a></li>
+                    <li><a href="faq.html">الأسئلة الشائعة</a></li>
+                    <li><a href="policies.html">السياسات</a></li>
+                </ul>
+            </nav>
 
-            <div class="nav-icons">
-                <a href="cart.html" style="color: var(--gold); position: relative; text-decoration: none; font-size: 18px;">
+            <div class="header-actions">
+                <a onclick="switchPage('cart')" id="link-cart" class="cart-icon-btn" aria-label="حقيبة التسوق">
                     <i class="fa-solid fa-bag-shopping"></i>
-                    <span id="cart-count" style="position: absolute; top: -8px; right: -12px; background: var(--gold); color: #000; font-size: 10px; padding: 2px 5px; border-radius: 50%; font-weight: bold;">0</span>
+                    <span class="cart-badge" id="cartBadgeCount">0</span>
                 </a>
-                <button class="menu-toggle" id="menuToggle">
-                    <i class="fa-solid fa-bars"></i>
+                <button class="menu-toggle" id="menuToggle" aria-label="القائمة">
+                    <i class="fa-solid fa-bars-staggered"></i>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <span class="hero-tag">فن القهوة المختصة</span>
-            <h1 class="hero-title">تجربة القهوة الفاخرة <span>PAROLE</span></h1>
-            <p class="hero-desc">اكتشف تشكيلة حصرية من أجود حبوب القهوة والمشروبات المصممة خصيصاً لتناسب ذوقك الرفيع وتمنحك رشفة تلامس الروح.</p>
-            <div class="hero-btns">
-                <a href="shop.html" class="btn-primary">استعرض المنيو الفاخر</a>
-                <a href="cart.html" class="btn-secondary">سلة المشتريات</a>
+    <!-- 1. الرئيسية -->
+    <section id="page-home" class="page-section active">
+        <div class="hero">
+            <div class="hero-content">
+                <span class="hero-tag">فن القهوة المختصة</span>
+                <h1 class="hero-title">تجربة القهوة الفاخرة <span>PAROLE</span></h1>
+                <p class="hero-desc">اكتشف تشكيلة حصرية من أجود حبوب القهوة والمشروبات المصممة خصيصاً لتناسب ذوقك الرفيع في قطر.</p>
+                <div class="hero-btns">
+                    <button class="btn-primary" onclick="switchPage('shop')">استعرض المنيو الفاخر</button>
+                    <button class="btn-secondary" onclick="switchPage('branches')">موقعنا على الخريطة</button>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="features">
-        <div class="feature-card">
-            <i class="fa-solid fa-seedling feature-icon"></i>
-            <h3 class="feature-title">حبوب مختارة بعناية</h3>
-            <p class="feature-desc">ننتقي أجود محاصيل القهوة العالمية لنضمن لك جودة استثنائية ونكهة فريدة في كل كوب.</p>
+    <!-- 2. المتجر والمنيو -->
+    <section id="page-shop" class="page-section">
+        <h1 class="menu-main-title">قائمة المنيو الحصرية</h1>
+        <p class="menu-sub-title">تذوق أفقاً جديداً من الفخامة والجودة في كل رشفة</p>
+
+        <div class="filter-tabs">
+            <button class="filter-btn active" onclick="filterCategory('all', this)">المجموعة الكاملة</button>
+            <button class="filter-btn" onclick="filterCategory('hot', this)">☕ المشروبات الدافئة</button>
+            <button class="filter-btn" onclick="filterCategory('cold', this)">🧊 المشروبات المثلجة</button>
+            <button class="filter-btn" onclick="filterCategory('mojito', this)">🍋 موهيتو فاخر</button>
+            <button class="filter-btn" onclick="filterCategory('desserts', this)">🍰 الحلويات الراقية</button>
         </div>
-        <div class="feature-card">
-            <i class="fa-solid fa-mug-hot feature-icon"></i>
-            <h3 class="feature-title">تحضير احترافي</h3>
-            <p class="feature-desc">بأيدي نخبة من الباريستا المحترفين، تُحضر قهوتك وفقاً لأدق معايير الجودة العالمية.</p>
-        </div>
-        <div class="feature-card">
-            <i class="fa-solid fa-crown feature-icon"></i>
-            <h3 class="feature-title">أجواء راقية</h3>
-            <p class="feature-desc">بيئة مثالية وهادئة تتيح لك الاستمتاع بلحظاتك الخاصة أو إنجاز أعمالك بكل أريحية.</p>
+        <div id="products-container" class="products-grid"></div>
+    </section>
+
+    <!-- 3. تفاصيل المنتج -->
+    <section id="page-details" class="page-section">
+        <button class="back-btn" onclick="switchPage('shop')"><i class="fa-solid fa-arrow-right"></i> العودة للمنيو</button>
+        <div class="details-grid">
+            <div class="gallery-container">
+                <div class="main-img-box"><i class="fa-solid fa-mug-hot" id="det-main-icon"></i></div>
+                <div class="thumb-list">
+                    <div class="thumb-box active" onclick="changeImage('fa-mug-hot', this)"><i class="fa-solid fa-mug-hot"></i></div>
+                    <div class="thumb-box" onclick="changeImage('fa-coffee', this)"><i class="fa-solid fa-coffee"></i></div>
+                </div>
+            </div>
+            <div class="details-content">
+                <h2 id="det-title">اسم المنتج</h2>
+                <div class="details-price" id="det-price">0 ر.س</div>
+                <p class="details-desc" id="det-desc">وصف تفصيلي للمنتج يعكس جودته ومذاقه الراقي.</p>
+                <div class="details-box">
+                    <h4>المكونات الأساسية:</h4>
+                    <p id="det-ingredients">حبوب قهوة مختصة ومكونات نقية طازجة.</p>
+                </div>
+                <button class="btn-primary" onclick="addToCartCurrent()" style="width: 100%;">إضافة إلى حقيبة التسوق</button>
+            </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2026 PAROLE Cafe. جميع الحقوق محفوظة.</p>
-    </footer>
+    <!-- 4. المدونة -->
+    <section id="page-blog" class="page-section">
+        <h1 class="menu-main-title">مدونة PAROLE</h1>
+        <p class="menu-sub-title">تعرف على أسرار وعالم القهوة المختصة</p>
+        <div style="max-width: 900px; margin: 0 auto;">
+            <article itemscope itemtype="https://schema.org/BlogPosting" style="background: var(--card-bg); border: 1px solid var(--border-color); padding: 30px; border-radius: 16px;">
+                <header>
+                    <h2 itemprop="headline" style="color: var(--gold); font-size: 22px; font-weight: 400; margin-bottom: 10px;">سر اختيار حبوب القهوة المختصة المثالية</h2>
+                    <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 15px;">نشرت بتاريخ: <time datetime="2026-07-22">22 يوليو 2026</time></p>
+                </header>
+                <div itemprop="articleBody">
+                    <p style="color: var(--text-muted); font-size: 14px; line-height: 1.8;">تعرف على المعايير الدقيقة التي نعتمدها في <strong>PAROLE Cafe</strong> لانتقاء أجود المحاصيل العالمية وكيفية استخلاص النكهات العميقة.</p>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- 5. الفروع -->
+    <section id="page-branches" class="page-section">
+        <h1 class="menu-main-title">فروعنا وخرائط جوجل</h1>
+        <p class="menu-sub-title">يسعدنا زيارتكم في فرعنا الرئيسي بقطر</p>
+        <div class="branches-container">
+            <div class="branch-info">
+                <h3>فرع بارول الرئيسي</h3>
+                <p><strong>العنوان:</strong> شارع اللؤلؤة، الحي الدبلوماسي، الدوحة، قطر</p>
+                <p><strong>ساعات العمل:</strong> يومياً من 6:00 صباحاً وحتى 12:00 منتصف الليل.</p>
+                <a href="https://maps.google.com" target="_blank" class="btn-primary" style="margin-top: 10px; display: inline-block;">فتح في خرائط جوجل</a>
+            </div>
+            <div class="map-box">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3606.326887532!2d51.53104!3d25.2854!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s25%C2%B017'07.4%22N+51%C2%B031'51.7%22E!5e0!3m2!1sar!2sqa!4v1650000000000" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. حقيبة التسوق (Cart) -->
+    <section id="page-cart" class="page-section">
+        <h1 class="menu-main-title">حقيبة التسوق</h1>
+        <p class="menu-sub-title">مراجعة المنتجات المختارة</p>
+        <div id="cart-content" style="background: var(--card-bg); border: 1px solid var(--border-color); padding: 30px; border-radius: 16px; max-width: 800px; margin: 0 auto;"></div>
+    </section>
 
     <!-- زر الواتساب العائم -->
-    <a href="https://wa.me/966500000000?text=مرحباً، أريد الاستفسار عن منتجات PAROLE Cafe" target="_blank" style="position: fixed; bottom: 25px; left: 25px; background-color: #25d366; color: #fff; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); z-index: 9999; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+    <a href="https://wa.me/97400000000?text=مرحباً، أريد الاستفسار عن منتجات PAROLE Cafe" target="_blank" class="whatsapp-float" aria-label="تواصل عبر الواتساب">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
-    <!-- JavaScript لتفعيل القائمة المتجاوبة وعداد السلة -->
+    <!-- التذييل -->
+    <footer>
+        <div class="social-links">
+            <a href="https://instagram.com" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://tiktok.com" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="https://snapchat.com" target="_blank"><i class="fa-brands fa-snapchat"></i></a>
+            <a href="https://wa.me/97400000000" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+        <p class="footer-text">&copy; 2026 PAROLE Cafe. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <!-- الجافاسكريبت والتفاعل -->
     <script>
-        // إظهار وإخفاء القائمة في الجوال
-        const menuToggle = document.getElementById('menuToggle');
-        const navLinks = document.getElementById('navLinks');
+        const products = [
+            { id: 1, name: 'إسبريسو', price: 7, category: 'hot', tag: 'bestseller', icon: 'fa-mug-hot', desc: 'إسبريسو غني بالنكهة العميقة والطبقة المخملية.', ingredients: 'حبوب قهوة أربيكا مختصة 100%' },
+            { id: 2, name: 'كورتادو', price: 11, category: 'hot', tag: 'featured', icon: 'fa-mug-hot', desc: 'مزيج راقٍ يعبر عن الانسجام التام بين كميات متساوية.', ingredients: 'إسبريسو، حليب طازج مبخر' },
+            { id: 3, name: 'لاتيه', price: 12, category: 'hot', tag: 'bestseller', icon: 'fa-mug-hot', desc: 'اللاتيه الكلاسيكي الناعم بطابع فاخر وملمس مخملي.', ingredients: 'إسبريسو مختص، طبقة حليب مبخر' },
+            { id: 4, name: 'ايس سبانيش لاتيه', price: 16, category: 'cold', tag: 'bestseller', icon: 'fa-glass-water', desc: 'النسخة الباردة والمنعشة من السبانيش لاتيه الشهير.', ingredients: 'إسبريسو، حليب مكثف، ثلج نقي' },
+            { id: 5, name: 'بلودي ماري (موهيتو)', price: 18, category: 'mojito', tag: '', icon: 'fa-lemon', desc: 'مشروب منعش وفوار بنكهات الفواكه الحمراء.', ingredients: 'صودا، نعناع طازج، نكهة التوت البري' },
+            { id: 6, name: 'كريب', price: 22, category: 'desserts', tag: 'bestseller', icon: 'fa-cake-candles', desc: 'كريب فرنسي رقيق مغطى بأفخر الشوكولاتة البلجيكية.', ingredients: 'عجين كريب طازج، شوكولاتة بلجيكية' }
+        ];
 
-        menuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            let icon = menuToggle.querySelector('i');
-            if(navLinks.classList.contains('active')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-xmark');
-            } else {
-                icon.classList.remove('fa-xmark');
-                icon.classList.add('fa-bars');
+        let activeProductId = 1;
+
+        function switchPage(pageId) {
+            document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+            
+            const targetSec = document.getElementById('page-' + pageId);
+            if(targetSec) targetSec.classList.add('active');
+
+            const targetLink = document.getElementById('link-' + pageId);
+            if(targetLink) targetLink.classList.add('active');
+
+            const navWrapper = document.getElementById('navWrapper');
+            if(navWrapper.classList.contains('active')) {
+                navWrapper.classList.remove('active');
+                let icon = document.querySelector('#menuToggle i');
+                if(icon) { icon.classList.add('fa-bars-staggered'); icon.classList.remove('fa-xmark'); }
             }
-        });
 
-        // تحديث عداد السلة
-        function updateCartCount() {
-            let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
-            let totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            let badge = document.getElementById('cart-count');
-            if(badge) badge.textContent = totalItems;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if(pageId === 'shop') renderProducts('all');
+            if(pageId === 'cart') renderCart();
         }
-        document.addEventListener('DOMContentLoaded', updateCartCount);
+
+        function renderProducts(filter) {
+            const container = document.getElementById('products-container');
+            if(!container) return;
+            container.innerHTML = '';
+            let filtered = filter === 'all' ? products : products.filter(p => p.category === filter);
+
+            filtered.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <div class="product-card-img" onclick="openDetails(${product.id})">
+                        ${product.tag ? `<span class="product-badge">${product.tag}</span>` : ''}
+                        <i class="fa-solid ${product.icon}"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title" onclick="openDetails(${product.id})">${product.name}</h3>
+                        <div class="product-price">${product.price} ر.س</div>
+                        <button class="btn-add" onclick="addToCart('${product.name}', ${product.price})">إضافة للحقيـبة</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterCategory(type, btnElement) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+            renderProducts(type);
+        }
+
+        function openDetails(id) {
+            activeProductId = id;
+            const product = products.find(p => p.id === id);
+            if(!product) return;
+
+            document.getElementById('det-title').innerText = product.name;
+            document.getElementById('det-price').innerText = product.price + ' ر.س';
+            document.getElementById('det-desc').innerText = product.desc;
+            document.getElementById('det-ingredients').innerText = product.ingredients;
+            document.getElementById('det-main-icon').className = `fa-solid ${product.icon}`;
+
+            switchPage('details');
+        }
+
+        function changeImage(iconClass, element) {
+            document.getElementById('det-main-icon').className = `fa-solid ${iconClass}`;
+            document.querySelectorAll('.thumb-box').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        function updateCartBadge() {
+            let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
+            let totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.getElementById('cartBadgeCount');
+            if(badge) badge.innerText = totalCount;
+        }
+
+        function addToCart(name, price) {
+            let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
+            let found = cart.find(item => item.name === name);
+            if(found) found.quantity += 1;
+            else cart.push({ name: name, price: parseFloat(price), quantity: 1 });
+            localStorage.setItem('parole_cart', JSON.stringify(cart));
+            updateCartBadge();
+            alert('تمت إضافة ' + name + ' إلى حقيبة التسوق.');
+        }
+
+        function addToCartCurrent() {
+            const product = products.find(p => p.id === activeProductId);
+            if(product) addToCart(product.name, product.price);
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-content');
+            if(!container) return;
+            let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
+            
+            if(cart.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--text-muted);">حقيبة التسوق فارغة حالياً.</p>';
+                return;
+            }
+
+            let html = '<table style="width: 100%; border-collapse: collapse; text-align: right; margin-bottom: 20px;">';
+            html += '<tr style="border-bottom: 1px solid var(--border-color); color: var(--gold); font-size: 13px;"><th style="padding: 10px;">المنتج</th><th style="padding: 10px;">السعر</th><th style="padding: 10px;">الكمية</th></tr>';
+            
+            let total = 0;
+            cart.forEach(item => {
+                total += item.price * item.quantity;
+                html += `<tr style="border-bottom: 1px solid var(--border-color); font-size: 14px;">
+                    <td style="padding: 12px;">${item.name}</td>
+                    <td style="padding: 12px; color: var(--gold);">${item.price} ر.س</td>
+                    <td style="padding: 12px;">${item.quantity}</td>
+                </tr>`;
+            });
+            html += '</table>';
+            html += `<div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: 500;"><span>الإجمالي:</span><span style="color: var(--gold);">${total} ر.س</span></div>`;
+            html += `<button class="btn-primary" onclick="alert('تم إتمام الطلب بنجاح!'); localStorage.removeItem('parole_cart'); updateCartBadge(); switchPage('home');" style="width: 100%; margin-top: 20px;">إتمام الطلب الآن</button>`;
+            
+            container.innerHTML = html;
+        }
+
+        // تفاعل القائمة للهواتف
+        const menuToggle = document.getElementById('menuToggle');
+        const navWrapper = document.getElementById('navWrapper');
+        if(menuToggle && navWrapper) {
+            menuToggle.addEventListener('click', () => {
+                navWrapper.classList.toggle('active');
+                let icon = menuToggle.querySelector('i');
+                icon.classList.toggle('fa-bars-staggered');
+                icon.classList.toggle('fa-xmark');
+            });
+        }
+
+        // تحديث العداد عند فتح الصفحة
+        document.addEventListener('DOMContentLoaded', updateCartBadge);
     </script>
 </body>
 </html>
