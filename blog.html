@@ -3,74 +3,392 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المدونة | PAROLE Cafe</title>
+    <title>مدونة القهوة والثقافة | PAROLE Cafe</title>
+    <!-- إعدادات تحسين محركات البحث SEO -->
+    <meta name="description" content="اقرأ المقالات المتكاملة مباشرة داخل مدونة PAROLE Cafe بدون الحاجة للانتقال لصفحات خارجية. اكتشف أسرار القهوة المختصة.">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-          --primary-gold: #c5a059;
-          --dark-bg: #121212;
-          --card-bg: #1e1e1e;
-          --text-light: #f5f5f5;
-          --text-muted: #aaaaaa;
+          --primary-gold: #d4af37;
+          --gold-light: #f3e5ab;
+          --dark-bg: #0b0b0b;
+          --card-bg: #161616;
+          --border-color: #262626;
+          --text-main: #f0f0f0;
+          --text-muted: #999999;
           --transition: all 0.3s ease;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--dark-bg); color: var(--text-light); line-height: 1.6; direction: rtl; text-align: right; }
-        header { background: rgba(18, 18, 18, 0.95); position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; border-bottom: 1px solid #2a2a2a; }
-        .nav-container { max-width: 1200px; margin: 0 auto; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 24px; font-weight: bold; color: var(--primary-gold); letter-spacing: 2px; text-decoration: none; }
-        .nav-links { display: flex; list-style: none; gap: 20px; flex-wrap: wrap; }
-        .nav-links a { color: var(--text-light); text-decoration: none; font-size: 14px; transition: var(--transition); }
-        .nav-links a:hover { color: var(--primary-gold); }
-        section { padding: 120px 20px 60px; max-width: 1200px; margin: 0 auto; }
-        .section-title { text-align: center; font-size: 32px; margin-bottom: 40px; color: var(--primary-gold); }
-        .blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .blog-card { background-color: var(--card-bg); border-radius: 8px; overflow: hidden; border: 1px solid #2a2a2a; }
-        .blog-img { width: 100%; height: 200px; object-fit: cover; }
-        .blog-content { padding: 20px; }
-        .blog-title { font-size: 18px; color: var(--primary-gold); margin-bottom: 10px; }
-        .blog-desc { color: var(--text-muted); font-size: 14px; }
-        footer { background-color: #0a0a0a; padding: 30px 20px; text-align: center; border-top: 1px solid #222; color: var(--text-muted); margin-top: 60px; }
+        body { background-color: var(--dark-bg); color: var(--text-main); line-height: 1.6; direction: rtl; text-align: right; }
+        
+        /* شريط التنبيه العلوي المتحرك */
+        .announcement-bar { background-color: var(--primary-gold); color: #000; font-size: 12px; font-weight: 600; text-align: center; padding: 8px 15px; position: fixed; top: 0; left: 0; width: 100%; z-index: 1001; }
+
+        /* القائمة العلويّة المتطورة */
+        header { background: rgba(11, 11, 11, 0.95); backdrop-filter: blur(10px); position: fixed; top: 33px; left: 0; width: 100%; z-index: 1000; border-bottom: 1px solid var(--border-color); }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 22px; font-weight: 300; color: var(--text-main); letter-spacing: 4px; text-decoration: none; text-transform: uppercase; }
+        .logo span { color: var(--primary-gold); font-weight: 500; }
+        .nav-links { display: flex; list-style: none; gap: 15px; flex-wrap: wrap; align-items: center; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 13px; transition: var(--transition); padding: 6px 12px; border-radius: 6px; }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary-gold); background-color: rgba(212, 175, 55, 0.08); }
+
+        /* محتوى المدونة */
+        section { padding: 150px 20px 60px; max-width: 1200px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 40px; }
+        .section-header h1 { font-size: 32px; color: var(--primary-gold); font-weight: 300; margin-bottom: 10px; letter-spacing: 1px; }
+        .section-header p { color: var(--text-muted); font-size: 14px; }
+
+        /* شريط التصفية والبحث الفوري داخل المدونة */
+        .blog-filter-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 35px; gap: 15px; flex-wrap: wrap; background: var(--card-bg); padding: 15px 20px; border-radius: 12px; border: 1px solid var(--border-color); }
+        .filter-tags { display: flex; gap: 10px; flex-wrap: wrap; }
+        .filter-btn { background: var(--dark-bg); border: 1px solid var(--border-color); color: var(--text-muted); padding: 6px 14px; border-radius: 20px; font-size: 12px; cursor: pointer; transition: var(--transition); }
+        .filter-btn:hover, .filter-btn.active { background: var(--primary-gold); color: #000; border-color: var(--primary-gold); font-weight: 600; }
+        
+        .blog-search-box { position: relative; min-width: 250px; }
+        .blog-search-box input { width: 100%; background: var(--dark-bg); border: 1px solid var(--border-color); padding: 8px 15px 8px 35px; border-radius: 8px; color: var(--text-main); font-size: 13px; outline: none; transition: var(--transition); }
+        .blog-search-box input:focus { border-color: var(--primary-gold); }
+        .blog-search-box i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 13px; }
+
+        /* شبكة المقالات */
+        .blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+        
+        .blog-card { background-color: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); transition: var(--transition); display: flex; flex-direction: column; }
+        .blog-card:hover { transform: translateY(-6px); border-color: rgba(212, 175, 55, 0.4); box-shadow: 0 12px 35px rgba(0,0,0,0.6); }
+
+        .blog-img-container { position: relative; overflow: hidden; height: 220px; }
+        .blog-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .blog-card:hover .blog-img { transform: scale(1.05); }
+        .blog-tag { position: absolute; top: 15px; right: 15px; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(5px); color: var(--primary-gold); font-size: 11px; padding: 5px 12px; border-radius: 20px; font-weight: 600; border: 1px solid rgba(212, 175, 55, 0.3); }
+
+        .blog-content { padding: 25px; display: flex; flex-direction: column; flex-grow: 1; }
+        .blog-meta { display: flex; gap: 15px; color: var(--text-muted); font-size: 12px; margin-bottom: 12px; }
+        .blog-meta span i { color: var(--primary-gold); margin-left: 4px; }
+
+        .blog-title { font-size: 18px; color: var(--text-main); margin-bottom: 12px; font-weight: 500; line-height: 1.4; transition: var(--transition); }
+        .blog-card:hover .blog-title { color: var(--primary-gold); }
+        
+        .blog-desc { color: var(--text-muted); font-size: 13px; margin-bottom: 20px; flex-grow: 1; line-height: 1.7; }
+
+        /* زر قراءة المقال بالكامل داخل نافذة منبثقة (Modal) دون مغادرة الصفحة */
+        .blog-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 15px; margin-top: auto; }
+        .btn-read-inline { background: rgba(212, 175, 55, 0.1); color: var(--primary-gold); border: 1px solid rgba(212, 175, 55, 0.3); padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 12px; font-weight: 600; cursor: pointer; transition: var(--transition); display: inline-flex; align-items: center; gap: 6px; }
+        .btn-read-inline:hover { background: var(--primary-gold); color: #000; }
+        .blog-author { color: var(--text-muted); font-size: 12px; }
+
+        /* تصميم نافذة عرض المقال الكاملة (Modal) */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); z-index: 9999; display: none; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
+        .modal-box { background: var(--card-bg); max-width: 800px; width: 100%; border-radius: 16px; border: 1px solid var(--primary-gold); padding: 40px; position: relative; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.8); animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .modal-close { position: absolute; top: 20px; left: 20px; background: var(--dark-bg); border: 1px solid var(--border-color); color: var(--text-main); width: 36px; height: 36px; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
+        .modal-close:hover { background: #e74c3c; border-color: #e74c3c; color: #fff; }
+
+        .modal-header-img { width: 100%; height: 300px; object-fit: cover; border-radius: 10px; margin-bottom: 25px; border: 1px solid var(--border-color); }
+        .modal-title { font-size: 24px; color: var(--primary-gold); margin-bottom: 15px; font-weight: 500; line-height: 1.4; }
+        .modal-body-text { color: var(--text-muted); font-size: 14px; line-height: 2; margin-bottom: 20px; }
+        .modal-body-text p { margin-bottom: 15px; }
+        .modal-body-text h4 { color: var(--text-main); font-size: 16px; margin: 20px 0 10px; font-weight: 600; }
+
+        /* الفوتر الشامل والمطور */
+        .site-footer { background-color: #070707; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 13px; margin-top: 80px; padding: 60px 20px 20px; }
+        .footer-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px; }
+        .footer-col h3 { color: var(--primary-gold); font-size: 18px; margin-bottom: 20px; font-weight: 500; }
+        .footer-col p { line-height: 1.8; margin-bottom: 20px; color: var(--text-muted); }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links li a { color: var(--text-muted); text-decoration: none; transition: var(--transition); }
+        .footer-links li a:hover { color: var(--primary-gold); padding-right: 5px; }
+        .footer-social { display: flex; gap: 12px; margin-top: 15px; }
+        .footer-social a { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-main); width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: var(--transition); }
+        .footer-social a:hover { background: var(--primary-gold); color: #000; border-color: var(--primary-gold); }
+        .footer-bottom { text-align: center; border-top: 1px solid var(--border-color); padding-top: 25px; color: var(--text-muted); font-size: 12px; }
     </style>
 </head>
 <body>
+
+    <!-- شريط إعلاني علوي متحرك -->
+    <div class="announcement-bar">
+        <i class="fa-solid fa-book-open" style="margin-left: 5px;"></i> استمتع بقراءة المقالات كاملة بضغطة زر واحدة ودون مغادرة هذه الصفحة.
+    </div>
+
+    <!-- القائمة العلويّة -->
     <header>
         <div class="nav-container">
-            <a href="index.html" class="logo">PAROLE</a>
+            <a href="index.html" class="logo">PAROLE <span>CAFE</span></a>
             <ul class="nav-links">
                 <li><a href="index.html">الرئيسية</a></li>
                 <li><a href="about.html">من نحن</a></li>
                 <li><a href="shop.html">المتجر</a></li>
                 <li><a href="offers.html">العروض</a></li>
                 <li><a href="branches.html">الفروع</a></li>
-                <li><a href="blog.html" style="color: var(--primary-gold);">المدونة</a></li>
+                <li><a href="blog.html" class="active"><i class="fa-solid fa-pen-nib" style="color: var(--primary-gold);"></i> المدونة</a></li>
                 <li><a href="contact.html">تواصل معنا</a></li>
                 <li><a href="faq.html">الأسئلة الشائعة</a></li>
                 <li><a href="policies.html">السياسات</a></li>
+                <li><a href="cart.html">السلة</a></li>
             </ul>
         </div>
     </header>
+
+    <!-- محتوى المدونة -->
     <section>
-        <h2 class="section-title">مدونة القهوة والثقافة</h2>
-        <div class="blog-grid">
-            <div class="blog-card">
-                <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=600&q=80" alt="أسرار التحميص" class="blog-img">
+        <div class="section-header">
+            <h1>مدونة القهوة والثقافة</h1>
+            <p>مقالات متخصصة وشاملة لعشاق القهوة المختصة، تُقرأ كاملة هنا بكل سهولة.</p>
+        </div>
+
+        <!-- شريط التصفية والبحث الفوري -->
+        <div class="blog-filter-bar">
+            <div class="filter-tags">
+                <button class="filter-btn active" onclick="filterBlog('all')">الكل</button>
+                <button class="filter-btn" onclick="filterBlog('roasting')">محمصة</button>
+                <button class="filter-btn" onclick="filterBlog('recipes')">وصفات</button>
+                <button class="filter-btn" onclick="filterBlog('tools')">أدوات</button>
+            </div>
+            <div class="blog-search-box">
+                <input type="text" id="blog-search" placeholder="ابحث في المقالات..." onkeyup="searchBlogs()">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+        </div>
+
+        <!-- شبكة المقالات -->
+        <div class="blog-grid" id="blog-container">
+            <!-- مقال 1 -->
+            <article class="blog-card" data-category="roasting">
+                <div class="blog-img-container">
+                    <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=600&q=80" alt="أسرار التحميص" class="blog-img">
+                    <span class="blog-tag">محمصة</span>
+                </div>
                 <div class="blog-content">
-                    <h3 class="blog-title">أسرار تحميص حبوب القهوة المختصة</h3>
-                    <p class="blog-desc">تعرف على درجات التحميص المختلفة وكيف تؤثر بشكل مباشر على النكهة ورائحة القهوة.</p>
+                    <div class="blog-meta">
+                        <span><i class="fa-regular fa-calendar"></i> 15 يوليو 2026</span>
+                        <span><i class="fa-regular fa-clock"></i> 4 دقائق قراءة</span>
+                    </div>
+                    <h3 class="blog-title">أسرار تحميص حبوب القهوة المختصة بدقة عالية</h3>
+                    <p class="blog-desc">تعرف على درجات التحميص المختلفة وكيف تؤثر بشكل مباشر ومدروس على النكهة ورائحة الكوب.</p>
+                    <div class="blog-footer">
+                        <span class="blog-author">بقلم: خبير التحميص</span>
+                        <button class="btn-read-inline" onclick="openArticle(1)"><i class="fa-solid fa-book-open-reader"></i> اقرأ المقال كاملاً</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- مقال 2 -->
+            <article class="blog-card" data-category="recipes">
+                <div class="blog-img-container">
+                    <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80" alt="فن الإسبانيش لاتيه" class="blog-img">
+                    <span class="blog-tag">وصفات</span>
+                </div>
+                <div class="blog-content">
+                    <div class="blog-meta">
+                        <span><i class="fa-regular fa-calendar"></i> 10 يوليو 2026</span>
+                        <span><i class="fa-regular fa-clock"></i> 3 دقائق قراءة</span>
+                    </div>
+                    <h3 class="blog-title">لماذا يحظى الإسبانيش لاتيه بشعبية جارفة عالمياً؟</h3>
+                    <p class="blog-desc">اكتشف سر التوازن الفريد بين حلاوة الحليب المكثف وقوة الإسبريسو الطازج في كوب واحد.</p>
+                    <div class="blog-footer">
+                        <span class="blog-author">بقلم: باريستا PAROLE</span>
+                        <button class="btn-read-inline" onclick="openArticle(2)"><i class="fa-solid fa-book-open-reader"></i> اقرأ المقال كاملاً</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- مقال 3 -->
+            <article class="blog-card" data-category="tools">
+                <div class="blog-img-container">
+                    <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=600&q=80" alt="أدوات التحضير" class="blog-img">
+                    <span class="blog-tag">أدوات</span>
+                </div>
+                <div class="blog-content">
+                    <div class="blog-meta">
+                        <span><i class="fa-regular fa-calendar"></i> 02 يوليو 2026</span>
+                        <span><i class="fa-regular fa-clock"></i> 5 دقائق قراءة</span>
+                    </div>
+                    <h3 class="blog-title">دليلك الشامل لاختيار أدوات تحضير القهوة المقطرة</h3>
+                    <p class="blog-desc">مقارنة بين أدوات التحضير الشهيرة V60، الكيمكس، والآيربريس لاختيار الأنسب لذوقك الشخصي.</p>
+                    <div class="blog-footer">
+                        <span class="blog-author">بقلم: فريق التحرير</span>
+                        <button class="btn-read-inline" onclick="openArticle(3)"><i class="fa-solid fa-book-open-reader"></i> اقرأ المقال كاملاً</button>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- نافذة عرض المقال الكاملة (Modal Container) -->
+    <div class="modal-overlay" id="article-modal">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeArticle()"><i class="fa-solid fa-xmark"></i></button>
+            <div id="modal-content-area">
+                <!-- يتم حقن تفاصيل المقال هنا ديناميكياً -->
+            </div>
+        </div>
+    </div>
+
+    <!-- التذييل الشامل المرتبط بكافة أقسام الموقع -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>PAROLE CAFE</h3>
+                <p>وجهتك الأولى للاستمتاع بأرقى تجارب القهوة المختصة، المحمصة بعناية فائقة والمحضرة بشغف لتلبي تطلعات ذواقين القهوة حول المملكة.</p>
+                <div class="footer-social">
+                    <a href="#" title="تويتر"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" title="انستغرام"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" title="تيك توك"><i class="fa-brands fa-tiktok"></i></a>
                 </div>
             </div>
-            <div class="blog-card">
-                <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80" alt="فن الإسبانيش لاتيه" class="blog-img">
-                <div class="blog-content">
-                    <h3 class="blog-title">لماذا يحظى الإسبانيش لاتيه بشعبية جارفة؟</h3>
-                    <p class="blog-desc">سر التوازن الفريد بين الحليب المكثف المحلى والإسبريسو الطازج في كوب واحد.</p>
+            <div class="footer-col">
+                <h3>روابط سريعة</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="about.html">من نحن</a></li>
+                    <li><a href="shop.html">المتجر</a></li>
+                    <li><a href="offers.html">العروض الحصرية</a></li>
+                    <li><a href="branches.html">فروعنا حول المملكة</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>خدمة العملاء</h3>
+                <ul class="footer-links">
+                    <li><a href="blog.html">المدونة والثقافة</a></li>
+                    <li><a href="contact.html">تواصل معنا</a></li>
+                    <li><a href="faq.html">الأسئلة الشائعة</a></li>
+                    <li><a href="policies.html">السياسات والاسترجاع</a></li>
+                    <li><a href="cart.html">سلة المشتريات</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>نشرتنا البريدية</h3>
+                <p>اشترك معنا لتصلك أحدث العروض والمقالات الحصرية في عالم القهوة.</p>
+                <div class="blog-search-box">
+                    <input type="email" placeholder="أدخل بريدك الإلكتروني..." style="margin-bottom: 10px;">
+                    <button class="btn-read-inline" style="width: 100%; justify-content: center; padding: 10px;">اشتراك الآن</button>
                 </div>
             </div>
         </div>
-    </section>
-    <footer>
-        <p>&copy; 2026 PAROLE Cafe. جميع الحقوق محفوظة.</p>
+        <div class="footer-bottom">
+            <p>&copy; 2026 PAROLE Cafe. جميع الحقوق محفوظة.</p>
+        </div>
     </footer>
+
+    <!-- زر الواتساب العائم -->
+    <a href="https://wa.me/966500000000?text=مرحباً، أعجبتني مقالات مدونة PAROLE Cafe وأريد الاستفسار عن المزيد" target="_blank" style="position: fixed; bottom: 25px; left: 25px; background-color: #25d366; color: #fff; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 9999; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- البرمجة التفاعلية للمقالات التلقائية والبحث -->
+    <script>
+        const articlesData = {
+            1: {
+                title: "أسرار تحميص حبوب القهوة المختصة بدقة عالية",
+                image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=800&q=80",
+                date: "15 يوليو 2026",
+                author: "خبير التحميص",
+                content: `
+                    <p>يعتبر عملية تحميص حبوب القهوة الخضراء الفن الحقيقي الذي يتحول فيه المحصول من بذرة خام إلى كنز معطر مليء بالنكهات المعقدة. في محمصة PAROLE Cafe، نولي عناية فائقة لكل درجة حرارة وكل دقيقة تمر داخل أسطوانة المحمصة.</p>
+                    <h4>1. درجات التحميص وتأثيرها على النكهة</h4>
+                    <p>التحميص الفاتح (Light Roast) يحافظ على الخصائص الأصلية للفاكهة والحموضة الطبيعية للمحصول، بينما يمنح التحميص المتوسط (Medium Roast) توازناً مثالياً بين الحلاوة والحموضة، وصولاً إلى التحميص الداكن الذي يبرز النكهات الكراميلية والمدخنة الثقيلة.</p>
+                    <h4>2. إدارة الوقت وتطور الحرارة</h4>
+                    <p>مرحلة التجفيف وتفاعل ميلارد هي الأساس في تكوين الروائح العطرية. مراقبة منحنى الحرارة (Roast Profile) بدقة يضمن عدم احتراق الزيوت الطيارة داخل حبة القهوة، مما ينعكس بشكل مباشر على طعم الكوب في متجرنا.</p>
+                `
+            },
+            2: {
+                title: "لماذا يحظى الإسبانيش لاتيه بشعبية جارفة عالمياً؟",
+                image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80",
+                date: "10 يوليو 2026",
+                author: "باريستا PAROLE",
+                content: `
+                    <p>من بين جميع المشروبات المرتكزة على الإسبريسو والحليب، يتربع "الإسبانيش لاتيه" على عرش المشروبات الأكثر طلباً في المقاهي الحديثة. فما هو السر خلف هذه الجماهيرية الجارفة؟</p>
+                    <h4>التوازن الفريد بين الحلاوة والقوة</h4>
+                    <p>السر يكمن في الكيمياء الدقيقة بين كثافة وحموضة جرعة الإسبريسو المزدوجة وحلاوة الحليب المكثف المحلى الممزوج بحليب البقر الطازج والمبخر بعناية لتكوين طبقة مخملية ناعمة.</p>
+                    <h4>طريقة التحضير الاحترافية</h4>
+                    <p>في PAROLE Cafe، نقوم بقياس الكميات بدقة لضمان أن الحلاوة لا تطغى على طعم القهوة الأصلي، بل تبرز نكهات الشوكولاتة والمكسرات الكامنة في المحصول المستخدم.</p>
+                `
+            },
+            3: {
+                title: "دليلك الشامل لاختيار أدوات تحضير القهوة المقطرة",
+                image: "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=800&q=80",
+                date: "02 يوليو 2026",
+                author: "فريق التحرير",
+                content: `
+                    <p>عالم القهوة المقطرة (Filter Coffee) واسع ومتنوع، واختيار الأداة المناسبة لتحضير كوبك الصباحي يعتمد بشكل أساسي على ذوقك الشخصي ونمط حياتك اليومي.</p>
+                    <h4>أداة V60: الوضوح والنقاء</h4>
+                    <p>تتميز بقنواتها الحلزونية وزاوية الميل 60 درجة، مما يسمح باستخلاص سريع ونظيف يبرز الإيحاءات الفاكهية الدقيقة في القهوة.</p>
+                    <h4>أداة الكيمكس: القوام النظيف والناعم</h4>
+                    <p>تستخدم ورق ترشيح أكثر سمكاً يحجز الزيوت والرواسب تماماً، مما يمنحك كوباً فائق النقاء والنظافة.</p>
+                    <h4>آيربريس: المرونة والقوة</h4>
+                    <p>الأداة المثالية للسفر والاستخدام السريع، تتيح لك التحكم الكامل في وقت النقع والضغط للحصول على قوام قريب للإسبريسو أو قهوة مقطرة غنية.</p>
+                `
+            }
+        };
+
+        function openArticle(id) {
+            let article = articlesData[id];
+            if (!article) return;
+
+            let modalArea = document.getElementById('modal-content-area');
+            modalArea.innerHTML = `
+                <img src="${article.image}" alt="${article.title}" class="modal-header-img">
+                <div class="blog-meta" style="margin-bottom: 10px;">
+                    <span><i class="fa-regular fa-calendar"></i> ${article.date}</span>
+                    <span><i class="fa-solid fa-user-pen"></i> ${article.author}</span>
+                </div>
+                <h2 class="modal-title">${article.title}</h2>
+                <div class="modal-body-text">
+                    ${article.content}
+                </div>
+            `;
+
+            document.getElementById('article-modal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeArticle() {
+            document.getElementById('article-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // إغلاق النافذة عند النقر خارج المحتوى
+        window.onclick = function(event) {
+            let modal = document.getElementById('article-modal');
+            if (event.target === modal) {
+                closeArticle();
+            }
+        }
+
+        // تصفية المقالات حسب التصنيف
+        function filterBlog(category) {
+            let buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            let cards = document.querySelectorAll('.blog-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // البحث الفوري داخل المقالات
+        function searchBlogs() {
+            let query = document.getElementById('blog-search').value.toLowerCase();
+            let cards = document.querySelectorAll('.blog-card');
+
+            cards.forEach(card => {
+                let title = card.querySelector('.blog-title').textContent.toLowerCase();
+                let desc = card.querySelector('.blog-desc').textContent.toLowerCase();
+                if (title.includes(query) || desc.includes(query)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
 </body>
 </html>
