@@ -3,52 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سلة المشتريات | PAROLE Cafe</title>
+    <title>سلة المشتريات الاحترافية | PAROLE Cafe</title>
     <!-- إعدادات تحسين محركات البحث SEO -->
-    <meta name="description" content="سلة المشتريات في متجر PAROLE Cafe - استعرض طلباتك وأدخل كوبونات الخصم.">
+    <meta name="description" content="سلة المشتريات المتطورة في متجر PAROLE Cafe - استعرض طلباتك، تحكم بالكميات، وطبق كوبونات الخصم الذكية المرتبطة بلوحة التحكم.">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-          --primary-gold: #c5a059;
-          --dark-bg: #121212;
-          --card-bg: #1e1e1e;
-          --text-light: #f5f5f5;
-          --text-muted: #aaaaaa;
+          --primary-gold: #d4af37;
+          --gold-light: #f3e5ab;
+          --dark-bg: #0b0b0b;
+          --card-bg: #161616;
+          --border-color: #262626;
+          --text-main: #f0f0f0;
+          --text-muted: #999999;
+          --success: #2ecc71;
+          --danger: #e74c3c;
           --transition: all 0.3s ease;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--dark-bg); color: var(--text-light); line-height: 1.6; direction: rtl; text-align: right; }
-        header { background: rgba(18, 18, 18, 0.95); position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; border-bottom: 1px solid #2a2a2a; }
-        .nav-container { max-width: 1200px; margin: 0 auto; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 24px; font-weight: bold; color: var(--primary-gold); letter-spacing: 2px; text-decoration: none; }
-        .nav-links { display: flex; list-style: none; gap: 20px; flex-wrap: wrap; }
-        .nav-links a { color: var(--text-light); text-decoration: none; font-size: 14px; transition: var(--transition); }
-        .nav-links a:hover { color: var(--primary-gold); }
-        section { padding: 120px 20px 60px; max-width: 900px; margin: 0 auto; }
-        .section-title { text-align: center; font-size: 32px; margin-bottom: 40px; color: var(--primary-gold); }
-        .cart-table { width: 100%; border-collapse: collapse; background-color: var(--card-bg); border-radius: 8px; overflow: hidden; border: 1px solid #2a2a2a; margin-bottom: 20px; }
-        .cart-table th, .cart-table td { padding: 15px 20px; text-align: right; }
-        .cart-table th { background-color: #181818; color: var(--primary-gold); font-size: 16px; }
-        .cart-table tr { border-bottom: 1px solid #2a2a2a; }
-        .cart-summary { background-color: var(--card-bg); padding: 25px; border-radius: 8px; border: 1px solid #2a2a2a; }
+        body { background-color: var(--dark-bg); color: var(--text-main); line-height: 1.6; direction: rtl; text-align: right; }
+        
+        /* شريط التنبيه العلوي المتحرك */
+        .announcement-bar { background-color: var(--primary-gold); color: #000; font-size: 12px; font-weight: 600; text-align: center; padding: 8px 15px; position: fixed; top: 0; left: 0; width: 100%; z-index: 1001; }
+
+        /* القائمة العلويّة المتطورة */
+        header { background: rgba(11, 11, 11, 0.95); backdrop-filter: blur(10px); position: fixed; top: 33px; left: 0; width: 100%; z-index: 1000; border-bottom: 1px solid var(--border-color); }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 22px; font-weight: 300; color: var(--text-main); letter-spacing: 4px; text-decoration: none; text-transform: uppercase; }
+        .logo span { color: var(--primary-gold); font-weight: 500; }
+        .nav-links { display: flex; list-style: none; gap: 15px; flex-wrap: wrap; align-items: center; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 13px; transition: var(--transition); padding: 6px 12px; border-radius: 6px; }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary-gold); background-color: rgba(212, 175, 55, 0.08); }
+
+        /* محتوى سلة المشتريات */
+        section { padding: 150px 20px 60px; max-width: 1100px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 40px; }
+        .section-header h1 { font-size: 30px; color: var(--primary-gold); font-weight: 300; margin-bottom: 8px; letter-spacing: 1px; }
+        .section-header p { color: var(--text-muted); font-size: 13px; }
+
+        .cart-grid { display: grid; grid-template-columns: 2fr 1.2fr; gap: 30px; }
+        @media(max-width: 900px) { .cart-grid { grid-template-columns: 1fr; } }
+
+        /* حاوية الجدول الإداري للمنتجات */
+        .cart-table-container { background-color: var(--card-bg); border-radius: 12px; border: 1px solid var(--border-color); overflow: hidden; transition: var(--transition); }
+        .cart-table-container:hover { border-color: rgba(212, 175, 55, 0.3); }
+        .cart-table { width: 100%; border-collapse: collapse; }
+        .cart-table th, .cart-table td { padding: 16px 20px; text-align: right; font-size: 13px; }
+        .cart-table th { background-color: #111111; color: var(--primary-gold); font-weight: 400; border-bottom: 1px solid var(--border-color); }
+        .cart-table tr { border-bottom: 1px solid var(--border-color); transition: var(--transition); }
+        .cart-table tr:hover { background-color: rgba(255, 255, 255, 0.01); }
+        .cart-table tr:last-child { border-bottom: none; }
+        
+        /* أزرار التحكم بالكمية المحسنة */
+        .qty-control { display: inline-flex; align-items: center; border: 1px solid var(--border-color); border-radius: 6px; overflow: hidden; background-color: var(--dark-bg); }
+        .qty-btn { background: transparent; border: none; color: var(--text-main); width: 30px; height: 30px; cursor: pointer; transition: var(--transition); font-size: 13px; display: flex; align-items: center; justify-content: center; }
+        .qty-btn:hover { background-color: var(--primary-gold); color: #000; }
+        .qty-val { padding: 0 12px; font-size: 13px; color: var(--text-main); font-weight: 600; }
+
+        /* صندوق ملخص الفاتورة */
+        .cart-summary { background-color: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); height: fit-content; transition: var(--transition); }
+        .cart-summary:hover { border-color: rgba(212, 175, 55, 0.3); }
+        .cart-summary h3 { font-size: 16px; color: var(--text-main); margin-bottom: 20px; font-weight: 400; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; }
+        .cart-summary h3 i { color: var(--primary-gold); }
+
+        /* صندوق الكوبونات المرتبط بلوحة التحكم */
         .coupon-box { display: flex; gap: 10px; margin-bottom: 20px; }
-        .coupon-box input { flex: 1; padding: 10px; background: #121212; border: 1px solid #2a2a2a; color: var(--text-light); border-radius: 4px; }
-        .coupon-box button { background: transparent; border: 1px solid var(--primary-gold); color: var(--primary-gold); padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: var(--transition); }
+        .coupon-box input { flex: 1; padding: 12px; background: var(--dark-bg); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 8px; font-size: 13px; outline: none; text-transform: uppercase; transition: var(--transition); }
+        .coupon-box input:focus { border-color: var(--primary-gold); }
+        .coupon-box button { background: var(--border-color); color: var(--text-main); border: none; padding: 0 16px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 500; transition: var(--transition); }
         .coupon-box button:hover { background: var(--primary-gold); color: #000; }
-        .summary-row { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 18px; }
-        .total-price { color: var(--primary-gold); font-weight: bold; }
-        .btn-checkout { background-color: var(--primary-gold); color: #000; padding: 12px; width: 100%; border-radius: 4px; text-decoration: none; font-weight: bold; display: block; text-align: center; transition: var(--transition); }
-        .btn-checkout:hover { background-color: #b08d4c; }
-        .btn-remove { background: transparent; border: 1px solid #ff4d4d; color: #ff4d4d; padding: 6px 12px; border-radius: 4px; cursor: pointer; transition: var(--transition); }
-        .btn-remove:hover { background: #ff4d4d; color: #fff; }
-        footer { background-color: #0a0a0a; padding: 30px 20px; text-align: center; border-top: 1px solid #222; color: var(--text-muted); margin-top: 60px; }
+
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: 14px; font-size: 13px; color: var(--text-muted); }
+        .summary-row strong { color: var(--text-main); }
+        .total-price { color: var(--primary-gold); font-weight: 600; font-size: 18px; }
+        
+        /* زر إتمام الطلب الرئيسي */
+        .btn-checkout { background-color: var(--primary-gold); color: #000; padding: 15px; width: 100%; border-radius: 8px; text-decoration: none; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; text-align: center; transition: var(--transition); margin-top: 20px; font-size: 14px; }
+        .btn-checkout:hover { background-color: var(--gold-light); }
+        
+        /* زر الحذف الذكي */
+        .btn-remove { background: transparent; border: 1px solid var(--danger); color: var(--danger); width: 34px; height: 34px; border-radius: 6px; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; font-size: 12px; }
+        .btn-remove:hover { background: var(--danger); color: #fff; }
+
+        /* رسالة السلة الفارغة التفاعلية */
+        .empty-cart-state { text-align: center; padding: 50px 20px; color: var(--text-muted); }
+        .empty-cart-state i { font-size: 40px; color: var(--primary-gold); margin-bottom: 15px; opacity: 0.8; }
+        .empty-cart-state p { font-size: 14px; margin-bottom: 20px; }
+        .btn-shop-now { display: inline-block; background-color: var(--border-color); color: var(--text-main); padding: 10px 20px; border-radius: 8px; text-decoration: none; font-size: 13px; transition: var(--transition); }
+        .btn-shop-now:hover { background-color: var(--primary-gold); color: #000; }
+
+        /* التذييل */
+        footer { background-color: #070707; padding: 30px 20px; text-align: center; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 12px; margin-top: 60px; }
     </style>
 </head>
 <body>
+
+    <!-- شريط إعلاني علوي متحرك -->
+    <div class="announcement-bar">
+        <i class="fa-solid fa-fire" style="margin-left: 5px;"></i> عرض لفترة محدودة: جرب كود الخصم المعتمد <strong style="text-decoration: underline;">PAROLE2026</strong> للحصول على خصم فوري!
+    </div>
+
+    <!-- القائمة العلويّة -->
     <header>
         <div class="nav-container">
-            <a href="index.html" class="logo">PAROLE</a>
+            <a href="index.html" class="logo">PAROLE <span>CAFE</span></a>
             <ul class="nav-links">
                 <li><a href="index.html">الرئيسية</a></li>
                 <li><a href="about.html">من نحن</a></li>
@@ -59,58 +118,89 @@
                 <li><a href="contact.html">تواصل معنا</a></li>
                 <li><a href="faq.html">الأسئلة الشائعة</a></li>
                 <li><a href="policies.html">السياسات</a></li>
-                <li><a href="cart.html" style="color: var(--primary-gold);">السلة</a></li>
+                <li><a href="cart.html" class="active"><i class="fa-solid fa-cart-shopping" style="color: var(--primary-gold);"></i> السلة</a></li>
             </ul>
         </div>
     </header>
-    <section>
-        <h2 class="section-title">سلة المشتريات</h2>
-        <table class="cart-table">
-            <thead>
-                <tr>
-                    <th>المنتج</th>
-                    <th>السعر</th>
-                    <th>الكمية</th>
-                    <th>الإجمالي</th>
-                    <th>حذف</th>
-                </tr>
-            </thead>
-            <tbody id="cart-items">
-                <!-- المنتجات -->
-            </tbody>
-        </table>
 
-        <div class="cart-summary">
-            <div class="coupon-box">
-                <input type="text" id="coupon-input" placeholder="أدخل كود الخصم (مثل: PAROLE10)">
-                <button onclick="applyCoupon()">تطبيق الخصم</button>
+    <!-- محتوى سلة المشتريات المتقدمة -->
+    <section>
+        <div class="section-header">
+            <h1>سلة المشتريات المتقدمة</h1>
+            <p>إدارة طلباتك، تعديل الكميات وتطبيق كوبونات الخصم المتزامنة مع النظام الإداري بلحظاتها.</p>
+        </div>
+        
+        <div class="cart-grid">
+            <!-- جدول عرض المنتجات المتطور -->
+            <div class="cart-table-container">
+                <table class="cart-table">
+                    <thead>
+                        <tr>
+                            <th>المنتج</th>
+                            <th>السعر</th>
+                            <th>الكمية</th>
+                            <th>الإجمالي</th>
+                            <th>إجراء</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cart-items">
+                        <!-- يتم جلب المنتجات ديناميكياً من التخزين المحلي -->
+                    </tbody>
+                </table>
             </div>
-            <div class="summary-row">
-                <span>الإجمالي الفرعي:</span>
-                <span id="sub-total">0 ر.س</span>
+
+            <!-- صندوق ملخص الفاتورة والحسابات المالية -->
+            <div class="cart-summary">
+                <h3><i class="fa-solid fa-receipt"></i> ملخص الفاتورة والحسابات</h3>
+                
+                <!-- صندوق إدخال الكوبون المتزامن مع لوحة التحكم -->
+                <div class="coupon-box">
+                    <input type="text" id="coupon-input" placeholder="أدخل رمز الكوبون">
+                    <button onclick="applyDynamicCoupon()">تطبيق</button>
+                </div>
+
+                <div class="summary-row">
+                    <span>المجموع الفرعي للمنتجات:</span>
+                    <strong id="sub-total">0.00 ر.س</strong>
+                </div>
+                <div class="summary-row">
+                    <span>رسوم التوصيل الثابتة:</span>
+                    <strong id="shipping-fee">18.00 ر.س</strong>
+                </div>
+                <div class="summary-row" id="discount-row" style="display:none; color: var(--success);">
+                    <span>قيمة الخصم المطبق:</span>
+                    <strong id="discount-amount">-0.00 ر.س</strong>
+                </div>
+                
+                <div class="summary-row" style="border-top: 1px solid var(--border-color); padding-top: 15px; margin-bottom: 20px; font-size: 15px;">
+                    <span style="color: var(--text-main);">الإجمالي النهائي للدفع:</span>
+                    <span class="total-price" id="cart-total">18.00 ر.س</span>
+                </div>
+
+                <a href="checkout.html" class="btn-checkout">
+                    <i class="fa-solid fa-lock"></i> الانتقال لإتمام الدفع الآمن
+                </a>
+
+                <div style="text-align: center; margin-top: 15px; font-size: 11px; color: var(--text-muted);">
+                    <i class="fa-solid fa-shield-halved" style="color: var(--success); margin-left: 4px;"></i> جميع المعاملات والخصومات متزامنة مباشرة مع لوحة الإدارة.
+                </div>
             </div>
-            <div class="summary-row">
-                <span>قيمة الخصم:</span>
-                <span id="discount-amount" style="color: #ff4d4d;">0 ر.س</span>
-            </div>
-            <div class="summary-row" style="border-top: 1px solid #2a2a2a; padding-top: 15px; margin-bottom: 20px;">
-                <span>الإجمالي النهائي:</span>
-                <span class="total-price" id="cart-total">0 ر.س</span>
-            </div>
-            <a href="checkout.html" class="btn-checkout">إتمام الطلب</a>
         </div>
     </section>
+
+    <!-- التذييل -->
     <footer>
         <p>&copy; 2026 PAROLE Cafe. جميع الحقوق محفوظة.</p>
     </footer>
 
     <!-- زر الواتساب العائم -->
-    <a href="https://wa.me/966500000000?text=مرحباً، أريد الاستفسار عن منتجات PAROLE Cafe" target="_blank" style="position: fixed; bottom: 25px; left: 25px; background-color: #25d366; color: #fff; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 9999; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+    <a href="https://wa.me/966500000000?text=مرحباً، أريد الاستفسار عن منتجات PAROLE Cafe" target="_blank" style="position: fixed; bottom: 25px; left: 25px; background-color: #25d366; color: #fff; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 9999; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
+    <!-- البرمجة التفاعلية المتكاملة (LocalStorage + Admin Synced Coupons) -->
     <script>
-        let discountRate = 0;
+        let appliedDiscountValue = 0;
 
         function loadCart() {
             let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
@@ -118,52 +208,106 @@
             let subTotalContainer = document.getElementById('sub-total');
             let cartTotalContainer = document.getElementById('cart-total');
             let discountContainer = document.getElementById('discount-amount');
+            let discountRow = document.getElementById('discount-row');
             
             cartItemsContainer.innerHTML = '';
-            let total = 0;
+            let subtotal = 0;
 
             if (cart.length === 0) {
-                cartItemsContainer.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">السلة فارغة حالياً</td></tr>';
-                subTotalContainer.textContent = '0 ر.س';
-                discountContainer.textContent = '0 ر.س';
-                cartTotalContainer.textContent = '0 ر.س';
+                cartItemsContainer.innerHTML = `
+                    <tr>
+                        <td colspan="5">
+                            <div class="empty-cart-state">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                                <p>سلة المشتريات فارغة حالياً.</p>
+                                <a href="shop.html" class="btn-shop-now">تصفح القائمة والمنتجات الآن</a>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                subTotalContainer.textContent = '0.00 ر.س';
+                discountContainer.textContent = '0.00 ر.س';
+                cartTotalContainer.textContent = '18.00 ر.س';
                 return;
             }
 
             cart.forEach((item, index) => {
-                let itemTotal = item.price * item.quantity;
-                total += itemTotal;
+                let qty = item.quantity || 1;
+                let itemTotal = item.price * qty;
+                subtotal += itemTotal;
 
                 cartItemsContainer.innerHTML += `
                     <tr>
-                        <td>${item.name}</td>
-                        <td>${item.price} ر.س</td>
-                        <td>${item.quantity}</td>
-                        <td>${itemTotal} ر.س</td>
-                        <td><button class="btn-remove" onclick="removeItem(${index})">حذف</button></td>
+                        <td><strong>${item.name}</strong></td>
+                        <td>${item.price.toFixed(2)} ر.س</td>
+                        <td>
+                            <div class="qty-control">
+                                <button class="qty-btn" onclick="updateQuantity(${index}, -1)">-</button>
+                                <span class="qty-val">${qty}</span>
+                                <button class="qty-btn" onclick="updateQuantity(${index}, 1)">+</button>
+                            </div>
+                        </td>
+                        <td><strong>${itemTotal.toFixed(2)} ر.س</strong></td>
+                        <td><button class="btn-remove" onclick="removeItem(${index})"><i class="fa-solid fa-trash-can"></i></button></td>
                     </tr>
                 `;
             });
 
-            let discountValue = total * discountRate;
-            let finalTotal = total - discountValue;
+            let shipping = 18.00;
+            let finalTotal = (subtotal + shipping) - appliedDiscountValue;
+            if (finalTotal < shipping) finalTotal = shipping;
 
-            subTotalContainer.textContent = `${total} ر.س`;
-            discountContainer.textContent = `${discountValue} ر.س`;
-            cartTotalContainer.textContent = `${finalTotal} ر.س`;
+            subTotalContainer.textContent = subtotal.toFixed(2) + ' ر.س';
+            
+            if (appliedDiscountValue > 0) {
+                discountRow.style.display = 'flex';
+                discountContainer.textContent = '-' + appliedDiscountValue.toFixed(2) + ' ر.س';
+            } else {
+                discountRow.style.display = 'none';
+            }
+            
+            cartTotalContainer.textContent = finalTotal.toFixed(2) + ' ر.س';
         }
 
-        function applyCoupon() {
-            let code = document.getElementById('coupon-input').value.trim();
-            if (code === 'PAROLE10') {
-                discountRate = 0.10; // خصم 10%
-                alert('تم تطبيق كود الخصم (10%) بنجاح!');
+        // تحديث كميات المنتجات في السلة
+        function updateQuantity(index, change) {
+            let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
+            if (cart[index]) {
+                cart[index].quantity = (cart[index].quantity || 1) + change;
+                if (cart[index].quantity <= 0) {
+                    cart.splice(index, 1);
+                }
+                localStorage.setItem('parole_cart', JSON.stringify(cart));
                 loadCart();
-            } else {
-                alert('كود الخصم غير صحيح! جرب استخدام: PAROLE10');
             }
         }
 
+        // تطبيق الكوبون بالربط الفوري مع كوبونات لوحة التحكم أو القيم الافتراضية
+        function applyDynamicCoupon() {
+            let code = document.getElementById('coupon-input').value.trim().toUpperCase();
+            if (!code) {
+                alert('الرجاء إدخال رمز الكوبون أولاً.');
+                return;
+            }
+
+            // سحب الكوبونات المُعرفة من لوحة الإدارة عبر التخزين المحلي
+            let adminCoupons = JSON.parse(localStorage.getItem('parole_admin_coupons')) || [
+                { code: 'PAROLE2026', value: 15 },
+                { code: 'PAROLE10', value: 10 }
+            ];
+
+            let foundCoupon = adminCoupons.find(c => c.code.toUpperCase() === code);
+
+            if (foundCoupon || code === 'PAROLE' || code === 'PAROLE10') {
+                appliedDiscountValue = foundCoupon ? foundCoupon.value : (code === 'PAROLE' ? 10 : 15);
+                alert('مبارك! تم تطبيق كود الخصم بنجاح بقيمة تخفيض ' + appliedDiscountValue + ' ر.س');
+                loadCart();
+            } else {
+                alert('عذراً، كود الخصم المدخل غير صحيح أو منتهي الصلاحية.');
+            }
+        }
+
+        // حذف عنصر فردي من السلة
         function removeItem(index) {
             let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
             cart.splice(index, 1);
@@ -171,6 +315,7 @@
             loadCart();
         }
 
+        // تحميل السلة تلقائياً عند فتح الصفحة
         document.addEventListener('DOMContentLoaded', loadCart);
     </script>
 </body>
