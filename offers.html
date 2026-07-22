@@ -3,73 +3,515 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>العروض | PAROLE Cafe</title>
+    <title>PAROLE Cafe | العروض والحزم الحصرية المتقدمة</title>
+    
+    <meta name="description" content="استمتع بأرقى الباقات والعروض الحصرية للقهوة المختصة والحلويات الفاخرة من PAROLE Cafe في قطر.">
+    <meta name="keywords" content="عروض كافيهات قطر, خصومات قهوة مختصة, عروض بارول كافيه, باقات الفطور, PAROLE Cafe">
+    <meta name="author" content="PAROLE Cafe">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-          --primary-gold: #c5a059;
-          --dark-bg: #121212;
-          --card-bg: #1e1e1e;
-          --text-light: #f5f5f5;
-          --text-muted: #aaaaaa;
-          --transition: all 0.3s ease;
+          --gold: #d4af37;
+          --gold-light: #f3e5ab;
+          --dark-bg: #0b0b0b;
+          --card-bg: #161616;
+          --border-color: #262626;
+          --text-main: #f0f0f0;
+          --text-muted: #999999;
+          --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--dark-bg); color: var(--text-light); line-height: 1.6; direction: rtl; text-align: right; }
-        header { background: rgba(18, 18, 18, 0.95); position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; border-bottom: 1px solid #2a2a2a; }
-        .nav-container { max-width: 1200px; margin: 0 auto; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 24px; font-weight: bold; color: var(--primary-gold); letter-spacing: 2px; text-decoration: none; }
-        .nav-links { display: flex; list-style: none; gap: 20px; flex-wrap: wrap; }
-        .nav-links a { color: var(--text-light); text-decoration: none; font-size: 14px; transition: var(--transition); }
-        .nav-links a:hover { color: var(--primary-gold); }
-        section { padding: 120px 20px 60px; max-width: 1200px; margin: 0 auto; }
-        .section-title { text-align: center; font-size: 32px; margin-bottom: 40px; color: var(--primary-gold); }
-        .offers-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-        .offer-card { background-color: var(--card-bg); border-radius: 8px; padding: 30px; border: 1px solid #2a2a2a; text-align: center; transition: var(--transition); }
-        .offer-card:hover { border-color: var(--primary-gold); transform: translateY(-5px); }
-        .offer-title { font-size: 20px; color: var(--primary-gold); margin-bottom: 15px; }
-        .offer-desc { color: var(--text-muted); margin-bottom: 20px; }
-        .offer-price { font-size: 18px; font-weight: bold; margin-bottom: 20px; }
-        .btn-offer { background-color: var(--primary-gold); color: #000; padding: 10px 20px; border-radius: 4px; text-decoration: none; font-weight: bold; display: inline-block; }
-        footer { background-color: #0a0a0a; padding: 30px 20px; text-align: center; border-top: 1px solid #222; color: var(--text-muted); margin-top: 60px; }
+        body { background-color: var(--dark-bg); color: var(--text-main); line-height: 1.7; direction: rtl; text-align: right; overflow-x: hidden; }
+        
+        /* الهيدر */
+        .site-header {
+            background: rgba(11, 11, 11, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+            transition: all 0.4s ease;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 300;
+            color: var(--text-main);
+            letter-spacing: 5px;
+            text-decoration: none;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .logo span {
+            color: var(--gold);
+            font-weight: 500;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 13.5px;
+            letter-spacing: 0.8px;
+            font-weight: 400;
+            transition: color 0.3s ease;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active,
+        .highlight-offer {
+            color: var(--gold) !important;
+            font-weight: 500 !important;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .cart-icon-btn {
+            color: var(--text-main);
+            font-size: 18px;
+            text-decoration: none;
+            position: relative;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .cart-icon-btn:hover { color: var(--gold); }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            left: -10px;
+            background-color: var(--gold);
+            color: #000;
+            font-size: 10px;
+            font-weight: 600;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--gold);
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        /* محتوى الصفحة */
+        .page-section { padding: 140px 20px 80px; max-width: 1400px; margin: 0 auto; min-height: 100vh; }
+        
+        .section-header { text-align: center; margin-bottom: 40px; }
+        .menu-main-title { font-size: 38px; font-weight: 300; color: var(--gold); margin-bottom: 10px; letter-spacing: 3px; }
+        .menu-sub-title { color: var(--text-muted); font-size: 14px; letter-spacing: 1px; }
+
+        /* شريط التصفية بالعروض */
+        .filter-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 40px; flex-wrap: wrap; }
+        .filter-btn { background: transparent; border: 1px solid var(--border-color); color: var(--text-muted); padding: 8px 18px; border-radius: 30px; cursor: pointer; transition: var(--transition); font-size: 13px; }
+        .filter-btn:hover, .filter-btn.active { background: var(--gold); color: #000; border-color: var(--gold); font-weight: 500; }
+
+        /* العداد التنازلي للعرض المحدود */
+        .flash-deal-banner {
+            background: linear-gradient(90deg, rgba(212,175,55,0.15), rgba(22,22,22,0.9));
+            border: 1px dashed var(--gold);
+            border-radius: 12px;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .flash-info { display: flex; align-items: center; gap: 12px; color: var(--text-main); font-size: 15px; }
+        .flash-info i { color: var(--gold); font-size: 20px; }
+        .countdown-timer { display: flex; gap: 10px; color: var(--gold); font-weight: 600; font-family: monospace; font-size: 16px; }
+
+        /* شبكة العروض */
+        .offers-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-bottom: 60px; }
+        
+        .offer-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        
+        .offer-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.1);
+        }
+
+        .offer-badge {
+            background: var(--gold);
+            color: #000;
+            font-size: 11px;
+            padding: 6px 14px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .offer-img-box {
+            width: 100%;
+            height: 200px;
+            background: rgba(255,255,255,0.02);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            font-size: 45px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .offer-content { padding: 25px; display: flex; flex-direction: column; flex-grow: 1; }
+        .offer-title { font-size: 20px; color: var(--text-main); margin-bottom: 10px; font-weight: 400; }
+        .offer-desc { color: var(--text-muted); font-size: 13.5px; margin-bottom: 20px; line-height: 1.6; }
+        
+        .offer-meta {
+            background: rgba(212, 175, 55, 0.04);
+            border: 1px solid var(--border-color);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            color: var(--gold);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .offer-pricing {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            margin-top: auto;
+        }
+        .current-price { color: var(--gold); font-size: 20px; font-weight: 600; }
+        .old-price { color: var(--text-muted); font-size: 14px; text-decoration: line-through; }
+
+        .btn-primary { 
+            background-color: var(--gold); 
+            color: #000; 
+            padding: 12px 25px; 
+            border-radius: 6px; 
+            text-decoration: none; 
+            font-weight: 600; 
+            font-size: 13.5px; 
+            transition: var(--transition); 
+            cursor: pointer; 
+            border: none; 
+            display: inline-block; 
+            text-align: center; 
+            width: 100%;
+            text-transform: uppercase;
+        }
+        .btn-primary:hover { background-color: var(--gold-light); transform: translateY(-2px); }
+
+        /* قسم برنامج الولاء والمزايا الخاصة */
+        .vip-banner {
+            background: linear-gradient(135deg, rgba(212,175,55,0.08) 0%, rgba(22,22,22,0.95) 100%);
+            border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 20px;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            align-items: center;
+        }
+        .vip-info h3 { font-size: 26px; color: var(--gold); margin-bottom: 15px; font-weight: 300; }
+        .vip-info p { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; line-height: 1.8; }
+        .vip-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 25px; }
+        .vip-features li { color: var(--text-main); font-size: 13.5px; display: flex; align-items: center; gap: 10px; }
+        .vip-features li i { color: var(--gold); }
+        
+        .vip-action { text-align: center; background: rgba(0,0,0,0.3); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        .vip-action p { color: var(--text-muted); font-size: 13px; margin-bottom: 15px; }
+
+        /* التذييل والاتصال */
+        footer { background-color: #070707; padding: 50px 20px 30px; text-align: center; border-top: 1px solid var(--border-color); margin-top: 80px; }
+        .social-links { display: flex; justify-content: center; gap: 25px; margin-bottom: 20px; font-size: 22px; }
+        .social-links a { color: var(--text-muted); transition: var(--transition); }
+        .social-links a:hover { color: var(--gold); transform: translateY(-3px); }
+        .footer-text { color: var(--text-muted); font-size: 13px; }
+
+        .whatsapp-float { position: fixed; bottom: 25px; left: 25px; background-color: #25d366; color: #fff; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); z-index: 9999; transition: var(--transition); text-decoration: none; }
+        .whatsapp-float:hover { transform: scale(1.1); }
+
+        @media (max-width: 992px) {
+            .vip-banner { grid-template-columns: 1fr; }
+            .menu-toggle { display: block; }
+            .nav-container { padding: 15px 20px; }
+            .nav-links {
+                position: fixed;
+                top: 73px;
+                right: -100%;
+                width: 100%;
+                height: calc(100vh - 73px);
+                background: rgba(11, 11, 11, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                justify-content: center;
+                transition: right 0.4s ease;
+                border-top: 1px solid rgba(212, 175, 55, 0.15);
+                display: flex;
+            }
+            .nav-links.active { right: 0; }
+        }
     </style>
 </head>
 <body>
-    <header>
+
+    <!-- الهيدر المطور -->
+    <header class="site-header">
         <div class="nav-container">
-            <a href="index.html" class="logo">PAROLE</a>
-            <ul class="nav-links">
-                <li><a href="index.html">الرئيسية</a></li>
-                <li><a href="about.html">من نحن</a></li>
-                <li><a href="shop.html">المتجر</a></li>
-                <li><a href="offers.html" style="color: var(--primary-gold);">العروض</a></li>
-                <li><a href="branches.html">الفروع</a></li>
-                <li><a href="blog.html">المدونة</a></li>
-                <li><a href="contact.html">تواصل معنا</a></li>
-                <li><a href="faq.html">الأسئلة الشائعة</a></li>
-                <li><a href="policies.html">السياسات</a></li>
-            </ul>
+            <a href="index.html" class="logo">PAROLE <span>CAFE</span></a>
+            
+            <nav>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="about.html">من نحن</a></li>
+                    <li><a href="index.html">المتجر</a></li>
+                    <li><a href="offers.html" class="highlight-offer">العروض</a></li>
+                    <li><a href="index.html">الفروع</a></li>
+                    <li><a href="blog.html">المدونة</a></li>
+                    <li><a href="contact.html">تواصل معنا</a></li>
+                    <li><a href="faq.html">الأسئلة الشائعة</a></li>
+                    <li><a href="policies.html">السياسات</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <a href="index.html" class="cart-icon-btn" aria-label="حقيبة التسوق">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="cart-badge" id="cartBadgeCount">0</span>
+                </a>
+                <button class="menu-toggle" id="menuToggle" aria-label="القائمة">
+                    <i class="fa-solid fa-bars-staggered"></i>
+                </button>
+            </div>
         </div>
     </header>
-    <section>
-        <h2 class="section-title">العروض والحزم الخاصة</h2>
-        <div class="offers-grid">
-            <div class="offer-card">
-                <h3 class="offer-title">باقة الصباح الفاخرة</h3>
-                <p class="offer-desc">احصل على إسبانيش لاتيه + كولد برو مركز بتخفيض خاص.</p>
-                <div class="offer-price">48 ر.س <span style="text-decoration: line-through; color: var(--text-muted); font-size: 14px;">60 ر.س</span></div>
-                <a href="shop.html" class="btn-offer">اطلب الباقة</a>
+
+    <!-- محتوى صفحة العروض -->
+    <section class="page-section">
+        <div class="section-header">
+            <h1 class="menu-main-title">الباقات والعروض الحصرية</h1>
+            <p class="menu-sub-title">ارتقِ بتجربتك اليومية مع باقاتنا المختارة بعناية فائقة</p>
+        </div>
+
+        <!-- شريط العد التنازلي لعرض لفترة محدودة -->
+        <div class="flash-deal-banner">
+            <div class="flash-info">
+                <i class="fa-solid fa-stopwatch"></i>
+                <span>عرض الساعات السعيدة: خصم إضافي على كافة الباقات الصباحية لفترة محدودة!</span>
             </div>
-            <div class="offer-card">
-                <h3 class="offer-title">صندوق حبوب القهوة الإثيوبية</h3>
-                <p class="offer-desc">عبوتان من حبوب القهوة الإثيوبية الفاخرة مع توصيل مجاني.</p>
-                <div class="offer-price">110 ر.س <span style="text-decoration: line-through; color: var(--text-muted); font-size: 14px;">130 ر.س</span></div>
-                <a href="shop.html" class="btn-offer">اطلب الباقة</a>
+            <div class="countdown-timer" id="timer">
+                <span>05 :</span><span>12 :</span><span>45 :</span><span>10</span>
+            </div>
+        </div>
+
+        <!-- أزرار الفلترة المتقدمة -->
+        <div class="filter-tabs">
+            <button class="filter-btn active" onclick="filterOffers('all', this)">جميع العروض</button>
+            <button class="filter-btn" onclick="filterOffers('breakfast', this)">☕ باقات الفطور والصباح</button>
+            <button class="filter-btn" onclick="filterOffers('cold', this)">🧊 عروض الانتعاش الصيفي</button>
+            <button class="filter-btn" onclick="filterOffers('beans', this)">📦 المحاصيل المنزلية</button>
+        </div>
+
+        <!-- شبكة العروض -->
+        <div class="offers-grid" id="offersGrid">
+            <!-- عرض 1 -->
+            <div class="offer-card" data-category="breakfast">
+                <span class="offer-badge">الأكثر طلباً</span>
+                <div class="offer-img-box">
+                    <i class="fa-solid fa-mug-hot"></i>
+                </div>
+                <div class="offer-content">
+                    <h3 class="offer-title">باقة الصباح الفاخرة</h3>
+                    <p class="offer-desc">ابدأ يومك بنشاط مع اختيارك المفضل من المشروبات الدافئة مع كريب الشوكولاتة البلجيكية الطازج.</p>
+                    <div class="offer-meta">
+                        <i class="fa-solid fa-star"></i> يمنحك <strong>56 نقطة ولاء</strong>
+                    </div>
+                    <div class="offer-pricing">
+                        <span class="current-price">28 ر.س</span>
+                        <span class="old-price">35 ر.س</span>
+                    </div>
+                    <button class="btn-primary" onclick="addOfferToCart('باقة الصباح الفاخرة', 28)">اطلب العرض الآن</button>
+                </div>
+            </div>
+
+            <!-- عرض 2 -->
+            <div class="offer-card" data-category="cold">
+                <span class="offer-badge">انتعاش الصيف</span>
+                <div class="offer-img-box">
+                    <i class="fa-solid fa-glass-water"></i>
+                </div>
+                <div class="offer-content">
+                    <h3 class="offer-title">ثنائي الموهيتو المنعش</h3>
+                    <p class="offer-desc">استمتع بـ 2 من مشروبات الموهيتو الباردة والفخمة من اختيارك لمشاركتها مع من تحب في أجواء الدوحة.</p>
+                    <div class="offer-meta">
+                        <i class="fa-solid fa-star"></i> يمنحك <strong>60 نقطة ولاء</strong>
+                    </div>
+                    <div class="offer-pricing">
+                        <span class="current-price">30 ر.س</span>
+                        <span class="old-price">36 ر.س</span>
+                    </div>
+                    <button class="btn-primary" onclick="addOfferToCart('ثنائي الموهيتو المنعش', 30)">اطلب العرض الآن</button>
+                </div>
+            </div>
+
+            <!-- عرض 3 -->
+            <div class="offer-card" data-category="beans">
+                <span class="offer-badge">عشاق القهوة</span>
+                <div class="offer-img-box">
+                    <i class="fa-solid fa-coffee"></i>
+                </div>
+                <div class="offer-content">
+                    <h3 class="offer-title">بوكس المحاصيل المختصة</h3>
+                    <p class="offer-desc">حقيبة تحتوي على أجود حبوب القهوة المختصة المحمصة حديثاً (250 جرام) لتستمتع بالتحضير المنزلي الاحترافي.</p>
+                    <div class="offer-meta">
+                        <i class="fa-solid fa-star"></i> يمنحك <strong>150 نقطة ولاء</strong>
+                    </div>
+                    <div class="offer-pricing">
+                        <span class="current-price">75 ر.س</span>
+                        <span class="old-price">90 ر.س</span>
+                    </div>
+                    <button class="btn-primary" onclick="addOfferToCart('بوكس المحاصيل المختصة', 75)">اطلب العرض الآن</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- قسم برنامج الولاء والمزايا الخاصة -->
+        <div class="vip-banner">
+            <div class="vip-info">
+                <h3>انضم إلى برنامج ولاء عملاء PAROLE</h3>
+                <p>نؤمن بأن عملاءنا يستحقون الأفضل دائماً. سجل معنا مجاناً واحصل على نقاط مع كل طلب تستبدلها بمشروبات مجانية وخصومات حصرية في فرعنا بقطر.</p>
+                <ul class="vip-features">
+                    <li><i class="fa-solid fa-check"></i> قهوة مجانية عند إكمال كل 10 طلبات.</li>
+                    <li><i class="fa-solid fa-check"></i> خصم خاص بنسبة 15% على تذوق المحاصيل الموسمية الجديدة.</li>
+                    <li><i class="fa-solid fa-check"></i> دعوات حصرية لحضور ورش تذوق القهوة المختصة.</li>
+                </ul>
+            </div>
+            <div class="vip-action">
+                <p>سجل اهتمامك أو احصل على بطاقتك الرقمية الآن عبر الواتساب</p>
+                <a href="https://wa.me/97400000000?text=مرحباً، أرغب بالانضمام إلى برنامج ولاء عملاء PAROLE Cafe" target="_blank" class="btn-primary">انضم الآن</a>
             </div>
         </div>
     </section>
+
+    <!-- زر الواتساب العائم -->
+    <a href="https://wa.me/97400000000?text=مرحباً، أريد الاستفسار عن عروض PAROLE Cafe" target="_blank" class="whatsapp-float" aria-label="تواصل عبر الواتساب">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- التذييل -->
     <footer>
-        <p>&copy; 2026 PAROLE Cafe. جميع الحقوق محفوظة.</p>
+        <div class="social-links">
+            <a href="https://instagram.com" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://tiktok.com" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="https://snapchat.com" target="_blank"><i class="fa-brands fa-snapchat"></i></a>
+            <a href="https://wa.me/97400000000" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+        <p class="footer-text">&copy; 2026 PAROLE Cafe. جميع الحقوق محفوظة.</p>
     </footer>
+
+    <!-- الجافاسكريبت والخصائص التفاعلية -->
+    <script>
+        // تحديث عداد سلة التسوق عند التحميل
+        function updateCartBadge() {
+            let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
+            let totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.getElementById('cartBadgeCount');
+            if(badge) badge.innerText = totalCount;
+        }
+
+        // إضافة العرض المختار إلى الـ LocalStorage للسلة
+        function addOfferToCart(name, price) {
+            let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
+            let found = cart.find(item => item.name === name);
+            if(found) {
+                found.quantity += 1;
+            } else {
+                cart.push({ name: name, price: parseFloat(price), quantity: 1 });
+            }
+            localStorage.setItem('parole_cart', JSON.stringify(cart));
+            updateCartBadge();
+            alert('تمت إضافة "' + name + '" إلى حقيبة التسوق بنجاح.');
+        }
+
+        // تصفية العروض بحسب الفئة
+        function filterOffers(category, btnElement) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            const cards = document.querySelectorAll('.offer-card');
+            cards.forEach(card => {
+                if(category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // قائمة الهاتف المحمول
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        if(menuToggle && navLinks) {
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                let icon = menuToggle.querySelector('i');
+                icon.classList.toggle('fa-bars-staggered');
+                icon.classList.toggle('fa-xmark');
+            });
+        }
+
+        // تشغيل الوظائف عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', updateCartBadge);
+    </script>
 </body>
 </html>
