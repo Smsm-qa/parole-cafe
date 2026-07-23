@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PAROLE Cafe | إتمام الطلب والدفع</title>
+    <title>PAROLE Cafe | إتمام الطلب والدفع الذكي</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -26,13 +26,13 @@
         .checkout-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 30px; }
         @media (max-width: 768px) { .checkout-grid { grid-template-columns: 1fr; } }
 
-        .checkout-box { background: var(--card-bg); border: 1px solid var(--border-color); padding: 30px; border-radius: 16px; }
+        .checkout-box { background: var(--card-bg); border: 1px solid var(--border-color); padding: 30px; border-radius: 16px; position: relative; }
         .checkout-box h2 { font-size: 20px; color: var(--gold); margin-bottom: 20px; font-weight: 400; }
 
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
-        .form-group input, .form-group select { width: 100%; padding: 12px; background: var(--dark-bg); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 8px; font-size: 14px; }
-        .form-group input:focus, .form-group select:focus { border-color: var(--gold); outline: none; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; background: var(--dark-bg); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 8px; font-size: 14px; transition: var(--transition); }
+        .form-group input:focus, .form-group select:focus { border-color: var(--gold); outline: none; box-shadow: 0 0 8px rgba(212, 175, 55, 0.2); }
 
         .order-summary-item { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 12px; color: var(--text-muted); }
         .order-total { display: flex; justify-content: space-between; font-size: 18px; font-weight: 600; color: var(--text-main); margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border-color); }
@@ -46,13 +46,13 @@
         
         #card-details-container { margin-top: 15px; background: var(--dark-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color); }
 
-        /* تنسيق صندوق الكوبونات */
         .coupon-box { display: flex; gap: 10px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color); }
         .coupon-box input { flex: 1; padding: 10px; background: var(--dark-bg); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 6px; font-size: 13px; }
-        .coupon-box input:focus { border-color: var(--gold); outline: none; }
         .btn-coupon { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 0 15px; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; transition: var(--transition); }
         .btn-coupon:hover { background: var(--gold); color: #000; }
         #couponMessage { font-size: 12px; margin-top: -10px; margin-bottom: 15px; display: block; }
+        
+        .smart-badge { display: inline-block; background: rgba(212, 175, 55, 0.1); color: var(--gold); padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-bottom: 10px; border: 1px solid rgba(212, 175, 55, 0.3); }
     </style>
 </head>
 <body>
@@ -61,10 +61,12 @@
         <a href="cart.html" class="back-link"><i class="fa-solid fa-arrow-right"></i> العودة إلى حقيبة التسوق</a>
         
         <div class="checkout-grid">
-            <!-- نموذج بيانات العميل والدفع -->
+            <!-- نموذج البيانات الذكي -->
             <div class="checkout-box">
+                <span class="smart-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> نظام الطلب الذكي والمتزامن</span>
                 <h2>بيانات التوصيل والدفع</h2>
-                <form id="checkoutForm" onsubmit="completeOrder(event)">
+                
+                <form id="checkoutForm" onsubmit="executeSmartOrder(event)">
                     <div class="form-group">
                         <label>الاسم الكامل</label>
                         <input type="text" id="fullName" required placeholder="أدخل اسمك الكريم">
@@ -74,17 +76,16 @@
                         <input type="tel" id="phone" required placeholder="+974 0000 0000">
                     </div>
                     <div class="form-group">
-                        <label>المنطقة / العنوان</label>
-                        <input type="text" id="address" required placeholder="مثال: الدوحة، الحي الدبلوماسي، شارع اللؤلؤة">
+                        <label>المنطقة / العنوان بالتفصيل <small style="color:var(--gold);">(يحدد رسوم التوصيل تلقائياً)</small></label>
+                        <input type="text" id="address" required placeholder="مثال: الدوحة، اللؤلؤة، أو اكتب استلام من الفرع" oninput="calculateDynamicDelivery(this.value)">
                     </div>
 
-                    <!-- خيارات الدفع -->
                     <div class="payment-methods">
                         <label style="color: var(--gold); font-size: 14px; margin-bottom: 10px; display: block; font-weight: 500;">طريقة الدفع</label>
                         
                         <label class="payment-option">
                             <input type="radio" name="payment_method" value="online" checked style="accent-color: var(--gold);">
-                            <span><i class="fa-solid fa-credit-card" style="color: var(--gold); margin-left: 5px;"></i> الدفع الإلكتروني (بطاقة ائتمان / مدى / Apple Pay)</span>
+                            <span><i class="fa-solid fa-credit-card" style="color: var(--gold); margin-left: 5px;"></i> الدفع الإلكتروني الآمن (بطاقة / مدى / Apple Pay)</span>
                         </label>
 
                         <label class="payment-option">
@@ -93,7 +94,6 @@
                         </label>
                     </div>
 
-                    <!-- تفاصيل البطاقة الإلكترونية -->
                     <div id="card-details-container">
                         <div class="form-group" style="margin-bottom: 10px;">
                             <label>رقم البطاقة</label>
@@ -111,37 +111,36 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn-submit">تأكيد ودفع الطلب</button>
+                    <button type="submit" class="btn-submit">تأكيد ودفع الطلب الذكي</button>
                 </form>
             </div>
 
-            <!-- ملخص الفاتورة مع خانة الكوبون -->
+            <!-- ملخص الطلب الذكي -->
             <div class="checkout-box" style="height: fit-content;">
-                <h2>ملخص الطلب</h2>
+                <h2>ملخص الفاتورة الفوري</h2>
                 
-                <!-- قسم إدخال كود الخصم -->
                 <div class="coupon-box">
-                    <input type="text" id="couponInput" placeholder="أدخل كود الخصم (مثل: PAROLE10)">
-                    <button type="button" class="btn-coupon" onclick="applyCoupon()">تطبيق</button>
+                    <input type="text" id="couponInput" placeholder="أدخل الكوبون (مثال: SAMI)" onkeydown="if(event.key === 'Enter') { event.preventDefault(); applyIntelligentCoupon(); }">
+                    <button type="button" class="btn-coupon" onclick="applyIntelligentCoupon()">تحقق وتطبيق</button>
                 </div>
                 <span id="couponMessage"></span>
 
                 <div id="checkoutSummaryItems">
-                    <!-- سيتم تعبئتها ديناميكياً -->
+                    <!-- تعبئة تلقائية -->
                 </div>
 
                 <div class="order-summary-item" id="deliveryRow" style="margin-top: 15px;">
-                    <span>رسوم التوصيل</span>
-                    <span style="color: var(--gold);">18.00 ر.س</span>
+                    <span>رسوم التوصيل <small id="deliveryTypeLabel" style="color:var(--gold);"></small></span>
+                    <span id="deliveryCostText">18.00 ر.س</span>
                 </div>
 
                 <div class="order-summary-item" id="discountRow" style="display: none; color: #2ecc71;">
-                    <span>قيمة الخصم</span>
+                    <span>قيمة الخصم <span id="appliedCouponName" style="font-size: 11px;"></span></span>
                     <span id="discountAmount">0.00 ر.س</span>
                 </div>
 
                 <div class="order-total">
-                    <span>الإجمالي الكلي</span>
+                    <span>الإجمالي الكلي النهائي</span>
                     <span id="checkoutTotalAmount">0.00 ر.س</span>
                 </div>
             </div>
@@ -149,103 +148,177 @@
     </div>
 
     <script>
-        let discountPercentage = 0; // نسبة الخصم الافتراضية
+        let currentDiscountValue = 0;
+        let appliedCouponCode = '';
+        let currentDeliveryFee = 18.00;
 
-        // التحكم في إظهار أو إخفاء حقول البطاقة الائتمانية
+        // إظهار وإخفاء بطاقة الدفع بذكاء
         document.querySelectorAll('input[name="payment_method"]').forEach((elem) => {
             elem.addEventListener('change', function(event) {
-                const cardContainer = document.getElementById('card-details-container');
-                if (event.target.value === 'online') {
-                    cardContainer.style.display = 'block';
-                } else {
-                    cardContainer.style.display = 'none';
-                }
+                document.getElementById('card-details-container').style.display = (event.target.value === 'online') ? 'block' : 'none';
             });
         });
 
-        // وظيفة تطبيق الكوبون
-        function applyCoupon() {
-            const code = document.getElementById('couponInput').value.trim().toUpperCase();
+        // محرك ذكي لتغيير رسوم التوصيل بناءً على العنوان المكتوب
+        function calculateDynamicDelivery(addressText) {
+            const lowerAddr = addressText.toLowerCase();
+            const label = document.getElementById('deliveryTypeLabel');
+            
+            if (lowerAddr.includes('استلام') || lowerAddr.includes('فرع') || lowerAddr.includes('pickup')) {
+                currentDeliveryFee = 0.00;
+                label.innerText = '(استلام من الفرع - مجاني)';
+            } else if (lowerAddr.includes('الدوحة') || lowerAddr.includes('doha')) {
+                currentDeliveryFee = 18.00;
+                label.innerText = '(توصيل محلي قياسي)';
+            } else {
+                currentDeliveryFee = 18.00; // القيمة الافتراضية لقطر
+                label.innerText = '(توصيل داخل الدولة)';
+            }
+            loadIntelligentSummary();
+        }
+
+        // محرك الكوبونات الفائق الذكاء (يدعم النسبة والمبلغ الثابت)
+        function applyIntelligentCoupon() {
+            const inputCode = document.getElementById('couponInput').value.trim().toUpperCase();
             const msg = document.getElementById('couponMessage');
             
-            if (code === 'PAROLE10') {
-                discountPercentage = 0.10; // خصم 10%
-                msg.style.color = '#2ecc71';
-                msg.innerText = 'تم تطبيق خصم 10% بنجاح!';
-            } else if (code === 'QA2026') {
-                discountPercentage = 0.20; // خصم 20%
-                msg.style.color = '#2ecc71';
-                msg.innerText = 'تم تطبيق خصم 20% بنجاح!';
+            if (!inputCode) return;
+
+            let coupons = JSON.parse(localStorage.getItem('parole_shop_coupons')) || [];
+            let found = coupons.find(c => c.code && c.code.toUpperCase() === inputCode);
+
+            let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
+            let subtotal = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+
+            if (found) {
+                appliedCouponCode = found.code;
+                let rawVal = parseFloat(found.value) || 0;
+                
+                if (rawVal <= 100 && rawVal > 0 && !found.isFixed) {
+                    currentDiscountValue = subtotal * (rawVal / 100);
+                    msg.style.color = '#2ecc71';
+                    msg.innerText = `تم تطبيق خصم نسبة مئوية (${rawVal}%) بنجاح!`;
+                } else {
+                    currentDiscountValue = rawVal;
+                    msg.style.color = '#2ecc71';
+                    msg.innerText = `تم تطبيق خصم ثابت بقيمة (${rawVal} ر.س) بنجاح!`;
+                }
             } else {
-                discountPercentage = 0;
+                currentDiscountValue = 0;
+                appliedCouponCode = '';
                 msg.style.color = '#e74c3c';
                 msg.innerText = 'كود الخصم غير صحيح أو منتهي الصلاحية.';
             }
-            loadCheckoutSummary();
+            loadIntelligentSummary();
         }
 
-        // تحميل ملخص السلة والحسابات
-        function loadCheckoutSummary() {
+        // تحميل وتحديث الملخص عبر مزامنة الأسعار الحية مع لوحة التحكم
+        function loadIntelligentSummary() {
             let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
+            let adminProducts = JSON.parse(localStorage.getItem('parole_shop_products')) || [];
+            
             const container = document.getElementById('checkoutSummaryItems');
             const totalElement = document.getElementById('checkoutTotalAmount');
             const discountRow = document.getElementById('discountRow');
             const discountSpan = document.getElementById('discountAmount');
-            const deliveryRow = document.getElementById('deliveryRow');
+            const couponNameSpan = document.getElementById('appliedCouponName');
+            const deliveryTextSpan = document.getElementById('deliveryCostText');
             
-            if(cart.length === 0) {
-                container.innerHTML = '<p style="color: var(--text-muted); font-size: 13px;">حقيبة التسوق فارغة.</p>';
+            if (cart.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-muted); font-size: 13px;">حقيبة التسوق فارغة حالياً.</p>';
                 discountRow.style.display = 'none';
-                deliveryRow.style.display = 'none';
                 totalElement.innerText = '0.00 ر.س';
                 return;
             }
 
-            deliveryRow.style.display = 'flex';
             let html = '';
             let subtotal = 0;
             
-            cart.forEach(item => {
+            // مطابقة فورية لأسعار المنتجات المحدثة من طرف لوحة التحكم
+            cart = cart.map(item => {
+                let liveProduct = adminProducts.find(p => p.name === item.name);
+                if (liveProduct && liveProduct.price) {
+                    item.price = parseFloat(liveProduct.price); // تحديث السعر الحي تلقائياً
+                }
                 let itemTotal = item.price * (item.quantity || 1);
                 subtotal += itemTotal;
+                
                 html += `<div class="order-summary-item">
                     <span>${item.name} (x${item.quantity || 1})</span>
                     <span>${itemTotal.toFixed(2)} ر.س</span>
                 </div>`;
+                return item;
             });
 
             container.innerHTML = html;
 
-            // حساب الخصم
-            let discountValue = subtotal * discountPercentage;
-            if (discountPercentage > 0) {
+            // تحديث عرض الخصم
+            if (currentDiscountValue > 0) {
                 discountRow.style.display = 'flex';
-                discountSpan.innerText = '-' + discountValue.toFixed(2) + ' ر.س';
+                discountSpan.innerText = '-' + currentDiscountValue.toFixed(2) + ' ر.س';
+                couponNameSpan.innerText = `(${appliedCouponCode})`;
             } else {
                 discountRow.style.display = 'none';
             }
 
-            let deliveryFee = 18.00;
-            let finalTotal = (subtotal - discountValue) + deliveryFee;
+            deliveryTextSpan.innerText = currentDeliveryFee.toFixed(2) + ' ر.س';
+            let finalTotal = Math.max(0, (subtotal - currentDiscountValue) + currentDeliveryFee);
             totalElement.innerText = finalTotal.toFixed(2) + ' ر.س';
         }
 
-        // إتمام الطلب وتفريغ السلة
-        function completeOrder(event) {
+        // تنفيذ الطلب الذكي وترحيله الشامل للوحة التحكم
+        function executeSmartOrder(event) {
             event.preventDefault();
-            const paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
             
-            if(paymentMethod === 'online') {
-                alert('تم معالجة الدفع الإلكتروني بنجاح! شكراً لطلبك من PAROLE Cafe.');
-            } else {
-                alert('تم تسجيل طلبك بنجاح! يرجى تجهيز مبلغ الدفع عند استلام الطلب.');
+            let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
+            if (cart.length === 0) {
+                alert('عذراً، حقيبة التسوق فارغة!');
+                return;
             }
 
+            const fullName = document.getElementById('fullName').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const address = document.getElementById('address').value.trim();
+            const paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
+            
+            let subtotal = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+            let finalTotal = Math.max(0, (subtotal - currentDiscountValue) + currentDeliveryFee);
+
+            // تجميع كائن الطلب المتكامل للوحة التحكم
+            const smartOrder = {
+                id: 'PAR-' + Math.floor(100000 + Math.random() * 900000),
+                customer: fullName,
+                phone: phone,
+                address: address,
+                paymentMethod: paymentMethod === 'online' ? 'دفع إلكتروني آمن' : 'نقدي عند الاستلام',
+                items: cart,
+                subtotal: subtotal.toFixed(2),
+                discount: currentDiscountValue.toFixed(2),
+                coupon: appliedCouponCode || 'لا يوجد',
+                deliveryFee: currentDeliveryFee.toFixed(2),
+                total: finalTotal.toFixed(2),
+                status: 'قيد التجهيز',
+                date: new Date().toLocaleString('ar-QA')
+            };
+
+            // إرسال الطلب فوراً إلى تخزين لوحة التحكم
+            let adminOrders = JSON.parse(localStorage.getItem('parole_admin_orders')) || [];
+            adminOrders.unshift(smartOrder);
+            localStorage.setItem('parole_admin_orders', JSON.stringify(adminOrders));
+
+            if (paymentMethod === 'online') {
+                alert('تمت معالجة الدفع الإلكتروني بنجاح! تم إرسال طلبك إلى لوحة تحكم الإدارة.');
+            } else {
+                alert('تم تسجيل طلبك بنجاح! تم توجيهه إلى قسم الطلبات في لوحة التحكم.');
+            }
+
+            // تفريغ السلة والتحويل الفوري للرئيسية
             localStorage.removeItem('parole_cart');
             window.location.href = 'index.html';
         }
 
-        document.addEventListener('DOMContentLoaded', loadCheckoutSummary);
+        // تشغيل المحرك عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', loadIntelligentSummary);
     </script>
 </body>
 </html>
