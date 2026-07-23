@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PAROLE Cafe | النطاق الاحترافي المتقدم للعروض والحزم الفاخرة</title>
+    <title>PAROLE Cafe | العروض والحزم الفاخرة</title>
     
-    <meta name="description" content="اكتشف أحدث وأرقى الباقات والعروض الحصرية للقهوة المختصة والحلويات الفاخرة من PAROLE Cafe مع نظام الحجز التفاعلي المتقدم في قطر.">
-    <meta name="keywords" content="عروض كافيهات قطر, خصومات قهوة مختصة, عروض بارول كافيه, باقات الفطور, PAROLE Cafe, قهوة مختصة الدوحة">
+    <meta name="description" content="اكتشف أرقى الباقات والعروض الحصرية للقهوة المختصة والحلويات الفاخرة من PAROLE Cafe في المملكة العربية السعودية.">
+    <meta name="keywords" content="عروض كافيهات السعودية, خصومات قهوة مختصة, عروض بارول كافيه, باقات الفطور, PAROLE Cafe">
     <meta name="author" content="PAROLE Cafe">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -65,29 +65,92 @@
             font-weight: 500;
         }
 
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 30px;
-            align-items: center;
+        /* تنسيق القائمة الجانبية (Sidebar Menu) */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 1999;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
         }
 
-        .nav-links a {
+        .sidebar-menu {
+            position: fixed;
+            top: 0;
+            right: -320px;
+            width: 320px;
+            height: 100%;
+            background-color: var(--card-bg);
+            border-left: 1px solid var(--border-color);
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+        }
+        .sidebar-menu.active {
+            right: 0;
+        }
+
+        .sidebar-header {
+            padding: 25px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-close-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 20px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .sidebar-close-btn:hover { color: var(--gold); }
+
+        .sidebar-nav-links {
+            list-style: none;
+            padding: 20px 0;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .sidebar-nav-links li a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 14px 30px;
             color: var(--text-main);
             text-decoration: none;
-            font-size: 13.5px;
-            letter-spacing: 0.8px;
-            font-weight: 400;
-            transition: color 0.3s ease;
-            cursor: pointer;
-            white-space: nowrap;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border-right: 3px solid transparent;
         }
 
-        .nav-links a:hover,
-        .nav-links a.active,
-        .highlight-offer {
-            color: var(--gold) !important;
-            font-weight: 500 !important;
+        .sidebar-nav-links li a i {
+            color: var(--gold);
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-nav-links li a:hover,
+        .sidebar-nav-links li a.active {
+            background-color: rgba(212, 175, 55, 0.05);
+            color: var(--gold);
+            border-right-color: var(--gold);
         }
 
         .header-actions {
@@ -124,7 +187,6 @@
         }
 
         .menu-toggle {
-            display: none;
             background: none;
             border: none;
             color: var(--gold);
@@ -139,12 +201,51 @@
         .menu-main-title { font-size: 38px; font-weight: 300; color: var(--gold); margin-bottom: 10px; letter-spacing: 3px; }
         .menu-sub-title { color: var(--text-muted); font-size: 14px; letter-spacing: 1px; }
 
+        /* زر العودة للقائمة الرئيسية الفاخر */
+        .back-home-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .btn-back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, rgba(212,175,55,0.15) 0%, rgba(22,22,22,0.9) 100%);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.1);
+        }
+
+        .btn-back-home:hover {
+            background: var(--gold);
+            color: #000;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(212, 175, 55, 0.25);
+        }
+
+        .btn-back-home i {
+            font-size: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-back-home:hover i {
+            transform: translateX(4px);
+        }
+
         /* شريط التصفية بالعروض */
         .filter-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 40px; flex-wrap: wrap; }
         .filter-btn { background: transparent; border: 1px solid var(--border-color); color: var(--text-muted); padding: 8px 18px; border-radius: 30px; cursor: pointer; transition: var(--transition); font-size: 13px; }
         .filter-btn:hover, .filter-btn.active { background: var(--gold); color: #000; border-color: var(--gold); font-weight: 500; }
 
-        /* العداد التنازلي للعرض المحدود */
+        /* العد التنازلي للعرض المحدود */
         .flash-deal-banner {
             background: linear-gradient(90deg, rgba(212,175,55,0.15), rgba(22,22,22,0.9));
             border: 1px dashed var(--gold);
@@ -196,24 +297,22 @@
 
         .offer-img-box {
             width: 100%;
-            height: 200px;
+            height: 220px;
             background: rgba(255,255,255,0.02);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--gold);
-            font-size: 45px;
-            border-bottom: 1px solid var(--border-color);
             position: relative;
             overflow: hidden;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .offer-img-box::after {
-            content: '';
-            position: absolute;
+        .offer-img-box img {
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, rgba(212,175,55,0.08) 0%, transparent 70%);
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .offer-card:hover .offer-img-box img {
+            transform: scale(1.05);
         }
 
         .offer-content { padding: 25px; display: flex; flex-direction: column; flex-grow: 1; }
@@ -261,7 +360,7 @@
         }
         .btn-primary:hover { background-color: var(--gold-light); transform: translateY(-2px); }
 
-        /* قسم حاسبة توفير العروض المتقدمة */
+        /* حاسبة التوفير */
         .calculator-section {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -280,7 +379,7 @@
         .calc-result-title { font-size: 13px; color: var(--text-muted); margin-bottom: 5px; }
         .calc-result-value { font-size: 28px; color: var(--gold); font-weight: 600; }
 
-        /* قسم نظام حجز الطاولات المتقدم (ميزة جديدة إضافية) */
+        /* حجز الطاولات */
         .booking-section {
             background: linear-gradient(135deg, rgba(22,22,22,0.98), rgba(11,11,11,0.95));
             border: 1px solid var(--border-color);
@@ -297,10 +396,10 @@
         .form-control:focus { border-color: var(--gold); box-shadow: 0 0 10px rgba(212,175,55,0.1); }
         .booking-submit-container { grid-column: 1 / -1; margin-top: 10px; }
 
-        /* قسم برنامج الولاء والمزايا الخاصة */
+        /* برنامج الولاء */
         .vip-banner {
             background: linear-gradient(135deg, rgba(212,175,55,0.08) 0%, rgba(22,22,22,0.95) 100%);
-            border: 1px solid rgba(212,175,55,0.3);
+            border: 1px solid rgba(212,175,55,30%);
             border-radius: 20px;
             padding: 40px;
             display: grid;
@@ -326,56 +425,43 @@
 
         .whatsapp-float { position: fixed; bottom: 25px; left: 25px; background-color: #25d366; color: #fff; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); z-index: 9999; transition: var(--transition); text-decoration: none; }
         .whatsapp-float:hover { transform: scale(1.1); }
-
-        @media (max-width: 992px) {
-            .vip-banner { grid-template-columns: 1fr; }
-            .menu-toggle { display: block; }
-            .nav-container { padding: 15px 20px; }
-            .nav-links {
-                position: fixed;
-                top: 73px;
-                right: -100%;
-                width: 100%;
-                height: calc(100vh - 73px);
-                background: rgba(11, 11, 11, 0.98);
-                backdrop-filter: blur(20px);
-                flex-direction: column;
-                justify-content: center;
-                transition: right 0.4s ease;
-                border-top: 1px solid rgba(212, 175, 55, 0.15);
-                display: flex;
-            }
-            .nav-links.active { right: 0; }
-        }
     </style>
 </head>
 <body>
 
-    <!-- الهيدر المطور -->
+    <!-- القائمة الجانبية (Sidebar) والطبقة المعتمة -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div class="sidebar-menu" id="sidebarMenu">
+        <div class="sidebar-header">
+            <span class="logo">PAROLE <span>MENU</span></span>
+            <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="إغلاق القائمة"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <ul class="sidebar-nav-links">
+            <li><a href="index.html"><i class="fa-solid fa-house"></i> الرئيسية</a></li>
+            <li><a href="about.html"><i class="fa-solid fa-circle-info"></i> من نحن</a></li>
+            <li><a href="shop.html"><i class="fa-solid fa-mug-saucer"></i> المنيو والتاجر</a></li>
+            <li><a href="offers.html" class="active"><i class="fa-solid fa-tag"></i> العروض</a></li>
+            <li><a href="branches.html"><i class="fa-solid fa-location-dot"></i> الفروع</a></li>
+            <li><a href="blog.html"><i class="fa-solid fa-newspaper"></i> المدونة</a></li>
+            <li><a href="contact.html"><i class="fa-solid fa-headset"></i> تواصل معنا</a></li>
+            <li><a href="faq.html"><i class="fa-solid fa-circle-question"></i> الأسئلة الشائعة</a></li>
+            <li><a href="policies.html"><i class="fa-solid fa-shield-halved"></i> السياسات</a></li>
+            <li><a href="cart.html"><i class="fa-solid fa-basket-shopping"></i> السلة</a></li>
+            <li><a href="checkout.html"><i class="fa-solid fa-credit-card"></i> إتمام الدفع</a></li>
+        </ul>
+    </div>
+
+    <!-- الهيدر العلوي -->
     <header class="site-header">
         <div class="nav-container">
             <a href="index.html" class="logo">PAROLE <span>CAFE</span></a>
             
-            <nav>
-                <ul class="nav-links" id="navLinks">
-                    <li><a href="index.html">الرئيسية</a></li>
-                    <li><a href="about.html">من نحن</a></li>
-                    <li><a href="index.html">المتجر</a></li>
-                    <li><a href="offers.html" class="highlight-offer">العروض</a></li>
-                    <li><a href="index.html">الفروع</a></li>
-                    <li><a href="blog.html">المدونة</a></li>
-                    <li><a href="contact.html">تواصل معنا</a></li>
-                    <li><a href="faq.html">الأسئلة الشائعة</a></li>
-                    <li><a href="policies.html">السياسات</a></li>
-                </ul>
-            </nav>
-
             <div class="header-actions">
-                <a href="index.html" class="cart-icon-btn" aria-label="حقيبة التسوق">
+                <a href="cart.html" class="cart-icon-btn" aria-label="حقيبة التسوق">
                     <i class="fa-solid fa-bag-shopping"></i>
                     <span class="cart-badge" id="cartBadgeCount">0</span>
                 </a>
-                <button class="menu-toggle" id="menuToggle" aria-label="القائمة">
+                <button class="menu-toggle" id="menuToggle" aria-label="فتح القائمة">
                     <i class="fa-solid fa-bars-staggered"></i>
                 </button>
             </div>
@@ -386,7 +472,14 @@
     <section class="page-section">
         <div class="section-header">
             <h1 class="menu-main-title">الباقات والعروض الحصرية</h1>
-            <p class="menu-sub-title">ارتقِ بتجربتك اليومية مع باقاتنا المختارة بعناية فائقة في قطر</p>
+            <p class="menu-sub-title">ارتقِ بتجربتك اليومية مع باقاتنا المختارة بعناية فائقة من أصناف المنيو الحقيقية</p>
+        </div>
+
+        <!-- زر العودة للقائمة الرئيسية بشكل أنيق وفاخر -->
+        <div class="back-home-container">
+            <a href="index.html" class="btn-back-home">
+                <i class="fa-solid fa-arrow-right"></i> العودة للقائمة الرئيسية
+            </a>
         </div>
 
         <!-- شريط العد التنازلي لعرض لفترة محدودة -->
@@ -403,200 +496,193 @@
         <!-- أزرار الفلترة المتقدمة -->
         <div class="filter-tabs">
             <button class="filter-btn active" onclick="filterOffers('all', this)">جميع العروض</button>
-            <button class="filter-btn" onclick="filterOffers('breakfast', this)">☕ باقات الفطور والصباح</button>
-            <button class="filter-btn" onclick="filterOffers('cold', this)">🧊 عروض الانتعاش الصيفي</button>
+            <button class="filter-btn" onclick="filterOffers('breakfast', this)">☕ باقات القهوة والصباح</button>
+            <button class="filter-btn" onclick="filterOffers('cold', this)">🧊 عروض المشروبات الباردة والحلويات</button>
             <button class="filter-btn" onclick="filterOffers('beans', this)">📦 المحاصيل المنزلية</button>
         </div>
 
         <!-- شبكة العروض -->
         <div class="offers-grid" id="offersGrid">
-            <!-- عرض 1 -->
+            <!-- عرض 1: ثنائي السبيانش لاتيه -->
             <div class="offer-card" data-category="breakfast">
                 <span class="offer-badge">الأكثر طلباً</span>
                 <div class="offer-img-box">
-                    <i class="fa-solid fa-mug-hot"></i>
+                    <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=600&q=80" alt="ثنائي السبيانش لاتيه">
                 </div>
                 <div class="offer-content">
-                    <h3 class="offer-title">باقة الصباح الفاخرة</h3>
-                    <p class="offer-desc">ابدأ يومك بنشاط مع اختيارك المفضل من المشروبات الدافئة مع كريب الشوكولاتة البلجيكية الطازج.</p>
+                    <h3 class="offer-title">ثنائي السبيانش لاتيه</h3>
+                    <p class="offer-desc">استمتع بكوب من آيس سبانش لاتيه البارد مع كوب سبانش لاتيه الساخن الشهير من المنيو.</p>
                     <div class="offer-meta">
-                        <i class="fa-solid fa-star"></i> يمنحك <strong>56 نقطة ولاء</strong>
+                        <i class="fa-solid fa-clock"></i> آيس سبانش لاتيه (16) + سبانش لاتيه ساخن (14)
                     </div>
                     <div class="offer-pricing">
-                        <span class="current-price">28 ر.س</span>
-                        <span class="old-price">35 ر.س</span>
+                        <span class="current-price">25 ر.س</span>
+                        <span class="old-price">30 ر.س</span>
                     </div>
-                    <button class="btn-primary" onclick="addOfferToCart('باقة الصباح الفاخرة', 28)">اطلب العرض الآن</button>
+                    <button class="btn-primary" onclick="addOfferToCart('ثنائي السبيانش لاتيه', 25)">أضف للسلة</button>
                 </div>
             </div>
 
-            <!-- عرض 2 -->
+            <!-- عرض 2: جلسة V60 والوافل -->
             <div class="offer-card" data-category="cold">
-                <span class="offer-badge">انتعاش الصيف</span>
+                <span class="offer-badge">خصم خاص</span>
                 <div class="offer-img-box">
-                    <i class="fa-solid fa-glass-water"></i>
+                    <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80" alt="جلسة V60 والوافل">
                 </div>
                 <div class="offer-content">
-                    <h3 class="offer-title">ثنائي الموهيتو المنعش</h3>
-                    <p class="offer-desc">استمتع بـ 2 من مشروبات الموهيتو الباردة والفخمة من اختيارك لمشاركتها مع من تحب في أجواء الدوحة.</p>
+                    <h3 class="offer-title">جلسة V60 والوافل</h3>
+                    <p class="offer-desc">إبريق تقطير V60 الطازج مرفقاً مع طبق الوافل الفاخر من قائمة الحلويات.</p>
                     <div class="offer-meta">
-                        <i class="fa-solid fa-star"></i> يمنحك <strong>60 نقطة ولاء</strong>
+                        <i class="fa-solid fa-mug-hot"></i> V60 (13) + وافل المنيو (22)
                     </div>
                     <div class="offer-pricing">
                         <span class="current-price">30 ر.س</span>
-                        <span class="old-price">36 ر.س</span>
+                        <span class="old-price">35 ر.س</span>
                     </div>
-                    <button class="btn-primary" onclick="addOfferToCart('ثنائي الموهيتو المنعش', 30)">اطلب العرض الآن</button>
+                    <button class="btn-primary" onclick="addOfferToCart('جلسة V60 والوافل', 30)">أضف للسلة</button>
                 </div>
             </div>
 
-            <!-- عرض 3 -->
+            <!-- عرض 3: باقة المحاصيل المنزلية -->
             <div class="offer-card" data-category="beans">
                 <span class="offer-badge">عشاق القهوة</span>
                 <div class="offer-img-box">
-                    <i class="fa-solid fa-coffee"></i>
+                    <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=600&q=80" alt="باقة المحاصيل المنزلية">
                 </div>
                 <div class="offer-content">
-                    <h3 class="offer-title">بوكس المحاصيل المختصة</h3>
-                    <p class="offer-desc">حقيبة تحتوي على أجود حبوب القهوة المختصة المحمصة حديثاً (250 جرام) لتستمتع بالتحضير المنزلي الاحترافي.</p>
+                    <h3 class="offer-title">باقة المحاصيل المنزلية</h3>
+                    <p class="offer-desc">كيس محاصيل مختصة (250 جرام) من اختيارك مع أداة تقطير ورقية هدية مجانية.</p>
                     <div class="offer-meta">
-                        <i class="fa-solid fa-star"></i> يمنحك <strong>150 نقطة ولاء</strong>
+                        <i class="fa-solid fa-truck"></i> توصيل مجاني داخل المملكة
                     </div>
                     <div class="offer-pricing">
                         <span class="current-price">75 ر.س</span>
-                        <span class="old-price">90 ر.س</span>
+                        <span class="old-price">95 ر.س</span>
                     </div>
-                    <button class="btn-primary" onclick="addOfferToCart('بوكس المحاصيل المختصة', 75)">اطلب العرض الآن</button>
+                    <button class="btn-primary" onclick="addOfferToCart('باقة المحاصيل المنزلية', 75)">أضف للسلة</button>
                 </div>
             </div>
         </div>
 
-        <!-- قسم حاسبة توفير العروض التفاعلية -->
+        <!-- حاسبة توفير العروض -->
         <div class="calculator-section">
             <div class="calculator-header">
-                <h3>حاسبة التوفير الذكية</h3>
-                <p style="color: var(--text-muted); font-size: 13px;">اختر الباقة وعدد المرات التي تطلبها أسبوعياً لمعرفة مقدار ما توفره مع عروضنا</p>
+                <h3>حاسبة توفير العروض</h3>
+                <p class="menu-sub-title">اختر عدد الأيام التي ترغب بالاشتراك فيها واحسب قيمة التوفير التقريبية</p>
             </div>
             <div class="calculator-grid">
                 <div class="calc-input-group">
                     <label for="calcPackage">اختر الباقة المفضلة:</label>
                     <select id="calcPackage" class="calc-select" onchange="calculateSavings()">
-                        <option value="28" data-saving="7">باقة الصباح الفاخرة (توفير 7 ر.س لكل طلب)</option>
-                        <option value="30" data-saving="6">ثنائي الموهيتو المنعش (توفير 6 ر.س لكل طلب)</option>
-                        <option value="75" data-saving="15">بوكس المحاصيل المختصة (توفير 15 ر.س لكل طلب)</option>
+                        <option value="25">ثنائي السبيانش لاتيه (25 ر.س)</option>
+                        <option value="30">جلسة V60 والوافل (30 ر.س)</option>
+                        <option value="75">باقة المحاصيل المنزلية (75 ر.س)</option>
                     </select>
                 </div>
                 <div class="calc-input-group">
-                    <label for="calcFrequency">عدد مرات الطلب أسبوعياً:</label>
-                    <select id="calcFrequency" class="calc-select" onchange="calculateSavings()">
-                        <option value="1">مرة واحدة في الأسبوع</option>
-                        <option value="3" selected>3 مرات في الأسبوع</option>
-                        <option value="5">5 مرات في الأسبوع</option>
-                        <option value="7">يومياً (7 مرات أسبوعياً)</option>
+                    <label for="calcDays">عدد مرات الطلب شهرياً:</label>
+                    <select id="calcDays" class="calc-select" onchange="calculateSavings()">
+                        <option value="4">4 مرات (أسبوعياً)</option>
+                        <option value="12" selected>12 مرة (3 أيام أسبوعياً)</option>
+                        <option value="20">20 مرة (5 أيام أسبوعياً)</option>
+                        <option value="30">30 مرة (يومياً)</option>
                     </select>
                 </div>
                 <div class="calc-result-box">
-                    <div class="calc-result-title">إجمالي التوفير المتوقع شهرياً</div>
-                    <div class="calc-result-value" id="calcResultValue">72 ر.س</div>
+                    <div class="calc-result-title">إجمالي التوفير المتوقع:</div>
+                    <div class="calc-result-value" id="savingsResult">144 ر.س</div>
                 </div>
             </div>
         </div>
 
-        <!-- قسم نظام حجز الطاولات المتقدم (ميزة إضافية جديدة) -->
+        <!-- نظام حجز الطاولات المتقدم -->
         <div class="booking-section">
             <div class="booking-header">
-                <h3>حجز طاولة مسبق للاستفادة من العروض</h3>
-                <p style="color: var(--text-muted); font-size: 13.5px;">احجز طاولتك الآن في فرعنا بقطر لضمان تجربة هادئة ومميزة</p>
+                <h3>حجز طاولة مسبق للاستمتاع بالعروض</h3>
+                <p class="menu-sub-title">احجز مكانك مسبقاً في فرعنا لتجنب الانتظار وضمان أفضل تجربة ضيافة</p>
             </div>
-            <form class="booking-form" onsubmit="handleTableBooking(event)">
+            <form class="booking-form" onsubmit="handleBooking(event)">
                 <div class="form-group">
-                    <label for="clientName">الاسم الكريم</label>
-                    <input type="text" id="clientName" class="form-control" placeholder="أدخل اسمك الكامل" required>
+                    <label for="bookName">الاسم الكريم</label>
+                    <input type="text" id="bookName" class="form-control" placeholder="أدخل اسمك الكامل" required>
                 </div>
                 <div class="form-group">
-                    <label for="clientPhone">رقم الهاتـف</label>
-                    <input type="tel" id="clientPhone" class="form-control" placeholder="+974 ..." required>
+                    <label for="bookPhone">رقم الجوال (السعودية)</label>
+                    <input type="tel" id="bookPhone" class="form-control" placeholder="+966 5xxxxxxxx" required>
                 </div>
                 <div class="form-group">
-                    <label for="bookingDate">تاريخ الحجز</label>
-                    <input type="date" id="bookingDate" class="form-control" required>
+                    <label for="bookBranch">اختر الفرع</label>
+                    <select id="bookBranch" class="form-control">
+                        <option value="riyadh">فرع الرياض - التحلية</option>
+                        <option value="jeddah">فرع جدة - الروضة</option>
+                    </select>
                 </div>
                 <div class="form-group">
-                    <label for="bookingTime">وقت الحضور</label>
-                    <input type="time" id="bookingTime" class="form-control" required>
+                    <label for="bookTime">وقت الحضور</label>
+                    <input type="datetime-local" id="bookTime" class="form-control" required>
                 </div>
                 <div class="booking-submit-container">
-                    <button type="submit" class="btn-primary" style="padding: 15px;">تأكيد حجز الطاولة الفوري</button>
+                    <button type="submit" class="btn-primary">تأكيد حجز الطاولة الآن</button>
                 </div>
             </form>
         </div>
 
-        <!-- قسم برنامج الولاء والمزايا الخاصة -->
+        <!-- برنامج الولاء -->
         <div class="vip-banner">
             <div class="vip-info">
-                <h3>انضم إلى برنامج ولاء عملاء PAROLE</h3>
-                <p>نؤمن بأن عملاءنا يستحقون الأفضل دائماً. سجل معنا مجاناً واحصل على نقاط مع كل طلب تستبدلها بمشروبات مجانية وخصومات حصرية في فرعنا بقطر.</p>
+                <h3>انضم إلى برنامج ولاء PAROLE VIP</h3>
+                <p>سجل معنا الآن واستمتع بنقاط مكافأة مع كل عملية شراء، وخصومات حصرية على المنتجات الجديدة قبل طرحها للعامة.</p>
                 <ul class="vip-features">
-                    <li><i class="fa-solid fa-check"></i> قهوة مجانية عند إكمال كل 10 طلبات.</li>
-                    <li><i class="fa-solid fa-check"></i> خصم خاص بنسبة 15% على تذوق المحاصيل الموسمية الجديدة.</li>
-                    <li><i class="fa-solid fa-check"></i> دعوات حصرية لحضور ورش تذوق القهوة المختصة.</li>
+                    <li><i class="fa-solid fa-check"></i> استرداد نقدي بنسبة 5% على كافة المشتريات</li>
+                    <li><i class="fa-solid fa-check"></i> مشروب مجاني في شهر ميلادك</li>
+                    <li><i class="fa-solid fa-check"></i> دعوات خاصة لتذوق المحاصيل الموسمية الحصرية</li>
                 </ul>
             </div>
             <div class="vip-action">
-                <p>سجل اهتمامك أو احصل على بطاقتك الرقمية الآن عبر الواتساب</p>
-                <a href="https://wa.me/97400000000?text=مرحباً، أرغب بالانضمام إلى برنامج ولاء عملاء PAROLE Cafe" target="_blank" class="btn-primary">انضم الآن</a>
+                <p>انضم الآن مجاناً وابدأ جمع النقاط</p>
+                <button class="btn-primary" onclick="alert('تم تفعيل اشتراك الولاء بنجاح! مرحباً بك في عالم بارول المميز.')">اشترك في الولاء</button>
             </div>
         </div>
     </section>
 
-    <!-- زر الواتساب العائم -->
-    <a href="https://wa.me/97400000000?text=مرحباً، أريد الاستفسار عن عروض PAROLE Cafe" target="_blank" class="whatsapp-float" aria-label="تواصل عبر الواتساب">
-        <i class="fa-brands fa-whatsapp"></i>
-    </a>
-
     <!-- التذييل -->
     <footer>
         <div class="social-links">
-            <a href="https://instagram.com" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-            <a href="https://tiktok.com" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
-            <a href="https://snapchat.com" target="_blank"><i class="fa-brands fa-snapchat"></i></a>
-            <a href="https://wa.me/97400000000" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="#" aria-label="انستغرام"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" aria-label="تويتر"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="#" aria-label="تيك توك"><i class="fa-brands fa-tiktok"></i></a>
         </div>
-        <p class="footer-text">&copy; 2026 PAROLE Cafe. جميع الحقوق محفوظة.</p>
+        <p class="footer-text">جميع الحقوق محفوظة © 2026 PAROLE Cafe | تم التصميم والتطوير بشغف في السعودية</p>
     </footer>
 
-    <!-- الجافاسكريبت والخصائص التفاعلية -->
+    <!-- زر الواتساب العائم -->
+    <a href="https://wa.me/966500000000" class="whatsapp-float" target="_blank" aria-label="تواصل عبر واتساب">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- الجافاسكريبت التفاعلي -->
     <script>
-        // تحديث عداد سلة التسوق عند التحميل
-        function updateCartBadge() {
-            let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
-            let totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-            const badge = document.getElementById('cartBadgeCount');
-            if(badge) badge.innerText = totalCount;
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebarMenu = document.getElementById('sidebarMenu');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
+
+        function toggleSidebar() {
+            sidebarMenu.classList.toggle('active');
+            sidebarOverlay.classList.toggle('active');
         }
 
-        // إضافة العرض المختار إلى الـ LocalStorage للسلة
-        function addOfferToCart(name, price) {
-            let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
-            let found = cart.find(item => item.name === name);
-            if(found) {
-                found.quantity += 1;
-            } else {
-                cart.push({ name: name, price: parseFloat(price), quantity: 1 });
-            }
-            localStorage.setItem('parole_cart', JSON.stringify(cart));
-            updateCartBadge();
-            alert('تمت إضافة "' + name + '" إلى حقيبة التسوق بنجاح.');
-        }
+        menuToggle.addEventListener('click', toggleSidebar);
+        sidebarCloseBtn.addEventListener('click', toggleSidebar);
+        sidebarOverlay.addEventListener('click', toggleSidebar);
 
-        // تصفية العروض بحسب الفئة
-        function filterOffers(category, btnElement) {
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            btnElement.classList.add('active');
+        function filterOffers(category, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
 
             const cards = document.querySelectorAll('.offer-card');
             cards.forEach(card => {
-                if(category === 'all' || card.getAttribute('data-category') === category) {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
                     card.style.display = 'flex';
                 } else {
                     card.style.display = 'none';
@@ -604,51 +690,31 @@
             });
         }
 
-        // حاسبة التوفير الذكية
-        function calculateSavings() {
-            const packageSelect = document.getElementById('calcPackage');
-            const frequencySelect = document.getElementById('calcFrequency');
-            const resultValue = document.getElementById('calcResultValue');
-
-            if(!packageSelect || !frequencySelect || !resultValue) return;
-
-            const selectedOption = packageSelect.options[packageSelect.selectedIndex];
-            const savingPerOrder = parseInt(selectedOption.getAttribute('data-saving')) || 0;
-            const frequencyPerWeek = parseInt(frequencySelect.value) || 1;
-
-            // حساب التوفير الشهري (4.3 أسبوع تقريباً في الشهر)
-            const monthlySavings = Math.round(savingPerOrder * frequencyPerWeek * 4.3);
-            resultValue.innerText = monthlySavings + ' ر.س';
+        let cartCount = 0;
+        function addOfferToCart(offerName, price) {
+            cartCount++;
+            document.getElementById('cartBadgeCount').textContent = cartCount;
+            alert(`تمت إضافة "${offerName}" إلى حقيبة التسوق بنجاح!`);
         }
 
-        // معالجة نموذج حجز الطاولة الفوري
-        function handleTableBooking(event) {
-            event.preventDefault();
-            const name = document.getElementById('clientName').value;
-            const date = document.getElementById('bookingDate').value;
-            const time = document.getElementById('bookingTime').value;
+        function calculateSavings() {
+            const packagePrice = parseInt(document.getElementById('calcPackage').value);
+            const daysCount = parseInt(document.getElementById('calcDays').value);
+            
+            let estimatedRegularPrice = packagePrice * 1.35;
+            let totalSavings = Math.round((estimatedRegularPrice - packagePrice) * daysCount);
+            
+            document.getElementById('savingsResult').textContent = totalSavings + ' ر.س';
+        }
 
-            alert('شكراً لك يا ' + name + '! تم تأكيد حجز طاولتك المسبق في فرعنا بقطر بتاريخ ' + date + ' الساعة ' + time + ' بنجاح.');
+        function handleBooking(event) {
+            event.preventDefault();
+            const name = document.getElementById('bookName').value;
+            alert(`شكراً لك يا ${name}! تم استلام طلب حجز الطاولة بنجاح، وسيتم إرسال تأكيد الحجز عبر رسالة نصية قصيرة قريباً.`);
             event.target.reset();
         }
 
-        // قائمة الهاتف المحمول
-        const menuToggle = document.getElementById('menuToggle');
-        const navLinks = document.getElementById('navLinks');
-        if(menuToggle && navLinks) {
-            menuToggle.addEventListener('click', () => {
-                navLinks.classList.toggle('active');
-                let icon = menuToggle.querySelector('i');
-                icon.classList.toggle('fa-bars-staggered');
-                icon.classList.toggle('fa-xmark');
-            });
-        }
-
-        // تشغيل الوظائف عند تحميل الصفحة
-        document.addEventListener('DOMContentLoaded', () => {
-            updateCartBadge();
-            calculateSavings();
-        });
+        calculateSavings();
     </script>
 </body>
 </html>
