@@ -46,7 +46,7 @@
         
         #card-details-container { margin-top: 15px; background: var(--dark-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color); }
 
-        /* تنسيق صندوق الكوبونات المضاف حديثاً */
+        /* تنسيق صندوق الكوبونات */
         .coupon-box { display: flex; gap: 10px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color); }
         .coupon-box input { flex: 1; padding: 10px; background: var(--dark-bg); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 6px; font-size: 13px; }
         .coupon-box input:focus { border-color: var(--gold); outline: none; }
@@ -130,7 +130,7 @@
                     <!-- سيتم تعبئتها ديناميكياً -->
                 </div>
 
-                <div class="order-summary-item" style="margin-top: 15px;">
+                <div class="order-summary-item" id="deliveryRow" style="margin-top: 15px;">
                     <span>رسوم التوصيل</span>
                     <span style="color: var(--gold);">18.00 ر.س</span>
                 </div>
@@ -168,7 +168,6 @@
             const code = document.getElementById('couponInput').value.trim().toUpperCase();
             const msg = document.getElementById('couponMessage');
             
-            // الكوبونات المتاحة (يمكنك تعديلها أو إضافتها)
             if (code === 'PAROLE10') {
                 discountPercentage = 0.10; // خصم 10%
                 msg.style.color = '#2ecc71';
@@ -192,13 +191,17 @@
             const totalElement = document.getElementById('checkoutTotalAmount');
             const discountRow = document.getElementById('discountRow');
             const discountSpan = document.getElementById('discountAmount');
+            const deliveryRow = document.getElementById('deliveryRow');
             
             if(cart.length === 0) {
                 container.innerHTML = '<p style="color: var(--text-muted); font-size: 13px;">حقيبة التسوق فارغة.</p>';
-                totalElement.innerText = '18.00 ر.س';
+                discountRow.style.display = 'none';
+                deliveryRow.style.display = 'none';
+                totalElement.innerText = '0.00 ر.س';
                 return;
             }
 
+            deliveryRow.style.display = 'flex';
             let html = '';
             let subtotal = 0;
             
