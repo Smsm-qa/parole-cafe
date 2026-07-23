@@ -144,13 +144,13 @@
                 <li><a href="index.html"><i class="fa-solid fa-house"></i> الرئيسية</a></li>
                 <li><a href="about.html"><i class="fa-solid fa-circle-info"></i> من نحن</a></li>
                 <li><a href="shop.html" class="active"><i class="fa-solid fa-mug-hot"></i> المنيو </a></li>
-                 <li><a href="offers.html"><i class="fa-solid fa-tag"></i> العروض</a></li>
+                <li><a href="offers.html"><i class="fa-solid fa-tag"></i> العروض</a></li>
                 <li><a href="branches.html"><i class="fa-solid fa-location-dot"></i> الفروع</a></li>
                 <li><a href="blog.html"><i class="fa-solid fa-newspaper"></i> المدونة</a></li>
                 <li><a href="contact.html"><i class="fa-solid fa-headset"></i> تواصل معنا</a></li>
                 <li><a href="faq.html"><i class="fa-solid fa-circle-question"></i> الأسئلة الشائعة</a></li>
                 <li><a href="policies.html"><i class="fa-solid fa-shield-halved"></i> السياسات</a></li>
-                 <li><a href="cart.html"><i class="fa-solid fa-basket-shopping"></i> السلة</a></li>
+                <li><a href="cart.html"><i class="fa-solid fa-basket-shopping"></i> السلة</a></li>
                 <li><a href="checkout.html"><i class="fa-solid fa-credit-card"></i> إتمام الدفع</a></li>
             </ul>
         </div>
@@ -290,14 +290,15 @@
 
         function addToCart(id) {
             const p = products.find(item => item.id === id);
-            let cart = JSON.parse(localStorage.getItem('parole_cart_full')) || [];
+            // تم توحيد مفتاح التخزين هنا ليطابق cart.html تماماً ('parole_cart')
+            let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
             let existing = cart.find(item => item.name === p.name);
             if(existing) {
-                existing.quantity += 1;
+                existing.quantity = (existing.quantity || 1) + 1;
             } else {
                 cart.push({ name: p.name, price: p.price, image: p.img, quantity: 1 });
             }
-            localStorage.setItem('parole_cart_full', JSON.stringify(cart));
+            localStorage.setItem('parole_cart', JSON.stringify(cart));
             updateCartUI();
             showToast();
         }
@@ -330,13 +331,14 @@
         }
 
         function updateCartUI() {
-            let cart = JSON.parse(localStorage.getItem('parole_cart_full')) || [];
-            let totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-            let totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            // تم توحيد مفتاح التخزين هنا أيضاً ('parole_cart')
+            let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
+            let totalCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+            let totalPrice = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
 
             document.getElementById('cart-counter').textContent = totalCount;
             document.getElementById('fcCount').textContent = totalCount;
-            document.getElementById('fcTotal').textContent = totalPrice + ' ر.س';
+            document.getElementById('fcTotal').textContent = totalPrice.toFixed(2) + ' ر.س';
 
             const floatingCart = document.getElementById('floatingCart');
             if(totalCount > 0) {
