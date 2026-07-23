@@ -305,7 +305,6 @@
         }
         .section-title span { color: var(--gold); font-weight: 600; }
 
-        /* تنسيق بطاقات الأقسام بالصور */
         .category-img-card {
             position: relative;
             border-radius: 16px;
@@ -361,7 +360,6 @@
             font-size: 11px;
         }
 
-        /* تنسيق معرض الصور */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -382,7 +380,6 @@
         }
         .gallery-item:hover img { transform: scale(1.08); }
 
-        /* شريط التنقل السفلي للجوال */
         .mobile-nav {
             position: fixed;
             bottom: 0;
@@ -641,8 +638,11 @@
         if (menuOverlay) menuOverlay.addEventListener('click', toggleMenu);
 
         function updateCartBadge() {
-            let cart = JSON.parse(localStorage.getItem('parole_cart_full')) || [];
-            let totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            let cart1 = JSON.parse(localStorage.getItem('parole_cart_full')) || [];
+            let cart2 = JSON.parse(localStorage.getItem('parole_cart')) || [];
+            let activeCart = cart1.length > 0 ? cart1 : cart2;
+            
+            let totalCount = activeCart.reduce((sum, item) => sum + (item.quantity || 1), 0);
             const badge = document.getElementById('cartBadgeCount');
             if (badge) badge.innerText = totalCount;
         }
