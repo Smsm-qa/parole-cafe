@@ -36,6 +36,7 @@
             overflow-x: hidden;
             background-image: radial-gradient(circle at 50% 0%, rgba(223, 185, 83, 0.06) 0%, transparent 70%);
             background-attachment: fixed;
+            padding-bottom: 90px; /* مسافة أمان للشريط السفلي للجوال */
         }
 
         .announcement-bar {
@@ -391,8 +392,9 @@
             z-index: 1000;
             border-radius: 16px 16px 0 0;
             border-bottom: none;
-            background: rgba(5, 5, 5, 0.9);
+            background: rgba(5, 5, 5, 0.95);
             backdrop-filter: blur(25px);
+            border-top: 1px solid var(--border-color);
         }
         .mobile-nav-item {
             color: var(--text-muted);
@@ -405,7 +407,7 @@
         }
         .mobile-nav-item.active, .mobile-nav-item:hover { color: var(--gold); }
 
-        footer { background: #020202; padding: 30px 16px 90px; text-align: center; border-top: 1px solid var(--border-color); margin-top: 40px; }
+        footer { background: #020202; padding: 30px 16px 30px; text-align: center; border-top: 1px solid var(--border-color); margin-top: 40px; }
         .social-icons { display: flex; justify-content: center; gap: 14px; margin-bottom: 14px; font-size: 16px; }
         .social-icons a { color: var(--text-muted); background: var(--card-bg); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-color); text-decoration: none; }
         .social-icons a:hover { color: var(--gold); border-color: var(--gold); }
@@ -417,7 +419,7 @@
             .gallery-grid { grid-template-columns: repeat(4, 1fr); }
             .category-img-card { height: 180px; }
             .site-header { padding: 14px 25px; }
-            footer { padding-bottom: 30px; }
+            body { padding-bottom: 0; }
         }
     </style>
 </head>
@@ -637,16 +639,25 @@
         if (sidebarCloseBtn) sidebarCloseBtn.addEventListener('click', toggleMenu);
         if (menuOverlay) menuOverlay.addEventListener('click', toggleMenu);
 
+        // دالة موحدة وذكية لقراءة أعداد القطع في السلة بدقة تامة وتجنب أي تناقض
         function updateCartBadge() {
-            let cart1 = JSON.parse(localStorage.getItem('parole_cart_full')) || [];
-            let cart2 = JSON.parse(localStorage.getItem('parole_cart')) || [];
-            let activeCart = cart1.length > 0 ? cart1 : cart2;
+            let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
+            if (cart.length === 0) {
+                cart = JSON.parse(localStorage.getItem('parole_cart_full')) || [];
+            }
             
-            let totalCount = activeCart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-            const badge = document.getElementById('cartBadgeCount');
-            if (badge) badge.innerText = totalCount;
+            // حساب إجمالي عدد القطع الفعلي (مجموع الكميات)
+            let totalCount = cart.reduce((sum, item) => sum + (parseInt(item.quantity) || 1), 0);
+            
+            // تحديث كافة عدادات السلة في الصفحة الهيدر أو أي شريط عائم
+            document.querySelectorAll('.cart-badge, #cartBadgeCount, .cart-counter').forEach(badge => {
+                badge.innerText = totalCount;
+            });
         }
+
+        // تشغيل التحديث فور تحميل الصفحة وعند التغيير في التخزين المحلي
         document.addEventListener('DOMContentLoaded', updateCartBadge);
+        window.addEventListener('storage', updateCartBadge);
     </script>
 </body>
 </html>
