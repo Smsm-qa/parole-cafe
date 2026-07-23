@@ -38,7 +38,7 @@
         .btn-login:hover { background-color: var(--gold-light); }
         .error-msg { color: #ff4d4d; font-size: 12px; margin-top: 12px; display: none; }
 
-        /* هيكل لوحة التحكم (مخفية حتى يتم تسجيل الدخول) */
+        /* هيكل لوحة التحكم */
         #dashboard-wrapper { display: none; display: flex; min-height: 100vh; }
 
         /* القائمة الجانبية */
@@ -120,7 +120,7 @@
         </div>
     </div>
 
-    <!-- غلاف لوحة التحكم الأساسي (يظهر بعد الدخول الناجح) -->
+    <!-- غلاف لوحة التحكم الأساسي -->
     <div id="dashboard-wrapper">
         <!-- القائمة الجانبية -->
         <aside class="sidebar">
@@ -310,12 +310,11 @@
 
     <!-- البرمجة التفاعلية وحماية كلمة المرور والمزامنة -->
     <script>
-        // ======= [ بيانات الدخول الخاصة بك - يمكنك تعديلها هنا ] =======
+        // ======= [ بيانات الدخول الخاصة بك ] =======
         const ADMIN_USER = "Sami";
         const ADMIN_PASS = "0900403835";
-        // ==============================================================
+        // ============================================
 
-        // فحص حالة الجلسة عند فتح الصفحة
         window.onload = function() {
             if (localStorage.getItem("parole_is_logged_in") === "true") {
                 unlockDashboard();
@@ -370,7 +369,6 @@
             refreshDashboardData();
         }
 
-        // البيانات الافتراضية
         let defaultProducts = [
             { name: 'إسبانيش لاتيه فاخر', price: 28 },
             { name: 'حبوب قهوة إثيوبية (250ج)', price: 65 },
@@ -392,12 +390,13 @@
         }
 
         function renderProducts() {
-            let data = getStorage('parole_admin_products', defaultProducts);
+            let data = getStorage('parole_shop_products', defaultProducts);
             let tbody = document.getElementById('admin-products-list');
+            if(!tbody) return;
             tbody.innerHTML = '';
             document.getElementById('overview-products-count').textContent = data.length + ' منتج';
             data.forEach((item, index) => {
-                tbody.innerHTML += `<tr><td><strong>${item.name}</strong></td><td><span style="color: var(--gold);">${item.price} ر.س</span></td><td><button class="btn-delete" onclick="removeItem('parole_admin_products', ${index}, renderProducts)"><i class="fa-solid fa-trash"></i> حذف</button></td></tr>`;
+                tbody.innerHTML += `<tr><td><strong>${item.name}</strong></td><td><span style="color: var(--gold);">${item.price} ر.س</span></td><td><button class="btn-delete" onclick="removeItem('parole_shop_products', ${index}, renderProducts)"><i class="fa-solid fa-trash"></i> حذف</button></td></tr>`;
             });
             setStorage('parole_shop_products', data);
         }
@@ -405,20 +404,21 @@
             let name = document.getElementById('new-prod-name').value.trim();
             let price = document.getElementById('new-prod-price').value.trim();
             if(!name || !price) return alert('الرجاء تعبئة الحقول.');
-            let data = getStorage('parole_admin_products', defaultProducts);
+            let data = getStorage('parole_shop_products', defaultProducts);
             data.push({name, price: Number(price)});
-            setStorage('parole_admin_products', data);
+            setStorage('parole_shop_products', data);
             document.getElementById('new-prod-name').value = '';
             document.getElementById('new-prod-price').value = '';
             renderProducts();
         }
 
         function renderCoupons() {
-            let data = getStorage('parole_admin_coupons', defaultCoupons);
+            let data = getStorage('parole_shop_coupons', defaultCoupons);
             let tbody = document.getElementById('admin-coupons-list');
+            if(!tbody) return;
             tbody.innerHTML = '';
             data.forEach((item, index) => {
-                tbody.innerHTML += `<tr><td><strong>${item.code}</strong></td><td><span style="color: var(--gold);">${item.value}%</span></td><td><button class="btn-delete" onclick="removeItem('parole_admin_coupons', ${index}, renderCoupons)"><i class="fa-solid fa-trash"></i> حذف</button></td></tr>`;
+                tbody.innerHTML += `<tr><td><strong>${item.code}</strong></td><td><span style="color: var(--gold);">${item.value}%</span></td><td><button class="btn-delete" onclick="removeItem('parole_shop_coupons', ${index}, renderCoupons)"><i class="fa-solid fa-trash"></i> حذف</button></td></tr>`;
             });
             setStorage('parole_shop_coupons', data);
         }
@@ -426,20 +426,22 @@
             let code = document.getElementById('new-coupon-code').value.trim().toUpperCase();
             let value = document.getElementById('new-coupon-val').value.trim();
             if(!code || !value) return alert('الرجاء تعبئة الكوبون والقيمة.');
-            let data = getStorage('parole_admin_coupons', defaultCoupons);
+            let data = getStorage('parole_shop_coupons', defaultCoupons);
+            data = data.filter(c => c.code !== code);
             data.push({code, value: Number(value)});
-            setStorage('parole_admin_coupons', data);
+            setStorage('parole_shop_coupons', data);
             document.getElementById('new-coupon-code').value = '';
             document.getElementById('new-coupon-val').value = '';
             renderCoupons();
         }
 
         function renderBundles() {
-            let data = getStorage('parole_admin_bundles', defaultBundles);
+            let data = getStorage('parole_shop_bundles', defaultBundles);
             let tbody = document.getElementById('admin-bundles-list');
+            if(!tbody) return;
             tbody.innerHTML = '';
             data.forEach((item, index) => {
-                tbody.innerHTML += `<tr><td><strong>${item.title}</strong></td><td><span style="color: var(--gold);">${item.price} ر.س</span></td><td><button class="btn-delete" onclick="removeItem('parole_admin_bundles', ${index}, renderBundles)"><i class="fa-solid fa-trash"></i> حذف</button></td></tr>`;
+                tbody.innerHTML += `<tr><td><strong>${item.title}</strong></td><td><span style="color: var(--gold);">${item.price} ر.س</span></td><td><button class="btn-delete" onclick="removeItem('parole_shop_bundles', ${index}, renderBundles)"><i class="fa-solid fa-trash"></i> حذف</button></td></tr>`;
             });
             setStorage('parole_shop_bundles', data);
         }
@@ -447,86 +449,90 @@
             let title = document.getElementById('new-bundle-title').value.trim();
             let price = document.getElementById('new-bundle-price').value.trim();
             if(!title || !price) return alert('الرجاء تعبئة حقول الباقة.');
-            let data = getStorage('parole_admin_bundles', defaultBundles);
+            let data = getStorage('parole_shop_bundles', defaultBundles);
             data.push({title, price: Number(price)});
-            setStorage('parole_admin_bundles', data);
+            setStorage('parole_shop_bundles', data);
             document.getElementById('new-bundle-title').value = '';
             document.getElementById('new-bundle-price').value = '';
             renderBundles();
         }
 
         function renderUpsell() {
-            let data = getStorage('parole_admin_upsell', defaultUpsell);
+            let data = getStorage('parole_shop_upsell', defaultUpsell);
             let tbody = document.getElementById('admin-upsell-list');
+            if(!tbody) return;
             tbody.innerHTML = '';
             data.forEach((item, index) => {
-                tbody.innerHTML += `<tr><td><strong>${item.name}</strong></td><td><button class="btn-delete" onclick="removeItem('parole_admin_upsell', ${index}, renderUpsell)"><i class="fa-solid fa-trash"></i> حذف</button></td></tr>`;
+                tbody.innerHTML += `<tr><td><strong>${item.name}</strong></td><td><button class="btn-delete" onclick="removeItem('parole_shop_upsell', ${index}, renderUpsell)"><i class="fa-solid fa-trash"></i> حذف</button></td></tr>`;
             });
             setStorage('parole_shop_upsell', data);
         }
         function addUpsell() {
             let name = document.getElementById('new-upsell-item').value.trim();
             if(!name) return alert('الرجاء إدخال اسم المنتج.');
-            let data = getStorage('parole_admin_upsell', defaultUpsell);
+            let data = getStorage('parole_shop_upsell', defaultUpsell);
             data.push({name});
-            setStorage('parole_admin_upsell', data);
+            setStorage('parole_shop_upsell', data);
             document.getElementById('new-upsell-item').value = '';
             renderUpsell();
         }
 
         function renderCrossSell() {
-            let data = getStorage('parole_admin_crosssell', defaultCrossSell);
+            let data = getStorage('parole_shop_crosssell', defaultCrossSell);
             let tbody = document.getElementById('admin-cross-list');
+            if(!tbody) return;
             tbody.innerHTML = '';
             data.forEach((item, index) => {
-                tbody.innerHTML += `<tr><td><strong>${item.name}</strong></td><td><button class="btn-delete" onclick="removeItem('parole_admin_crosssell', ${index}, renderCrossSell)"><i class="fa-solid fa-trash"></i> حذف</button></td></tr>`;
+                tbody.innerHTML += `<tr><td><strong>${item.name}</strong></td><td><button class="btn-delete" onclick="removeItem('parole_shop_crosssell', ${index}, renderCrossSell)"><i class="fa-solid fa-trash"></i> حذف</button></td></tr>`;
             });
             setStorage('parole_shop_crosssell', data);
         }
         function addCrossSell() {
             let name = document.getElementById('new-cross-item').value.trim();
             if(!name) return alert('الرجاء إدخال اسم المنتج.');
-            let data = getStorage('parole_admin_crosssell', defaultCrossSell);
+            let data = getStorage('parole_shop_crosssell', defaultCrossSell);
             data.push({name});
-            setStorage('parole_admin_crosssell', data);
+            setStorage('parole_shop_crosssell', data);
             document.getElementById('new-cross-item').value = '';
             renderCrossSell();
         }
 
         function renderSuggested() {
-            let data = getStorage('parole_admin_suggested', defaultSuggested);
+            let data = getStorage('parole_shop_suggested', defaultSuggested);
             let tbody = document.getElementById('admin-suggested-list');
+            if(!tbody) return;
             tbody.innerHTML = '';
             data.forEach((item, index) => {
-                tbody.innerHTML += `<tr><td><strong>${item.name}</strong></td><td><button class="btn-delete" onclick="removeItem('parole_admin_suggested', ${index}, renderSuggested)"><i class="fa-solid fa-trash"></i> حذف</button></td></tr>`;
+                tbody.innerHTML += `<tr><td><strong>${item.name}</strong></td><td><button class="btn-delete" onclick="removeItem('parole_shop_suggested', ${index}, renderSuggested)"><i class="fa-solid fa-trash"></i> حذف</button></td></tr>`;
             });
             setStorage('parole_shop_suggested', data);
         }
         function addSuggested() {
             let name = document.getElementById('new-suggested-item').value.trim();
             if(!name) return alert('الرجاء إدخال اسم المنتج.');
-            let data = getStorage('parole_admin_suggested', defaultSuggested);
+            let data = getStorage('parole_shop_suggested', defaultSuggested);
             data.push({name});
-            setStorage('parole_admin_suggested', data);
+            setStorage('parole_shop_suggested', data);
             document.getElementById('new-suggested-item').value = '';
             renderSuggested();
         }
 
         function renderBestSellers() {
-            let data = getStorage('parole_admin_bestsellers', defaultBestSellers);
+            let data = getStorage('parole_shop_bestsellers', defaultBestSellers);
             let tbody = document.getElementById('admin-bestseller-list');
+            if(!tbody) return;
             tbody.innerHTML = '';
             data.forEach((item, index) => {
-                tbody.innerHTML += `<tr><td><strong>${item.name}</strong></td><td><button class="btn-delete" onclick="removeItem('parole_admin_bestsellers', ${index}, renderBestSellers)"><i class="fa-solid fa-trash"></i> حذف</button></td></tr>`;
+                tbody.innerHTML += `<tr><td><strong>${item.name}</strong></td><td><button class="btn-delete" onclick="removeItem('parole_shop_bestsellers', ${index}, renderBestSellers)"><i class="fa-solid fa-trash"></i> حذف</button></td></tr>`;
             });
             setStorage('parole_shop_bestsellers', data);
         }
         function addBestSeller() {
             let name = document.getElementById('new-bestseller-item').value.trim();
             if(!name) return alert('الرجاء إدخال اسم المنتج.');
-            let data = getStorage('parole_admin_bestsellers', defaultBestSellers);
+            let data = getStorage('parole_shop_bestsellers', defaultBestSellers);
             data.push({name});
-            setStorage('parole_admin_bestsellers', data);
+            setStorage('parole_shop_bestsellers', data);
             document.getElementById('new-bestseller-item').value = '';
             renderBestSellers();
         }
@@ -536,6 +542,8 @@
             let tbodyOrders = document.getElementById('admin-orders-list');
             let tbodyCustomers = document.getElementById('admin-customers-list');
             
+            if(!tbodyOrders || !tbodyCustomers) return;
+
             tbodyOrders.innerHTML = '';
             tbodyCustomers.innerHTML = '';
             
