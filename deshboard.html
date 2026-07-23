@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PAROLE Cafe | لوحة التحكم الإدارية الشاملة</title>
-    
+    <title>PAROLE Cafe | لوحة التحكم الإدارية الآمنة</title>
     <meta name="robots" content="noindex, nofollow">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -19,29 +18,51 @@
           --transition: all 0.3s ease;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--dark-bg); color: var(--text-main); line-height: 1.6; direction: rtl; text-align: right; display: flex; min-height: 100vh; overflow-x: hidden; }
+        body { background-color: var(--dark-bg); color: var(--text-main); line-height: 1.6; direction: rtl; text-align: right; min-height: 100vh; overflow-x: hidden; }
         
+        /* شاشة تسجيل الدخول */
+        #login-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--dark-bg); display: flex; justify-content: center; align-items: center; z-index: 1000;
+        }
+        .login-card {
+            background: var(--card-bg); border: 1px solid var(--border-color); padding: 40px; border-radius: 16px; width: 100%; max-width: 400px; text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+        .login-card h2 { color: var(--gold); font-size: 22px; margin-bottom: 25px; font-weight: 400; letter-spacing: 1px; }
+        .login-form-group { margin-bottom: 20px; text-align: right; }
+        .login-form-group label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
+        .login-form-group input { width: 100%; padding: 12px; background: var(--dark-bg); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 8px; font-size: 14px; outline: none; }
+        .login-form-group input:focus { border-color: var(--gold); }
+        .btn-login { background-color: var(--gold); color: #000; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: 600; font-size: 15px; cursor: pointer; transition: var(--transition); }
+        .btn-login:hover { background-color: var(--gold-light); }
+        .error-msg { color: #ff4d4d; font-size: 12px; margin-top: 12px; display: none; }
+
+        /* هيكل لوحة التحكم (مخفية حتى يتم تسجيل الدخول) */
+        #dashboard-wrapper { display: none; display: flex; min-height: 100vh; }
+
         /* القائمة الجانبية */
         .sidebar { width: 260px; background-color: #070707; border-left: 1px solid var(--border-color); padding: 25px 20px; display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 100; }
         .sidebar-logo { font-size: 20px; font-weight: 400; color: var(--text-main); letter-spacing: 4px; text-decoration: none; margin-bottom: 25px; text-align: center; display: block; text-transform: uppercase; }
         .sidebar-logo span { color: var(--gold); font-weight: 500; }
-        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 6px; overflow-y: auto; max-height: calc(100vh - 100px); padding-left: 5px; }
+        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 6px; overflow-y: auto; max-height: calc(100vh - 120px); padding-left: 5px; }
         .sidebar-menu::-webkit-scrollbar { width: 4px; }
         .sidebar-menu::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
-        .sidebar-menu a { color: var(--text-muted); text-decoration: none; padding: 10px 14px; border-radius: 8px; display: flex; align-items: center; gap: 12px; transition: var(--transition); font-size: 13px; }
+        .sidebar-menu a { color: var(--text-muted); text-decoration: none; padding: 10px 14px; border-radius: 8px; display: flex; align-items: center; gap: 12px; transition: var(--transition); font-size: 13px; cursor: pointer; }
         .sidebar-menu a:hover, .sidebar-menu a.active { background-color: rgba(212, 175, 55, 0.08); color: var(--gold); border: 1px solid rgba(212, 175, 55, 0.2); }
-        
         .menu-category-title { font-size: 11px; color: var(--gold); letter-spacing: 1px; margin: 15px 10px 5px 0; text-transform: uppercase; opacity: 0.8; }
 
         /* المحتوى الرئيسي */
         .main-content { flex: 1; margin-right: 260px; padding: 40px; overflow-y: auto; }
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 35px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
-        .top-bar h1 { color: var(--gold); font-size: 26px; font-weight: 300; letter-spacing: 1px; }
+        .top-bar h1 { color: var(--gold); font-size: 24px; font-weight: 300; letter-spacing: 1px; }
+        .btn-logout { background: rgba(255, 77, 77, 0.08); border: 1px solid rgba(255, 77, 77, 0.3); color: #ff4d4d; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-size: 13px; transition: var(--transition); display: inline-flex; align-items: center; gap: 6px; }
+        .btn-logout:hover { background: #ff4d4d; color: #fff; }
 
         /* البطاقات الإحصائية */
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 30px; }
         .stat-card { background-color: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); }
-        .stat-card h3 { color: var(--text-muted); font-size: 12px; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .stat-card h3 { color: var(--text-muted); font-size: 12px; margin-bottom: 8px; }
         .stat-card .number { font-size: 22px; font-weight: 500; color: var(--gold); }
 
         /* أقسام اللوحة */
@@ -63,7 +84,6 @@
         
         .btn-action { background-color: var(--gold); color: #000; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: var(--transition); font-size: 13px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
         .btn-action:hover { background-color: var(--gold-light); }
-        
         .btn-delete { background: rgba(255, 77, 77, 0.08); border: 1px solid rgba(255, 77, 77, 0.3); color: #ff4d4d; padding: 5px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; }
         .btn-delete:hover { background: #ff4d4d; color: #fff; }
 
@@ -83,208 +103,249 @@
 </head>
 <body>
 
-    <!-- القائمة الجانبية -->
-    <aside class="sidebar">
-        <a href="index.html" class="sidebar-logo">PAROLE <span>ADMIN</span></a>
-        <ul class="sidebar-menu">
-            <li><a href="#" class="active" onclick="switchTab('overview', this)"><i class="fa-solid fa-chart-pie"></i> <span>لوحة القيادة</span></a></li>
-            
-            <div class="menu-category-title">الكتالوج والأسعار</div>
-            <li><a href="#" onclick="switchTab('products', this)"><i class="fa-solid fa-boxes-stacked"></i> <span>المنتجات</span></a></li>
-            
-            <div class="menu-category-title">التسويق والمبيعات</div>
-            <li><a href="#" onclick="switchTab('coupons', this)"><i class="fa-solid fa-ticket"></i> <span>كوبونات خصم</span></a></li>
-            <li><a href="#" onclick="switchTab('bundles', this)"><i class="fa-solid fa-box-open"></i> <span>Bundles (الباقات)</span></a></li>
-            <li><a href="#" onclick="switchTab('upsell', this)"><i class="fa-solid fa-arrow-trend-up"></i> <span>Upsell (البيع الارتقائي)</span></a></li>
-            <li><a href="#" onclick="switchTab('crosssell', this)"><i class="fa-solid fa-shuffle"></i> <span>Cross Sell (البيع التقاطعي)</span></a></li>
-            <li><a href="#" onclick="switchTab('suggested', this)"><i class="fa-solid fa-star"></i> <span>المنتجات المقترحة</span></a></li>
-            <li><a href="#" onclick="switchTab('bestsellers', this)"><i class="fa-solid fa-fire"></i> <span>الأكثر مبيعًا</span></a></li>
-
-            <div class="menu-category-title">العملاء والتقارير</div>
-            <li><a href="#" onclick="switchTab('customers', this)"><i class="fa-solid fa-users"></i> <span>العملاء</span></a></li>
-            <li><a href="#" onclick="switchTab('orders', this)"><i class="fa-solid fa-clipboard-list"></i> <span>الطلبات</span></a></li>
-            <li><a href="#" onclick="switchTab('reports', this)"><i class="fa-solid fa-chart-line"></i> <span>التقارير</span></a></li>
-            <li><a href="index.html"><i class="fa-solid fa-store"></i> <span>عرض المتجر</span></a></li>
-        </ul>
-    </aside>
-
-    <!-- المحتوى الرئيسي -->
-    <main class="main-content">
-        <div class="top-bar">
-            <h1 id="page-title-header">لوحة القيادة والإحصاءات العامة</h1>
-            <span style="color: var(--text-muted); font-size: 13px;"><i class="fa-solid fa-user-shield" style="color: var(--gold); margin-left: 5px;"></i> المدير العام (المملكة العربية السعودية)</span>
+    <!-- شاشة تسجيل الدخول -->
+    <div id="login-screen">
+        <div class="login-card">
+            <h2>PAROLE ADMIN</h2>
+            <div class="login-form-group">
+                <label>اسم المستخدم</label>
+                <input type="text" id="loginUser" placeholder="أدخل اسم المستخدم">
+            </div>
+            <div class="login-form-group">
+                <label>كلمة المرور</label>
+                <input type="password" id="loginPass" placeholder="أدخل كلمة المرور">
+            </div>
+            <button class="btn-login" onclick="verifyLogin()">تسجيل الدخول</button>
+            <div id="loginError" class="error-msg">اسم المستخدم أو كلمة المرور غير صحيحة!</div>
         </div>
+    </div>
 
-        <!-- 1. لوحة القيادة / نظرة عامة -->
-        <div id="section-overview" class="dashboard-section active-section">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h3>إجمالي الطلبات الواردة</h3>
-                    <div class="number" id="overview-orders-count">0 طلب</div>
-                </div>
-                <div class="stat-card">
-                    <h3>المنتجات المعروضة</h3>
-                    <div class="number" id="overview-products-count">0 منتج</div>
-                </div>
-                <div class="stat-card">
-                    <h3>إجمالي العملاء</h3>
-                    <div class="number" id="overview-customers-count">0 عميل</div>
-                </div>
-                <div class="stat-card">
-                    <h3>إجمالي الإيرادات</h3>
-                    <div class="number" id="overview-revenue">0.00 ر.س</div>
-                </div>
-            </div>
-        </div>
+    <!-- غلاف لوحة التحكم الأساسي (يظهر بعد الدخول الناجح) -->
+    <div id="dashboard-wrapper">
+        <!-- القائمة الجانبية -->
+        <aside class="sidebar">
+            <a href="index.html" class="sidebar-logo">PAROLE <span>ADMIN</span></a>
+            <ul class="sidebar-menu">
+                <li><a href="#" class="active" onclick="switchTab('overview', this)"><i class="fa-solid fa-chart-pie"></i> <span>لوحة القيادة</span></a></li>
+                
+                <div class="menu-category-title">الكتالوج والأسعار</div>
+                <li><a href="#" onclick="switchTab('products', this)"><i class="fa-solid fa-boxes-stacked"></i> <span>المنتجات</span></a></li>
+                
+                <div class="menu-category-title">التسويق والمبيعات</div>
+                <li><a href="#" onclick="switchTab('coupons', this)"><i class="fa-solid fa-ticket"></i> <span>كوبونات خصم</span></a></li>
+                <li><a href="#" onclick="switchTab('bundles', this)"><i class="fa-solid fa-box-open"></i> <span>Bundles (الباقات)</span></a></li>
+                <li><a href="#" onclick="switchTab('upsell', this)"><i class="fa-solid fa-arrow-trend-up"></i> <span>Upsell (الارتقائي)</span></a></li>
+                <li><a href="#" onclick="switchTab('crosssell', this)"><i class="fa-solid fa-shuffle"></i> <span>Cross Sell (التقاطعي)</span></a></li>
+                <li><a href="#" onclick="switchTab('suggested', this)"><i class="fa-solid fa-star"></i> <span>المقترحة</span></a></li>
+                <li><a href="#" onclick="switchTab('bestsellers', this)"><i class="fa-solid fa-fire"></i> <span>الأكثر مبيعًا</span></a></li>
 
-        <!-- 2. المنتجات -->
-        <div id="section-products" class="dashboard-section">
-            <h2><i class="fa-solid fa-boxes-stacked"></i> إدارة المنتجات والأسعار</h2>
-            <div class="form-grid">
-                <div class="form-group"><input type="text" id="new-prod-name" placeholder="اسم المنتج"></div>
-                <div class="form-group"><input type="number" id="new-prod-price" placeholder="السعر (ر.س)"></div>
-                <button class="btn-action" onclick="addProduct()"><i class="fa-solid fa-plus"></i> إضافة منتج</button>
-            </div>
-            <div class="data-table-container">
-                <table class="data-table">
-                    <thead><tr><th>اسم المنتج</th><th>السعر</th><th>الإجراء</th></tr></thead>
-                    <tbody id="admin-products-list"></tbody>
-                </table>
-            </div>
-        </div>
+                <div class="menu-category-title">العملاء والتقارير</div>
+                <li><a href="#" onclick="switchTab('customers', this)"><i class="fa-solid fa-users"></i> <span>العملاء</span></a></li>
+                <li><a href="#" onclick="switchTab('orders', this)"><i class="fa-solid fa-clipboard-list"></i> <span>الطلبات</span></a></li>
+                <li><a href="#" onclick="switchTab('reports', this)"><i class="fa-solid fa-chart-line"></i> <span>التقارير</span></a></li>
+                <li><a href="index.html"><i class="fa-solid fa-store"></i> <span>عرض المتجر</span></a></li>
+            </ul>
+        </aside>
 
-        <!-- 3. كوبونات خصم -->
-        <div id="section-coupons" class="dashboard-section">
-            <h2><i class="fa-solid fa-ticket"></i> إدارة كوبونات الخصم</h2>
-            <div class="form-grid">
-                <div class="form-group"><input type="text" id="new-coupon-code" placeholder="رمز الكوبون (مثال: PAROLE2026)"></div>
-                <div class="form-group"><input type="number" id="new-coupon-val" placeholder="قيمة الخصم (ر.س)"></div>
-                <button class="btn-action" onclick="addCoupon()"><i class="fa-solid fa-plus"></i> إضافة كوبون</button>
-            </div>
-            <div class="data-table-container">
-                <table class="data-table">
-                    <thead><tr><th>رمز الكوبون</th><th>قيمة الخصم</th><th>الإجراء</th></tr></thead>
-                    <tbody id="admin-coupons-list"></tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- 4. Bundles (الباقات) -->
-        <div id="section-bundles" class="dashboard-section">
-            <h2><i class="fa-solid fa-box-open"></i> إدارة الباقات والعروض المجمعة (Bundles)</h2>
-            <div class="form-grid">
-                <div class="form-group"><input type="text" id="new-bundle-title" placeholder="اسم الباقة (مثال: باقة الصباح الفاخرة)"></div>
-                <div class="form-group"><input type="text" id="new-bundle-price" placeholder="سعر الباقة (ر.س)"></div>
-                <button class="btn-action" onclick="addBundle()"><i class="fa-solid fa-plus"></i> إضافة باقة</button>
-            </div>
-            <div class="data-table-container">
-                <table class="data-table">
-                    <thead><tr><th>اسم الباقة</th><th>السعر الخاص</th><th>الإجراء</th></tr></thead>
-                    <tbody id="admin-bundles-list"></tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- 5. Upsell (البيع الارتقائي) -->
-        <div id="section-upsell" class="dashboard-section">
-            <h2><i class="fa-solid fa-arrow-trend-up"></i> إعدادات البيع الارتقائي (Upsell Products)</h2>
-            <div class="form-grid">
-                <div class="form-group"><input type="text" id="new-upsell-item" placeholder="المنتج المقترح للترقية (مثال: حجم كبير 500 مل)"></div>
-                <button class="btn-action" onclick="addUpsell()"><i class="fa-solid fa-plus"></i> إضافة تفعيل</button>
-            </div>
-            <div class="data-table-container">
-                <table class="data-table">
-                    <thead><tr><th>المنتج الارتقائي النشط</th><th>الإجراء</th></tr></thead>
-                    <tbody id="admin-upsell-list"></tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- 6. Cross Sell (البيع التقاطعي) -->
-        <div id="section-crosssell" class="dashboard-section">
-            <h2><i class="fa-solid fa-shuffle"></i> إعدادات البيع التقاطعي (Cross Sell Items)</h2>
-            <div class="form-grid">
-                <div class="form-group"><input type="text" id="new-cross-item" placeholder="منتج مصاحب (مثال: كيكة الشوكولاتة مع القهوة)"></div>
-                <button class="btn-action" onclick="addCrossSell()"><i class="fa-solid fa-plus"></i> إضافة ارتباط</button>
-            </div>
-            <div class="data-table-container">
-                <table class="data-table">
-                    <thead><tr><th>المنتج التقاطعي المعروض بالسلة</th><th>الإجراء</th></tr></thead>
-                    <tbody id="admin-cross-list"></tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- 7. المنتجات المقترحة -->
-        <div id="section-suggested" class="dashboard-section">
-            <h2><i class="fa-solid fa-star"></i> قائمة المنتجات المقترحة</h2>
-            <div class="form-grid">
-                <div class="form-group"><input type="text" id="new-suggested-item" placeholder="اسم المنتج المقترح"></div>
-                <button class="btn-action" onclick="addSuggested()"><i class="fa-solid fa-plus"></i> إضافة للاقتراحات</button>
-            </div>
-            <div class="data-table-container">
-                <table class="data-table">
-                    <thead><tr><th>اسم المنتج</th><th>الإجراء</th></tr></thead>
-                    <tbody id="admin-suggested-list"></tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- 8. المنتجات الأكثر مبيعًا -->
-        <div id="section-bestsellers" class="dashboard-section">
-            <h2><i class="fa-solid fa-fire"></i> إدارة قسم الأكثر مبيعًا</h2>
-            <div class="form-grid">
-                <div class="form-group"><input type="text" id="new-bestseller-item" placeholder="اسم المنتج الأعلى مبيعاً"></div>
-                <button class="btn-action" onclick="addBestSeller()"><i class="fa-solid fa-plus"></i> إدراج بالقائمة</button>
-            </div>
-            <div class="data-table-container">
-                <table class="data-table">
-                    <thead><tr><th>المنتج الأكثر مبيعاً</th><th>الإجراء</th></tr></thead>
-                    <tbody id="admin-bestseller-list"></tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- 9. العملاء -->
-        <div id="section-customers" class="dashboard-section">
-            <h2><i class="fa-solid fa-users"></i> سجل عملاء المتجر</h2>
-            <div class="data-table-container">
-                <table class="data-table">
-                    <thead><tr><th>اسم العميل</th><th>البريد الإلكتروني / الجوال</th><th>عدد الطلبات</th></tr></thead>
-                    <tbody id="admin-customers-list"></tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- 10. الطلبات -->
-        <div id="section-orders" class="dashboard-section">
-            <h2><i class="fa-solid fa-clipboard-list"></i> سجل الطلبات الواردة (تحديث حي من السلة)</h2>
-            <div class="data-table-container">
-                <table class="data-table">
-                    <thead><tr><th>رقم الطلب</th><th>العميل</th><th>الحالة</th><th>المبلغ الإجمالي</th><th>الإجراء</th></tr></thead>
-                    <tbody id="admin-orders-list"></tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- 11. التقارير -->
-        <div id="section-reports" class="dashboard-section">
-            <h2><i class="fa-solid fa-chart-line"></i> تقارير الأداء والمبيعات</h2>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h3>إجمالي مبيعات المتجر</h3>
-                    <div class="number" id="report-total-revenue">0.00 ر.س</div>
-                </div>
-                <div class="stat-card">
-                    <h3>متوسط قيمة الطلب</h3>
-                    <div class="number" id="report-avg-order">0.00 ر.س</div>
+        <!-- المحتوى الرئيسي -->
+        <main class="main-content">
+            <div class="top-bar">
+                <h1 id="page-title-header">لوحة القيادة والإحصاءات العامة</h1>
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <span style="color: var(--text-muted); font-size: 13px;"><i class="fa-solid fa-user-shield" style="color: var(--gold); margin-left: 5px;"></i> متجر بارول - قطر</span>
+                    <button class="btn-logout" onclick="logoutAdmin()"><i class="fa-solid fa-right-from-bracket"></i> خروج</button>
                 </div>
             </div>
-        </div>
-    </main>
 
-    <!-- البرمجة التفاعلية للوحة -->
+            <!-- 1. نظرة عامة -->
+            <div id="section-overview" class="dashboard-section active-section">
+                <div class="stats-grid">
+                    <div class="stat-card"><h3>إجمالي الطلبات</h3><div class="number" id="overview-orders-count">0 طلب</div></div>
+                    <div class="stat-card"><h3>المنتجات المعروضة</h3><div class="number" id="overview-products-count">0 منتج</div></div>
+                    <div class="stat-card"><h3>إجمالي العملاء</h3><div class="number" id="overview-customers-count">0 عميل</div></div>
+                    <div class="stat-card"><h3>إجمالي الإيرادات</h3><div class="number" id="overview-revenue">0.00 ر.س</div></div>
+                </div>
+            </div>
+
+            <!-- 2. المنتجات -->
+            <div id="section-products" class="dashboard-section">
+                <h2><i class="fa-solid fa-boxes-stacked"></i> إدارة المنتجات (متصلة بالمتجر في الخفاء)</h2>
+                <div class="form-grid">
+                    <div class="form-group"><input type="text" id="new-prod-name" placeholder="اسم المنتج"></div>
+                    <div class="form-group"><input type="number" id="new-prod-price" placeholder="السعر (ر.س)"></div>
+                    <button class="btn-action" onclick="addProduct()"><i class="fa-solid fa-plus"></i> إضافة منتج</button>
+                </div>
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead><tr><th>اسم المنتج</th><th>السعر</th><th>الإجراء</th></tr></thead>
+                        <tbody id="admin-products-list"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 3. كوبونات الخصم -->
+            <div id="section-coupons" class="dashboard-section">
+                <h2><i class="fa-solid fa-ticket"></i> إدارة كوبونات الخصم (تتفاعل مع صفحة الدفع)</h2>
+                <div class="form-grid">
+                    <div class="form-group"><input type="text" id="new-coupon-code" placeholder="رمز الكوبون (مثال: PAROLE20)"></div>
+                    <div class="form-group"><input type="number" id="new-coupon-val" placeholder="قيمة الخصم (نسبة مئوية)"></div>
+                    <button class="btn-action" onclick="addCoupon()"><i class="fa-solid fa-plus"></i> إضافة كوبون</button>
+                </div>
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead><tr><th>رمز الكوبون</th><th>نسبة الخصم</th><th>الإجراء</th></tr></thead>
+                        <tbody id="admin-coupons-list"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 4. Bundles -->
+            <div id="section-bundles" class="dashboard-section">
+                <h2><i class="fa-solid fa-box-open"></i> إدارة الباقات (Bundles)</h2>
+                <div class="form-grid">
+                    <div class="form-group"><input type="text" id="new-bundle-title" placeholder="اسم الباقة"></div>
+                    <div class="form-group"><input type="text" id="new-bundle-price" placeholder="السعر (ر.س)"></div>
+                    <button class="btn-action" onclick="addBundle()"><i class="fa-solid fa-plus"></i> إضافة باقة</button>
+                </div>
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead><tr><th>اسم الباقة</th><th>السعر الخاص</th><th>الإجراء</th></tr></thead>
+                        <tbody id="admin-bundles-list"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 5. Upsell -->
+            <div id="section-upsell" class="dashboard-section">
+                <h2><i class="fa-solid fa-arrow-trend-up"></i> إعدادات البيع الارتقائي (Upsell)</h2>
+                <div class="form-grid">
+                    <div class="form-group"><input type="text" id="new-upsell-item" placeholder="المنتج المقترح للترقية"></div>
+                    <button class="btn-action" onclick="addUpsell()"><i class="fa-solid fa-plus"></i> إضافة</button>
+                </div>
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead><tr><th>المنتج الارتقائي النشط</th><th>الإجراء</th></tr></thead>
+                        <tbody id="admin-upsell-list"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 6. Cross Sell -->
+            <div id="section-crosssell" class="dashboard-section">
+                <h2><i class="fa-solid fa-shuffle"></i> إعدادات البيع التقاطعي (Cross Sell)</h2>
+                <div class="form-grid">
+                    <div class="form-group"><input type="text" id="new-cross-item" placeholder="منتج مصاحب"></div>
+                    <button class="btn-action" onclick="addCrossSell()"><i class="fa-solid fa-plus"></i> إضافة</button>
+                </div>
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead><tr><th>المنتج التقاطعي بالسلة</th><th>الإجراء</th></tr></thead>
+                        <tbody id="admin-cross-list"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 7. المقترحة -->
+            <div id="section-suggested" class="dashboard-section">
+                <h2><i class="fa-solid fa-star"></i> قائمة المنتجات المقترحة</h2>
+                <div class="form-grid">
+                    <div class="form-group"><input type="text" id="new-suggested-item" placeholder="اسم المنتج"></div>
+                    <button class="btn-action" onclick="addSuggested()"><i class="fa-solid fa-plus"></i> إضافة</button>
+                </div>
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead><tr><th>اسم المنتج</th><th>الإجراء</th></tr></thead>
+                        <tbody id="admin-suggested-list"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 8. الأكثر مبيعاً -->
+            <div id="section-bestsellers" class="dashboard-section">
+                <h2><i class="fa-solid fa-fire"></i> المنتجات الأكثر مبيعًا</h2>
+                <div class="form-grid">
+                    <div class="form-group"><input type="text" id="new-bestseller-item" placeholder="اسم المنتج"></div>
+                    <button class="btn-action" onclick="addBestSeller()"><i class="fa-solid fa-plus"></i> إضافة</button>
+                </div>
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead><tr><th>المنتج</th><th>الإجراء</th></tr></thead>
+                        <tbody id="admin-bestseller-list"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 9. العملاء -->
+            <div id="section-customers" class="dashboard-section">
+                <h2><i class="fa-solid fa-users"></i> سجل العملاء (تحديث حي من الطلبات)</h2>
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead><tr><th>اسم العميل</th><th>رقم الجوال / العنوان</th><th>عدد الطلبات</th></tr></thead>
+                        <tbody id="admin-customers-list"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 10. الطلبات -->
+            <div id="section-orders" class="dashboard-section">
+                <h2><i class="fa-solid fa-clipboard-list"></i> سجل الطلبات الواردة (تحديث حي من صفحة الدفع)</h2>
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead><tr><th>رقم الطلب</th><th>العميل</th><th>العنوان / الهاتف</th><th>الحالة</th><th>المبلغ</th><th>الإجراء</th></tr></thead>
+                        <tbody id="admin-orders-list"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 11. التقارير -->
+            <div id="section-reports" class="dashboard-section">
+                <h2><i class="fa-solid fa-chart-line"></i> تقارير الأداء والمبيعات</h2>
+                <div class="stats-grid">
+                    <div class="stat-card"><h3>إجمالي مبيعات المتجر</h3><div class="number" id="report-total-revenue">0.00 ر.س</div></div>
+                    <div class="stat-card"><h3>متوسط قيمة الطلب</h3><div class="number" id="report-avg-order">0.00 ر.س</div></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- البرمجة التفاعلية وحماية كلمة المرور والمزامنة -->
     <script>
+        // ======= [ بيانات الدخول الخاصة بك - يمكنك تعديلها هنا ] =======
+        const ADMIN_USER = "Sami";
+        const ADMIN_PASS = "0900403835";
+        // ==============================================================
+
+        // فحص حالة الجلسة عند فتح الصفحة
+        window.onload = function() {
+            if (localStorage.getItem("parole_is_logged_in") === "true") {
+                unlockDashboard();
+            }
+        };
+
+        function verifyLogin() {
+            let u = document.getElementById("loginUser").value.trim();
+            let p = document.getElementById("loginPass").value.trim();
+            let err = document.getElementById("loginError");
+
+            if (u === ADMIN_USER && p === ADMIN_PASS) {
+                localStorage.setItem("parole_is_logged_in", "true");
+                unlockDashboard();
+            } else {
+                err.style.display = "block";
+            }
+        }
+
+        function unlockDashboard() {
+            document.getElementById("login-screen").style.display = "none";
+            document.getElementById("dashboard-wrapper").style.display = "flex";
+            refreshDashboardData();
+        }
+
+        function logoutAdmin() {
+            localStorage.removeItem("parole_is_logged_in");
+            location.reload();
+        }
+
         function switchTab(tabId, element) {
             document.querySelectorAll('.dashboard-section').forEach(sec => sec.classList.remove('active-section'));
             document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
@@ -296,9 +357,9 @@
                 'overview': 'لوحة القيادة والإحصاءات العامة',
                 'products': 'إدارة المنتجات والأسعار',
                 'coupons': 'إدارة كوبونات الخصم',
-                'bundles': 'إدارة الباقات والعروض المجمعة (Bundles)',
-                'upsell': 'إعدادات البيع الارتقائي (Upsell)',
-                'crosssell': 'إعدادات البيع التقاطعي (Cross Sell)',
+                'bundles': 'إدارة الباقات (Bundles)',
+                'upsell': 'إعدادات البيع الارتقائي',
+                'crosssell': 'إعدادات البيع التقاطعي',
                 'suggested': 'قائمة المنتجات المقترحة',
                 'bestsellers': 'إدارة قسم الأكثر مبيعًا',
                 'customers': 'سجل عملاء المتجر',
@@ -315,13 +376,12 @@
             { name: 'حبوب قهوة إثيوبية (250ج)', price: 65 },
             { name: 'كولد برو مركز', price: 32 }
         ];
-        let defaultCoupons = [{ code: 'PAROLE2026', value: 10 }];
-        let defaultBundles = [{ title: 'باقة الصباح (قهوة + كيكة)', price: 45 }];
-        let defaultUpsell = [{ name: 'ترقية الحجم إلى كبير (دبل شوت)' }];
-        let defaultCrossSell = [{ name: 'إضافة صوص الكراميل الإضافي' }];
-        let defaultSuggested = [{ name: 'ماتشا لاتيه الياباني' }];
+        let defaultCoupons = [{ code: 'PAROLE10', value: 10 }];
+        let defaultBundles = [{ title: 'باقة الصباح الفاخرة', price: 45 }];
+        let defaultUpsell = [{ name: 'ترقية الحجم إلى كبير' }];
+        let defaultCrossSell = [{ name: 'إضافة صوص إضافي' }];
+        let defaultSuggested = [{ name: 'ماتشا لاتيه' }];
         let defaultBestSellers = [{ name: 'إسبانيش لاتيه فاخر' }];
-        let defaultCustomers = [{ name: 'محمد العتيبي', contact: '0551234567', ordersCount: 3 }];
 
         function getStorage(key, def) {
             return JSON.parse(localStorage.getItem(key)) || def;
@@ -331,7 +391,6 @@
             localStorage.setItem(key, JSON.stringify(val));
         }
 
-        // دوال التحديث والرسم
         function renderProducts() {
             let data = getStorage('parole_admin_products', defaultProducts);
             let tbody = document.getElementById('admin-products-list');
@@ -340,6 +399,7 @@
             data.forEach((item, index) => {
                 tbody.innerHTML += `<tr><td><strong>${item.name}</strong></td><td><span style="color: var(--gold);">${item.price} ر.س</span></td><td><button class="btn-delete" onclick="removeItem('parole_admin_products', ${index}, renderProducts)"><i class="fa-solid fa-trash"></i> حذف</button></td></tr>`;
             });
+            setStorage('parole_shop_products', data);
         }
         function addProduct() {
             let name = document.getElementById('new-prod-name').value.trim();
@@ -358,11 +418,12 @@
             let tbody = document.getElementById('admin-coupons-list');
             tbody.innerHTML = '';
             data.forEach((item, index) => {
-                tbody.innerHTML += `<tr><td><strong>${item.code}</strong></td><td><span style="color: var(--gold);">${item.value} ر.س</span></td><td><button class="btn-delete" onclick="removeItem('parole_admin_coupons', ${index}, renderCoupons)"><i class="fa-solid fa-trash"></i> حذف</button></td></tr>`;
+                tbody.innerHTML += `<tr><td><strong>${item.code}</strong></td><td><span style="color: var(--gold);">${item.value}%</span></td><td><button class="btn-delete" onclick="removeItem('parole_admin_coupons', ${index}, renderCoupons)"><i class="fa-solid fa-trash"></i> حذف</button></td></tr>`;
             });
+            setStorage('parole_shop_coupons', data);
         }
         function addCoupon() {
-            let code = document.getElementById('new-coupon-code').value.trim();
+            let code = document.getElementById('new-coupon-code').value.trim().toUpperCase();
             let value = document.getElementById('new-coupon-val').value.trim();
             if(!code || !value) return alert('الرجاء تعبئة الكوبون والقيمة.');
             let data = getStorage('parole_admin_coupons', defaultCoupons);
@@ -380,6 +441,7 @@
             data.forEach((item, index) => {
                 tbody.innerHTML += `<tr><td><strong>${item.title}</strong></td><td><span style="color: var(--gold);">${item.price} ر.س</span></td><td><button class="btn-delete" onclick="removeItem('parole_admin_bundles', ${index}, renderBundles)"><i class="fa-solid fa-trash"></i> حذف</button></td></tr>`;
             });
+            setStorage('parole_shop_bundles', data);
         }
         function addBundle() {
             let title = document.getElementById('new-bundle-title').value.trim();
@@ -400,10 +462,11 @@
             data.forEach((item, index) => {
                 tbody.innerHTML += `<tr><td><strong>${item.name}</strong></td><td><button class="btn-delete" onclick="removeItem('parole_admin_upsell', ${index}, renderUpsell)"><i class="fa-solid fa-trash"></i> حذف</button></td></tr>`;
             });
+            setStorage('parole_shop_upsell', data);
         }
         function addUpsell() {
             let name = document.getElementById('new-upsell-item').value.trim();
-            if(!name) return alert('الرجاء إدخال اسم المنتج الارتقائي.');
+            if(!name) return alert('الرجاء إدخال اسم المنتج.');
             let data = getStorage('parole_admin_upsell', defaultUpsell);
             data.push({name});
             setStorage('parole_admin_upsell', data);
@@ -418,10 +481,11 @@
             data.forEach((item, index) => {
                 tbody.innerHTML += `<tr><td><strong>${item.name}</strong></td><td><button class="btn-delete" onclick="removeItem('parole_admin_crosssell', ${index}, renderCrossSell)"><i class="fa-solid fa-trash"></i> حذف</button></td></tr>`;
             });
+            setStorage('parole_shop_crosssell', data);
         }
         function addCrossSell() {
             let name = document.getElementById('new-cross-item').value.trim();
-            if(!name) return alert('الرجاء إدخال اسم المنتج التقاطعي.');
+            if(!name) return alert('الرجاء إدخال اسم المنتج.');
             let data = getStorage('parole_admin_crosssell', defaultCrossSell);
             data.push({name});
             setStorage('parole_admin_crosssell', data);
@@ -436,6 +500,7 @@
             data.forEach((item, index) => {
                 tbody.innerHTML += `<tr><td><strong>${item.name}</strong></td><td><button class="btn-delete" onclick="removeItem('parole_admin_suggested', ${index}, renderSuggested)"><i class="fa-solid fa-trash"></i> حذف</button></td></tr>`;
             });
+            setStorage('parole_shop_suggested', data);
         }
         function addSuggested() {
             let name = document.getElementById('new-suggested-item').value.trim();
@@ -454,6 +519,7 @@
             data.forEach((item, index) => {
                 tbody.innerHTML += `<tr><td><strong>${item.name}</strong></td><td><button class="btn-delete" onclick="removeItem('parole_admin_bestsellers', ${index}, renderBestSellers)"><i class="fa-solid fa-trash"></i> حذف</button></td></tr>`;
             });
+            setStorage('parole_shop_bestsellers', data);
         }
         function addBestSeller() {
             let name = document.getElementById('new-bestseller-item').value.trim();
@@ -465,41 +531,56 @@
             renderBestSellers();
         }
 
-        function renderCustomers() {
-            let data = getStorage('parole_admin_customers', defaultCustomers);
-            let tbody = document.getElementById('admin-customers-list');
-            tbody.innerHTML = '';
-            document.getElementById('overview-customers-count').textContent = data.length + ' عميل';
-            data.forEach(c => {
-                tbody.innerHTML += `<tr><td><strong>${c.name}</strong></td><td>${c.contact}</td><td>${c.ordersCount} طلبات</td></tr>`;
-            });
-        }
-
-        function renderOrdersAndReports() {
-            let orders = getStorage('parole_admin_orders', [
-                { id: '#ORD-8921', customer: 'محمد العتيبي', status: 'مكتمل', total: '120.00 ر.س' }
-            ]);
-
-            let tbody = document.getElementById('admin-orders-list');
-            tbody.innerHTML = '';
+        function renderCustomersAndOrders() {
+            let orders = getStorage('parole_admin_orders', []);
+            let tbodyOrders = document.getElementById('admin-orders-list');
+            let tbodyCustomers = document.getElementById('admin-customers-list');
+            
+            tbodyOrders.innerHTML = '';
+            tbodyCustomers.innerHTML = '';
+            
             document.getElementById('overview-orders-count').textContent = orders.length + ' طلب';
 
             let totalRev = 0;
+            let uniqueCustomers = {};
+
+            if(orders.length === 0) {
+                tbodyOrders.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">لا توجد طلبات واردة حتى الآن.</td></tr>';
+            }
+
             orders.forEach((order, index) => {
                 let badgeClass = order.status === 'مكتمل' ? 'status-completed' : 'status-pending';
                 let numericTotal = parseFloat(order.total) || 0;
                 totalRev += numericTotal;
 
-                tbody.innerHTML += `
+                if(!uniqueCustomers[order.customer]) {
+                    uniqueCustomers[order.customer] = { contact: (order.phone || '') + ' - ' + (order.address || ''), count: 1 };
+                } else {
+                    uniqueCustomers[order.customer].count++;
+                }
+
+                tbodyOrders.innerHTML += `
                     <tr>
                         <td><strong>${order.id}</strong></td>
                         <td>${order.customer}</td>
+                        <td><small style="color: var(--text-muted);">${order.phone || ''} <br>${order.address || ''}</small></td>
                         <td><span class="status-badge ${badgeClass}">${order.status}</span></td>
                         <td><span style="color: var(--gold);">${order.total}</span></td>
                         <td><button class="btn-delete" style="background: rgba(212,175,55,0.08); border-color: rgba(212,175,55,0.3); color: var(--gold);" onclick="toggleOrderStatus(${index})">تغيير الحالة</button></td>
                     </tr>
                 `;
             });
+
+            let customersCount = Object.keys(uniqueCustomers).length;
+            document.getElementById('overview-customers-count').textContent = customersCount + ' عميل';
+
+            if(customersCount === 0) {
+                tbodyCustomers.innerHTML = '<tr><td colspan="3" style="text-align: center; color: var(--text-muted);">لا توجد بيانات عملاء مسجلة حتى الآن.</td></tr>';
+            } else {
+                for (let cust in uniqueCustomers) {
+                    tbodyCustomers.innerHTML += `<tr><td><strong>${cust}</strong></td><td>${uniqueCustomers[cust].contact}</td><td>${uniqueCustomers[cust].count} طلبات</td></tr>`;
+                }
+            }
 
             let revFormatted = totalRev.toFixed(2) + ' ر.س';
             let avgFormatted = orders.length > 0 ? (totalRev / orders.length).toFixed(2) + ' ر.س' : '0.00 ر.س';
@@ -513,7 +594,7 @@
             let orders = getStorage('parole_admin_orders', []);
             orders[index].status = orders[index].status === 'قيد التجهيز' ? 'مكتمل' : 'قيد التجهيز';
             setStorage('parole_admin_orders', orders);
-            renderOrdersAndReports();
+            renderCustomersAndOrders();
         }
 
         function removeItem(key, index, callback) {
@@ -531,11 +612,8 @@
             renderCrossSell();
             renderSuggested();
             renderBestSellers();
-            renderCustomers();
-            renderOrdersAndReports();
+            renderCustomersAndOrders();
         }
-
-        document.addEventListener('DOMContentLoaded', refreshDashboardData);
     </script>
 </body>
 </html>
