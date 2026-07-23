@@ -2,63 +2,115 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PAROLE Cafe | المتجر والمنيو</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PAROLE Cafe | المنيو الفاخر</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-          --gold: #d4af37;
-          --gold-light: #f3e5ab;
-          --dark-bg: #0b0b0b;
-          --card-bg: #161616;
-          --border-color: #262626;
-          --text-main: #f0f0f0;
-          --text-muted: #999999;
-          --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --gold: #d4af37;
+            --gold-light: #f9d976;
+            --gold-gradient: linear-gradient(135deg, #d4af37 0%, #f9d976 100%);
+            --dark-bg: #050505;
+            --card-bg: rgba(20, 20, 20, 0.95);
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --border-color: rgba(212, 175, 55, 0.2);
+            --ease-out-quad: cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--dark-bg); color: var(--text-main); line-height: 1.7; direction: rtl; text-align: right; overflow-x: hidden; }
-        
-        header { background: rgba(11, 11, 11, 0.9); backdrop-filter: blur(12px); position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; border-bottom: 1px solid var(--border-color); }
-        .nav-container { max-width: 1400px; margin: 0 auto; padding: 18px 30px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 24px; font-weight: 300; color: var(--gold); letter-spacing: 4px; text-decoration: none; text-transform: uppercase; }
-        
-        .nav-links { display: flex; list-style: none; gap: 20px; align-items: center; }
-        .nav-links a { color: var(--text-main); text-decoration: none; font-size: 13px; letter-spacing: 0.5px; transition: var(--transition); white-space: nowrap; }
-        .nav-links a:hover, .nav-links a.active { color: var(--gold); }
-        
-        .menu-toggle { display: none; font-size: 22px; color: var(--gold); cursor: pointer; background: none; border: none; }
 
-        .shop-wrapper { padding: 140px 40px 100px; max-width: 1400px; margin: 0 auto; }
-        .menu-main-title { text-align: center; font-size: 42px; font-weight: 300; color: var(--gold); margin-bottom: 10px; letter-spacing: 4px; }
-        .menu-sub-title { text-align: center; color: var(--text-muted); margin-bottom: 40px; font-size: 15px; letter-spacing: 2px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; }
         
-        .filter-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 50px; flex-wrap: wrap; }
-        .filter-btn { background: transparent; border: 1px solid var(--border-color); color: var(--text-muted); padding: 10px 22px; border-radius: 30px; cursor: pointer; transition: var(--transition); font-size: 13px; }
-        .filter-btn:hover, .filter-btn.active { background: var(--gold); color: #000; border-color: var(--gold); font-weight: 500; }
-
-        .category-section-title { font-size: 20px; color: var(--gold); margin: 50px 0 25px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; font-weight: 300; display: flex; align-items: center; gap: 12px; }
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; margin-bottom: 30px; }
-        .product-card { background-color: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); transition: var(--transition); display: flex; flex-direction: column; position: relative; }
-        .product-card:hover { border-color: var(--gold); transform: translateY(-5px); }
+        body { background-color: var(--dark-bg); color: var(--text-main); overflow-x: hidden; padding-bottom: 100px; }
         
-        .product-badge { background: var(--gold); color: #000; font-size: 10px; padding: 4px 10px; position: absolute; top: 15px; right: 15px; border-radius: 20px; font-weight: 600; text-transform: uppercase; z-index: 2; }
-        .product-card-img { width: 100%; height: 180px; background: rgba(255,255,255,0.02); display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 35px; border-bottom: 1px solid var(--border-color); cursor: pointer; }
-
-        .product-info { padding: 25px; display: flex; flex-direction: column; flex-grow: 1; }
-        .product-title { font-size: 17px; color: var(--text-main); margin-bottom: 8px; font-weight: 400; cursor: pointer; }
-        .product-title:hover { color: var(--gold); }
-        .product-price { color: var(--gold); font-size: 16px; font-weight: 500; margin-bottom: 20px; }
+        header { background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(10px); position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; border-bottom: 1px solid var(--border-color); }
+        .nav-container { max-width: 1300px; margin: 0 auto; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; }
         
-        .btn-add { margin-top: auto; background-color: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 12px; width: 100%; border-radius: 6px; font-size: 12px; cursor: pointer; transition: var(--transition); text-transform: uppercase; letter-spacing: 1px; }
-        .btn-add:hover { background-color: var(--gold); color: #000; }
+        .nav-right, .nav-left { display: flex; align-items: center; gap: 15px; }
+        
+        .menu-toggle-btn { background: none; border: none; color: var(--gold); font-size: 22px; cursor: pointer; transition: var(--ease-out-quad); display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; }
+        .menu-toggle-btn:hover { background: rgba(212,175,55,0.1); }
 
-        footer { background-color: #070707; padding: 40px 20px; text-align: center; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 14px; }
+        .logo { font-size: 22px; font-weight: 800; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; letter-spacing: 1px; }
+        
+        .cart-btn { background: rgba(212,175,55,0.1); border: 1px solid var(--border-color); color: var(--gold); padding: 8px 16px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 8px; transition: var(--ease-out-quad); position: relative; }
+        .cart-btn:hover { background: var(--gold); color: #000; transform: translateY(-2px); }
+        .cart-count { position: absolute; top: -5px; right: -5px; background: #fff; color: #000; width: 18px; height: 18px; border-radius: 50%; font-size: 11px; display: flex; align-items: center; justify-content: center; font-weight: 800; }
 
-        @media (max-width: 1024px) {
-            .menu-toggle { display: block; }
-            .nav-links { position: fixed; top: 75px; right: -100%; flex-direction: column; background-color: rgba(15, 15, 15, 0.98); width: 100%; height: calc(100vh - 75px); padding: 40px 0; transition: 0.4s ease-in-out; border-top: 1px solid var(--border-color); align-items: center; }
-            .nav-links.active { right: 0; }
+        /* Sidebar Drawer (القائمة الجانبية الثلاثة خطوط) */
+        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 2500; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+        .sidebar-overlay.open { opacity: 1; visibility: visible; }
+        
+        .sidebar-drawer { position: fixed; top: 0; right: -300px; width: 300px; height: 100%; background: #111; border-left: 1px solid var(--border-color); z-index: 2600; transition: right 0.4s var(--ease-out-quad); display: flex; flex-direction: column; padding: 25px; }
+        .sidebar-overlay.open .sidebar-drawer { right: 0; }
+        
+        .sidebar-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; margin-bottom: 20px; }
+        .sidebar-title { font-size: 18px; font-weight: 800; color: var(--gold); }
+        .sidebar-close { background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; transition: 0.3s; }
+        .sidebar-close:hover { color: var(--gold); transform: rotate(90deg); }
+
+        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 15px; }
+        .sidebar-menu li a { display: flex; align-items: center; gap: 15px; color: var(--text-muted); text-decoration: none; font-size: 16px; font-weight: 600; padding: 12px 15px; border-radius: 12px; transition: 0.3s; }
+        .sidebar-menu li a i { color: var(--gold); width: 20px; text-align: center; }
+        .sidebar-menu li a:hover, .sidebar-menu li a.active { background: rgba(212,175,55,0.1); color: #fff; transform: translateX(-5px); }
+
+        .filters-section { position: sticky; top: 66px; background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(5px); z-index: 900; padding: 15px 0; border-bottom: 1px solid var(--border-color); }
+        .filters-container { display: flex; gap: 10px; overflow-x: auto; padding: 0 25px 5px 25px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+        .filters-container::-webkit-scrollbar { display: none; }
+        .filter-btn { background: #141414; border: 1px solid var(--border-color); color: var(--text-muted); padding: 10px 24px; border-radius: 50px; cursor: pointer; transition: var(--ease-out-quad); font-size: 14px; font-weight: 600; white-space: nowrap; }
+        .filter-btn:hover { color: #fff; border-color: var(--gold); }
+        .filter-btn.active { background: var(--gold); color: #000; border-color: var(--gold); box-shadow: 0 4px 15px rgba(212,175,55,0.3); }
+
+        .shop-main { padding: 30px 25px; max-width: 1300px; margin: 0 auto; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+        .product-card { background: var(--card-bg); border-radius: 20px; overflow: hidden; border: 1px solid var(--border-color); transition: var(--ease-out-quad); display: flex; flex-direction: column; position: relative; opacity: 0; animation: fadeIn 0.5s forwards; }
+        .product-card:hover { transform: translateY(-8px); border-color: var(--gold); box-shadow: 0 10px 30px rgba(212,175,55,0.15); }
+        
+        .img-box { width: 100%; height: 200px; overflow: hidden; position: relative; cursor: pointer; }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s var(--ease-out-quad); }
+        .product-card:hover .img-box img { transform: scale(1.05); }
+        
+        .card-body { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
+        .p-title { font-size: 18px; color: #fff; margin-bottom: 8px; font-weight: 700; cursor: pointer; }
+        .p-desc { color: var(--text-muted); font-size: 13px; margin-bottom: 15px; flex-grow: 1; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .p-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 15px; }
+        .p-price { font-size: 18px; font-weight: 800; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .add-btn { background: var(--gold); color: #000; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; transition: var(--ease-out-quad); box-shadow: 0 4px 10px rgba(212,175,55,0.3); }
+        .add-btn:hover { transform: scale(1.1) rotate(90deg); background: #fff; }
+        .add-btn:active { transform: scale(0.95); }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 2000; opacity: 0; transition: opacity 0.3s ease; }
+        .modal-overlay.open { display: flex; opacity: 1; }
+        .modal-content { background: #121212; border: 1px solid var(--gold); width: 90%; max-width: 500px; border-radius: 24px; overflow: hidden; transform: scale(0.9); transition: transform 0.3s var(--ease-out-quad); position: relative; padding: 30px; }
+        .modal-overlay.open .modal-content { transform: scale(1); }
+        .modal-close { position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.5); color: #fff; border: none; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; font-size: 18px; z-index: 10; display: flex; align-items: center; justify-content: center; transition: var(--ease-out-quad); }
+        .modal-close:hover { background: var(--gold); color: #000; transform: rotate(90deg); }
+        .m-img { width: 100%; height: 230px; object-fit: cover; border-radius: 16px; margin-bottom: 20px; }
+        .m-title { font-size: 22px; color: #fff; font-weight: 800; margin-bottom: 8px; }
+        .m-price { font-size: 20px; font-weight: 800; color: var(--gold); margin-bottom: 12px; }
+        .m-desc { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; line-height: 1.7; }
+        .m-add-btn { width: 100%; padding: 15px; background: var(--gold-gradient); border: none; border-radius: 16px; font-size: 17px; font-weight: 800; color: #000; cursor: pointer; transition: var(--ease-out-quad); }
+        .m-add-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(212,175,55,0.3); }
+
+        .floating-cart { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); width: 90%; max-width: 600px; background: rgba(20, 20, 20, 0.95); backdrop-filter: blur(15px); border: 1px solid var(--gold); border-radius: 50px; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; z-index: 1500; transition: transform 0.4s var(--ease-out-quad), opacity 0.4s; opacity: 0; box-shadow: 0 15px 30px rgba(0,0,0,0.5); }
+        .floating-cart.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+        .fc-text { color: var(--text-muted); font-size: 14px; font-weight: 600; }
+        .fc-text span { color: var(--gold); font-weight: 800; }
+        .fc-checkout { background: var(--gold-gradient); color: #000; border: none; padding: 12px 28px; border-radius: 30px; font-weight: 800; font-size: 14px; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 10px; transition: var(--ease-out-quad); }
+        .fc-checkout:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(212,175,55,0.4); }
+
+        #toast { position: fixed; top: 100px; left: 50%; transform: translateX(-50%) translateY(-50px); background: var(--gold); color: #000; padding: 12px 30px; border-radius: 50px; font-weight: 800; font-size: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 3000; transition: transform 0.4s var(--ease-out-quad), opacity 0.4s; opacity: 0; pointer-events: none; }
+        #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+        @keyframes fadeIn { to { opacity: 1; } }
+
+        @media (max-width: 768px) {
+            .products-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
+            .shop-main { padding: 20px 15px; }
+            .img-box { height: 150px; }
+            .card-body { padding: 12px; }
+            .p-title { font-size: 15px; }
+            .p-desc { font-size: 12px; }
         }
     </style>
 </head>
@@ -66,163 +118,237 @@
 
     <header>
         <div class="nav-container">
-            <a href="index.html" class="logo">PAROLE Cafe</a>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="index.html">الرئيسية</a></li>
-                <li><a href="about.html">من نحن</a></li>
-                <li><a href="shop.html" class="active">المتجر والمنيو</a></li>
-                <li><a href="offers.html">العروض</a></li>
-                <li><a href="branches.html">فروعنا</a></li>
-                <li><a href="blog.html">المدونة</a></li>
-                <li><a href="contact.html">تواصل معنا</a></li>
-                <li><a href="cart.html"><i class="fa-solid fa-bag-shopping"></i> السلة</a></li>
-            </ul>
-            <button class="menu-toggle" id="menuToggle"><i class="fa-solid fa-bars"></i></button>
+            <div class="nav-right">
+                <button class="menu-toggle-btn" onclick="toggleSidebar()" aria-label="القائمة">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <a href="index.html" class="logo">PAROLE Cafe</a>
+            </div>
+            <div class="nav-left">
+                <a href="cart.html" class="cart-btn">
+                    <i class="fa-solid fa-bag-shopping"></i> السلة
+                    <span class="cart-count" id="cart-counter">0</span>
+                </a>
+            </div>
         </div>
     </header>
 
-    <div class="shop-wrapper">
-        <h1 class="menu-main-title">قائمة المنيو الحصرية</h1>
-        <p class="menu-sub-title">تذوق أفقاً جديداً من الفخامة والجودة في كل رشفة</p>
-
-        <div class="filter-tabs">
-            <button class="filter-btn active" onclick="filterCategory('all')">المجموعة الكاملة</button>
-            <button class="filter-btn" onclick="filterCategory('featured')">⭐ الإصدارات الخاصة</button>
-            <button class="filter-btn" onclick="filterCategory('new')">✨ الإطلاقات الجديدة</button>
-            <button class="filter-btn" onclick="filterCategory('bestseller')">🔥 الأكثر طلباً</button>
-            <button class="filter-btn" onclick="filterCategory('hot')">☕ المشروبات الدافئة</button>
-            <button class="filter-btn" onclick="filterCategory('cold')">🧊 المشروبات المثلجة</button>
-            <button class="filter-btn" onclick="filterCategory('mojito')">🍋 موهيتو فاخر</button>
-            <button class="filter-btn" onclick="filterCategory('desserts')">🍰 الحلويات الراقية</button>
+    <!-- القائمة الجانبية (Sidebar Drawer) -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()">
+        <div class="sidebar-drawer" onclick="event.stopPropagation()">
+            <div class="sidebar-header">
+                <span class="sidebar-title">قائمة التنقل</span>
+                <button class="sidebar-close" onclick="toggleSidebar()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="index.html"><i class="fa-solid fa-house"></i> الرئيسية</a></li>
+                <li><a href="about.html"><i class="fa-solid fa-circle-info"></i> من نحن</a></li>
+                <li><a href="shop.html" class="active"><i class="fa-solid fa-mug-hot"></i> المنيو </a></li>
+                 <li><a href="offers.html"><i class="fa-solid fa-tag"></i> العروض</a></li>
+                <li><a href="branches.html"><i class="fa-solid fa-location-dot"></i> الفروع</a></li>
+                <li><a href="blog.html"><i class="fa-solid fa-newspaper"></i> المدونة</a></li>
+                <li><a href="contact.html"><i class="fa-solid fa-headset"></i> تواصل معنا</a></li>
+                <li><a href="faq.html"><i class="fa-solid fa-circle-question"></i> الأسئلة الشائعة</a></li>
+                <li><a href="policies.html"><i class="fa-solid fa-shield-halved"></i> السياسات</a></li>
+                 <li><a href="cart.html"><i class="fa-solid fa-basket-shopping"></i> السلة</a></li>
+                <li><a href="checkout.html"><i class="fa-solid fa-credit-card"></i> إتمام الدفع</a></li>
+            </ul>
         </div>
-
-        <div id="products-container"></div>
     </div>
 
-    <footer>
-        <p>&copy; 2026 PAROLE Cafe. جميع الحقوق محفوظة.</p>
-    </footer>
+    <div class="filters-section">
+        <div class="filters-container">
+            <button class="filter-btn active" onclick="filterProducts('all', this)">الكل</button>
+            <button class="filter-btn" onclick="filterProducts('hot', this)">المشروبات الساخنة</button>
+            <button class="filter-btn" onclick="filterProducts('cold', this)">المشروبات الباردة</button>
+            <button class="filter-btn" onclick="filterProducts('mojito', this)">الموهيتو والمنعشات</button>
+            <button class="filter-btn" onclick="filterProducts('desserts', this)">الحلويات والمخبوزات</button>
+            <button class="filter-btn" onclick="filterProducts('tea', this)">الشاي</button>
+        </div>
+    </div>
+
+    <main class="shop-main">
+        <div class="products-grid" id="productsGrid"></div>
+    </main>
+
+    <div class="floating-cart" id="floatingCart">
+        <div class="fc-text">الإجمالي: <span id="fcTotal">0 ر.س</span> (<span id="fcCount">0</span> عناصر)</div>
+        <a href="cart.html" class="fc-checkout">إتمام الطلب <i class="fa-solid fa-arrow-left"></i></a>
+    </div>
+
+    <div class="modal-overlay" id="productModal" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModalBtn()"><i class="fa-solid fa-xmark"></i></button>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <div id="toast">تمت الإضافة إلى السلة بنجاح ✨</div>
 
     <script>
         const products = [
-            { id: 1, name: 'إسبريسو', price: 7, category: 'hot', tag: 'bestseller', icon: 'fa-mug-hot' },
-            { id: 2, name: 'ماتشاتو / ميكياتو', price: 9, category: 'hot', tag: 'new', icon: 'fa-mug-hot' },
-            { id: 3, name: 'كورتادو', price: 11, category: 'hot', tag: 'featured', icon: 'fa-mug-hot' },
-            { id: 4, name: 'لاتيه', price: 12, category: 'hot', tag: 'bestseller', icon: 'fa-mug-hot' },
-            { id: 5, name: 'كابتشينو', price: 12, category: 'hot', tag: 'featured', icon: 'fa-mug-hot' },
-            { id: 6, name: 'فلات وايت', price: 12, category: 'hot', tag: 'new', icon: 'fa-mug-hot' },
-            { id: 7, name: 'أمريكانو', price: 9, category: 'hot', tag: '', icon: 'fa-mug-hot' },
-            { id: 8, name: 'سبانيش لاتيه', price: 14, category: 'hot', tag: 'bestseller', icon: 'fa-mug-hot' },
-            { id: 9, name: 'ايس سبانيش لاتيه', price: 16, category: 'cold', tag: 'bestseller', icon: 'fa-glass-water' },
-            { id: 10, name: 'ايس فيستاشيو', price: 19, category: 'cold', tag: 'featured', icon: 'fa-glass-water' },
-            { id: 11, name: 'كولد برو', price: 16, category: 'cold', tag: 'new', icon: 'fa-glass-water' },
-            { id: 12, name: 'ايس أمريكانو', price: 11, category: 'cold', tag: '', icon: 'fa-glass-water' },
-            { id: 13, name: 'بلودي ماري (موهيتو)', price: 18, category: 'mojito', tag: '', icon: 'fa-lemon' },
-            { id: 14, name: 'جولد ديسيرت (موهيتو)', price: 18, category: 'mojito', tag: 'featured', icon: 'fa-lemon' },
-            { id: 15, name: 'كريب', price: 22, category: 'desserts', tag: 'bestseller', icon: 'fa-cake-candles' },
-            { id: 16, name: 'وافل', price: 22, category: 'desserts', tag: 'new', icon: 'fa-cake-candles' }
+            // المشروبات الساخنة (Hot Drinks)
+            { id: 1, name: 'إسبريسو', price: 7, category: 'hot', img: 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=600&q=80', desc: 'جرعة إسبريسو مركزة وغنية بالطاقة.' },
+            { id: 2, name: 'ميكاتو', price: 9, category: 'hot', img: 'https://images.unsplash.com/photo-1485808191679-5f86510681a2?auto=format&fit=crop&w=600&q=80', desc: 'إسبريسو مضاف إليه لمسة خفيفة من رغوة الحليب.' },
+            { id: 3, name: 'هاف هاف', price: 9, category: 'hot', img: 'https://images.unsplash.com/photo-1577968897966-3d4325b36b61?auto=format&fit=crop&w=600&q=80', desc: 'مزيج متوازن وخاص من القهوة والحليب.' },
+            { id: 4, name: 'فلات وايت', price: 12, category: 'hot', img: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=600&q=80', desc: 'إسبريسو دافئ مع حليب مخملي ناعم.' },
+            { id: 5, name: 'كابتشينو', price: 12, category: 'hot', img: 'https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=600&q=80', desc: 'التوازن الكلاسيكي بين الإسبريسو والحليب والرغوة الكثيفة.' },
+            { id: 6, name: 'لاتيه', price: 12, category: 'hot', img: 'https://images.unsplash.com/photo-1561047029-3000c68339ca?auto=format&fit=crop&w=600&q=80', desc: 'حليب مبخر حريري مع جرعة إسبريسو فاخرة.' },
+            { id: 7, name: 'كورتادو', price: 11, category: 'hot', img: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80', desc: 'كمية متساوية من الإسبريسو والحليب الدافئ.' },
+            { id: 8, name: 'بارول موكا', price: 14, category: 'hot', img: 'https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?auto=format&fit=crop&w=600&q=80', desc: 'مزيج الشوكولاتة الغنية مع الإسبريسو والحليب.' },
+            { id: 9, name: 'هوت تشوكليت', price: 14, category: 'hot', img: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=600&q=80', desc: 'شوكولاتة دافئة ومخملية تمنحك الدفء والراحة.' },
+            { id: 10, name: 'سبانيش لاتيه', price: 14, category: 'hot', img: 'https://images.unsplash.com/photo-1558857563-b3c10fdf4d11?auto=format&fit=crop&w=600&q=80', desc: 'لاتيه ساخن مضاف إليه الحليب المكثف المحلى.' },
+            { id: 11, name: 'بارول رِد فلفيت', price: 14, category: 'hot', img: 'https://images.unsplash.com/photo-1616857494578-15ae2617412d?auto=format&fit=crop&w=600&q=80', desc: 'مشروب الرد فلفيت الساخن بنكهة مميزة وفريدة.' },
+            { id: 12, name: 'أمريكانو', price: 9, category: 'hot', img: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80', desc: 'إسبريسو خفيف مضاف إليه الماء الساخن.' },
+            { id: 13, name: 'بلاتك كوفي', price: 9, category: 'hot', img: 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=600&q=80', desc: 'قهوة سوداء محضرة بعناية لذيذة.' },
+            { id: 14, name: 'V60', price: 13, category: 'hot', img: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80', desc: 'قهوة مختصة مقطرة بطريقة V60.' },
+            { id: 15, name: 'كيميكس', price: 13, category: 'hot', img: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=600&q=80', desc: 'قهوة مقطرة بنقاء عالي عبر أداة الكيميكس.' },
+            { id: 16, name: 'قهوة عربي كوب', price: 9, category: 'hot', img: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80', desc: 'القهوة العربية الأصيلة ببهاراتها الهادئة.' },
+            { id: 17, name: 'قهوة عربي دلة', price: 30, category: 'hot', img: 'https://images.unsplash.com/photo-1582281298114-4a331f71887e?auto=format&fit=crop&w=600&q=80', desc: 'دلة قهوة عربية تكفي للمشاركة والجلسات الطويلة.' },
+            { id: 18, name: 'قهوة تركية', price: 9, category: 'hot', img: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80', desc: 'قهوة تركية أصلية مخمرة بعناية على الوجه.' },
+
+            // المشروبات الباردة (Cold Drinks)
+            { id: 19, name: 'آيس سبانيش لاتيه', price: 16, category: 'cold', img: 'https://images.unsplash.com/photo-1558857563-b3c10fdf4d11?auto=format&fit=crop&w=600&q=80', desc: 'المزيج البارد الشهير مع الحليب المكثف المحلى والثلج.' },
+            { id: 20, name: 'آيس كراميل ماكياتو', price: 16, category: 'cold', img: 'https://images.unsplash.com/photo-1485808191679-5f86510681a2?auto=format&fit=crop&w=600&q=80', desc: 'إسبريسو بارد وحليب مع صوص الكراميل الغني.' },
+            { id: 21, name: 'وايت موكا', price: 17, category: 'cold', img: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=600&q=80', desc: 'الشوكولاتة البيضاء الباردة مع الإسبريسو الفاخر.' },
+            { id: 22, name: 'آيس موكا', price: 17, category: 'cold', img: 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=600&q=80', desc: 'مزيج الشوكولاتة والقهوة المثلجة المنعشة.' },
+            { id: 23, name: 'آيس دريب', price: 14, category: 'cold', img: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80', desc: 'قهوة مقطرة باردة ومثلجة.' },
+            { id: 24, name: 'كولد برو', price: 14, category: 'cold', img: 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=600&q=80', desc: 'قهوة مستخلصة على البارد ببطء لنكهة صافية وقوية.' },
+            { id: 25, name: 'آيس أمريكانو', price: 11, category: 'cold', img: 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=600&q=80', desc: 'إسبريسو مثلج مع الماء البارد الصافي.' },
+            { id: 26, name: 'آيس بلاك كوفي', price: 11, category: 'cold', img: 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=600&q=80', desc: 'قهوة سوداء باردة ومنعشة.' },
+            { id: 27, name: 'آيس فستاشيو لاتيه', price: 19, category: 'cold', img: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=600&q=80', desc: 'إسبريسو بارد مع حليب وصوص الفستق الطبيعي.' },
+            { id: 28, name: 'آيس شوكلت', price: 17, category: 'cold', img: 'https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?auto=format&fit=crop&w=600&q=80', desc: 'مشروب شوكولاتة مثلج وغني.' },
+            { id: 29, name: 'وايت موكا (بارد)', price: 17, category: 'cold', img: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=600&q=80', desc: 'وايت موكا بارد ومنعش.' },
+            { id: 30, name: 'آيس موكا (إضافي)', price: 16, category: 'cold', img: 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=600&q=80', desc: 'موكا مثلجة بخليط خاص.' },
+
+            // الموهيتو والمنعشات (Mojito & Drinks)
+            { id: 31, name: 'بلودي ماري', price: 18, category: 'mojito', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=600&q=80', desc: 'موهيتو منعش بنكهة التوت الأحمر والصودا.' },
+            { id: 32, name: 'جولد ديسيرت', price: 18, category: 'mojito', img: 'https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&w=600&q=80', desc: 'مشروب منعش بنكهات استوائية ذهبية.' },
+            { id: 33, name: 'صن دايز', price: 16, category: 'mojito', img: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80', desc: 'انتعاش الصيف بمزيج الفواكه الفوارة.' },
+            { id: 34, name: 'بلو سكاي', price: 16, category: 'mojito', img: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80', desc: 'موهيتو أزرق منعش وفوار.' },
+            { id: 35, name: 'ليمونا', price: 16, category: 'mojito', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=600&q=80', desc: 'عصير ليمون منعش ولذيذ.' },
+            { id: 36, name: 'برتقال', price: 16, category: 'mojito', img: 'https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&w=600&q=80', desc: 'عصير برتقال طبيعي طازج.' },
+            { id: 37, name: 'مكس بارول', price: 16, category: 'mojito', img: 'https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&w=600&q=80', desc: 'خلطة بارول الخاصة من المنعشات.' },
+            { id: 38, name: 'كود رد باور', price: 16, category: 'mojito', img: 'https://images.unsplash.com/photo-1622543925917-763c34d1a86e?auto=format&fit=crop&w=600&q=80', desc: 'مشروب طاقة كود رد مثلج ومنعش.' },
+            { id: 39, name: 'موزو', price: 16, category: 'mojito', img: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80', desc: 'مشروب منعش بنكهة الفواكه الاستوائية.' },
+
+            // الحلويات والمخبوزات (Desserts)
+            { id: 40, name: 'كريب', price: 22, category: 'desserts', img: 'https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&w=600&q=80', desc: 'كريب فرنسي رقيق مغطى بالشوكولاتة الفاخرة.' },
+            { id: 41, name: 'ميني بان كيك', price: 22, category: 'desserts', img: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=600&q=80', desc: 'قطع ميني بان كيك هشة وساخنة مع الشوكولاتة.' },
+            { id: 42, name: 'وافل', price: 22, category: 'desserts', img: 'https://images.unsplash.com/photo-1562376552-0d160a2f238d?auto=format&fit=crop&w=600&q=80', desc: 'وافل مقرمش ولذيذ يقدم مع الإضافات الغنية.' },
+            { id: 43, name: 'حلى اليوم', price: 18, category: 'desserts', img: 'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=600&q=80', desc: 'تشكيلة مختارة من حلويات اليوم الطازجة.' },
+
+            // الشاي (Tea)
+            { id: 44, name: 'شاي أحمر', price: 6, category: 'tea', img: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=600&q=80', desc: 'شاي أحمر كلاسيكي دافئ.' },
+            { id: 45, name: 'شاي أخضر', price: 6, category: 'tea', img: 'https://images.unsplash.com/photo-1627435601361-ec25f5b1d0e5?auto=format&fit=crop&w=600&q=80', desc: 'شاي أخضر صحي ومنعش.' },
+            { id: 46, name: 'شاي أخضر / نكهات', price: 6, category: 'tea', img: 'https://images.unsplash.com/photo-1597481499750-3e6b22637e12?auto=format&fit=crop&w=600&q=80', desc: 'شاي بنكهات الأعشاب المنعشة.' },
+            { id: 47, name: 'شاي تركي', price: 6, category: 'tea', img: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=600&q=80', desc: 'شاي تركي أصيل في كوبه المميز.' },
+            { id: 48, name: 'شاي إنجليزي', price: 6, category: 'tea', img: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=600&q=80', desc: 'شاي إنجليزي تقليدي غني.' },
+            { id: 49, name: 'فيتامين سي', price: 9, category: 'tea', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=600&q=80', desc: 'مشروب دافئ غني بفيتامين سي والليمون.' },
+            { id: 50, name: 'شاي مغربي', price: 6, category: 'tea', img: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=600&q=80', desc: 'شاي مغربي بالنعناع الطازج والتقليدي.' },
+            { id: 51, name: 'شاي كرك', price: 7, category: 'tea', img: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=600&q=80', desc: 'شاي كرك بالحليب والبهارات الهندية العطرة.' }
         ];
 
-        function renderProducts(filter = 'all') {
-            const container = document.getElementById('products-container');
-            container.innerHTML = '';
+        function toggleSidebar() {
+            document.getElementById('sidebarOverlay').classList.toggle('open');
+        }
 
-            let filtered = products;
-            if (filter === 'featured') filtered = products.filter(p => p.tag === 'featured');
-            else if (filter === 'new') filtered = products.filter(p => p.tag === 'new');
-            else if (filter === 'bestseller') filtered = products.filter(p => p.tag === 'bestseller');
-            else if (['hot', 'cold', 'mojito', 'desserts'].includes(filter)) {
-                filtered = products.filter(p => p.category === filter);
-            }
+        function renderProducts(items) {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = '';
+            items.forEach((p, index) => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.style.animationDelay = `${index * 0.05}s`;
+                card.innerHTML = `
+                    <div class="img-box" onclick="openModal(${p.id})">
+                        <img src="${p.img}" alt="${p.name}" loading="lazy">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="p-title" onclick="openModal(${p.id})">${p.name}</h3>
+                        <p class="p-desc">${p.desc}</p>
+                        <div class="p-footer">
+                            <span class="p-price">${p.price} ر.س</span>
+                            <button class="add-btn" onclick="addToCart(${p.id})" title="إضافة سريعة"><i class="fa-solid fa-plus"></i></button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+            updateCartUI();
+        }
 
-            if(filter === 'all') {
-                const categories = [
-                    { key: 'hot', title: 'المشروبات الدافئة', icon: 'fa-mug-hot' },
-                    { key: 'cold', title: 'المشروبات المثلجة', icon: 'fa-glass-water' },
-                    { key: 'mojito', title: 'مشروبات الموهيتو الفاخرة', icon: 'fa-lemon' },
-                    { key: 'desserts', title: 'الحلويات الراقية', icon: 'fa-cake-candles' }
-                ];
-
-                categories.forEach(cat => {
-                    const catItems = products.filter(p => p.category === cat.key);
-                    if(catItems.length > 0) {
-                        const titleEl = document.createElement('h2');
-                        titleEl.className = 'category-section-title';
-                        titleEl.innerHTML = `<i class="fa-solid ${cat.icon}"></i> ${cat.title}`;
-                        container.appendChild(titleEl);
-
-                        const gridEl = document.createElement('div');
-                        gridEl.className = 'products-grid';
-                        catItems.forEach(product => {
-                            gridEl.appendChild(createProductCard(product));
-                        });
-                        container.appendChild(gridEl);
-                    }
-                });
+        function filterProducts(cat, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            if(cat === 'all') {
+                renderProducts(products);
             } else {
-                const gridEl = document.createElement('div');
-                gridEl.className = 'products-grid';
-                filtered.forEach(product => {
-                    gridEl.appendChild(createProductCard(product));
-                });
-                container.appendChild(gridEl);
+                renderProducts(products.filter(item => item.category === cat));
             }
         }
 
-        function createProductCard(product) {
-            let badgeText = '';
-            if (product.tag === 'featured') badgeText = 'خاص';
-            else if (product.tag === 'new') badgeText = 'جديد';
-            else if (product.tag === 'bestseller') badgeText = 'الأكثر طلباً';
+        function addToCart(id) {
+            const p = products.find(item => item.id === id);
+            let cart = JSON.parse(localStorage.getItem('parole_cart_full')) || [];
+            let existing = cart.find(item => item.name === p.name);
+            if(existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({ name: p.name, price: p.price, image: p.img, quantity: 1 });
+            }
+            localStorage.setItem('parole_cart_full', JSON.stringify(cart));
+            updateCartUI();
+            showToast();
+        }
 
-            const card = document.createElement('div');
-            card.className = 'product-card';
-            card.innerHTML = `
-                <div class="product-card-img" onclick="openProductDetails(${product.id})">
-                    ${badgeText ? `<span class="product-badge">${badgeText}</span>` : ''}
-                    <i class="fa-solid ${product.icon}"></i>
-                </div>
-                <div class="product-info">
-                    <h3 class="product-title" onclick="openProductDetails(${product.id})">${product.name}</h3>
-                    <div class="product-price">${product.price} ر.س</div>
-                    <button class="btn-add" onclick="addToCart('${product.name}', ${product.price})">إضافة للحقيـبة</button>
-                </div>
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 1500);
+        }
+
+        function openModal(id) {
+            const p = products.find(item => item.id === id);
+            const modalBody = document.getElementById('modalBody');
+            modalBody.innerHTML = `
+                <img src="${p.img}" class="m-img" alt="${p.name}">
+                <h2 class="m-title">${p.name}</h2>
+                <div class="m-price">${p.price} ر.س</div>
+                <p class="m-desc">${p.desc}</p>
+                <button class="m-add-btn" onclick="addToCart(${p.id}); closeModalBtn();">إضافة إلى السلة الآن</button>
             `;
-            return card;
+            document.getElementById('productModal').classList.add('open');
         }
 
-        function filterCategory(type) {
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            renderProducts(type);
+        function closeModalBtn() {
+            document.getElementById('productModal').classList.remove('open');
         }
 
-        function openProductDetails(id) {
-            window.location.href = `product.html?id=${id}`;
+        function closeModal(e) {
+            if(e.target.id === 'productModal') closeModalBtn();
         }
 
-        function addToCart(name, price) {
-            let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
-            let found = cart.find(item => item.name === name);
-            if(found) {
-                found.quantity += 1;
+        function updateCartUI() {
+            let cart = JSON.parse(localStorage.getItem('parole_cart_full')) || [];
+            let totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            let totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+            document.getElementById('cart-counter').textContent = totalCount;
+            document.getElementById('fcCount').textContent = totalCount;
+            document.getElementById('fcTotal').textContent = totalPrice + ' ر.س';
+
+            const floatingCart = document.getElementById('floatingCart');
+            if(totalCount > 0) {
+                floatingCart.classList.add('show');
             } else {
-                cart.push({ name: name, price: parseFloat(price), quantity: 1 });
+                floatingCart.classList.remove('show');
             }
-            localStorage.setItem('parole_cart', JSON.stringify(cart));
-            alert('تمت إضافة ' + name + ' إلى حقيبة التسوق بنجاح.');
         }
 
-        const menuToggle = document.getElementById('menuToggle');
-        const navLinks = document.getElementById('navLinks');
-        menuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            let icon = menuToggle.querySelector('i');
-            icon.classList.toggle('fa-bars');
-            icon.classList.toggle('fa-xmark');
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts(products);
         });
-
-        document.addEventListener('DOMContentLoaded', () => renderProducts('all'));
     </script>
 </body>
 </html>
