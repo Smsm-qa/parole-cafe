@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PAROLE Cafe | العروض والحزم الفاخرة</title>
     
-    <meta name="description" content="اكتشف أرقى الباقات والعروض الحصرية للقهوة المختصة والحلويات الفاخرة من PAROLE Cafe في المملكة العربية السعودية.">
-    <meta name="keywords" content="عروض كافيهات السعودية, خصومات قهوة مختصة, عروض بارول كافيه, باقات الفطور, PAROLE Cafe">
+    <meta name="description" content="اكتشف أرقى الباقات والعروض الحصرية للقهوة المختصة والحلويات الفاخرة من PAROLE Cafe.">
+    <meta name="keywords" content="عروض كافيهات, خصومات قهوة مختصة, عروض بارول كافيه, باقات الفطور, PAROLE Cafe">
     <meta name="author" content="PAROLE Cafe">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -519,7 +519,7 @@
                         <span class="current-price">25 ر.س</span>
                         <span class="old-price">30 ر.س</span>
                     </div>
-                    <button class="btn-primary" onclick="addOfferToCart('ثنائي السبيانش لاتيه', 25)">أضف للسلة</button>
+                    <button class="btn-primary" onclick="addOfferToCart('ثنائي السبيانش لاتيه', 25, 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=600&q=80')">أضف للسلة</button>
                 </div>
             </div>
 
@@ -539,7 +539,7 @@
                         <span class="current-price">30 ر.س</span>
                         <span class="old-price">35 ر.س</span>
                     </div>
-                    <button class="btn-primary" onclick="addOfferToCart('جلسة V60 والوافل', 30)">أضف للسلة</button>
+                    <button class="btn-primary" onclick="addOfferToCart('جلسة V60 والوافل', 30, 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80')">أضف للسلة</button>
                 </div>
             </div>
 
@@ -559,7 +559,7 @@
                         <span class="current-price">75 ر.س</span>
                         <span class="old-price">95 ر.س</span>
                     </div>
-                    <button class="btn-primary" onclick="addOfferToCart('باقة المحاصيل المنزلية', 75)">أضف للسلة</button>
+                    <button class="btn-primary" onclick="addOfferToCart('باقة المحاصيل المنزلية', 75, 'https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=600&q=80')">أضف للسلة</button>
                 </div>
             </div>
         </div>
@@ -660,7 +660,7 @@
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
-    <!-- الجافاسكريبت التفاعلي -->
+    <!-- الجافاسكريبت التفاعلي المرتبط بlocalStorage -->
     <script>
         const menuToggle = document.getElementById('menuToggle');
         const sidebarMenu = document.getElementById('sidebarMenu');
@@ -676,6 +676,18 @@
         sidebarCloseBtn.addEventListener('click', toggleSidebar);
         sidebarOverlay.addEventListener('click', toggleSidebar);
 
+        // تحديث شارة السلة عند التحميل
+        function updateCartBadge() {
+            let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
+            let totalCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+            const badge = document.getElementById('cartBadgeCount');
+            if (badge) {
+                badge.textContent = totalCount;
+            }
+        }
+        
+        window.addEventListener('DOMContentLoaded', updateCartBadge);
+
         function filterOffers(category, btn) {
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
@@ -690,10 +702,24 @@
             });
         }
 
-        let cartCount = 0;
-        function addOfferToCart(offerName, price) {
-            cartCount++;
-            document.getElementById('cartBadgeCount').textContent = cartCount;
+        // إضافة العرض إلى سلة التسوق المحلية (localStorage)
+        function addOfferToCart(offerName, price, imgUrl) {
+            let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
+            
+            let existingItem = cart.find(item => item.name === offerName);
+            if (existingItem) {
+                existingItem.quantity = (existingItem.quantity || 1) + 1;
+            } else {
+                cart.push({
+                    name: offerName,
+                    price: price,
+                    image: imgUrl,
+                    quantity: 1
+                });
+            }
+
+            localStorage.setItem('parole_cart', JSON.stringify(cart));
+            updateCartBadge();
             alert(`تمت إضافة "${offerName}" إلى حقيبة التسوق بنجاح!`);
         }
 
@@ -710,6 +736,22 @@
         function handleBooking(event) {
             event.preventDefault();
             const name = document.getElementById('bookName').value;
+            const phone = document.getElementById('bookPhone').value;
+            const branch = document.getElementById('bookBranch').value;
+            const time = document.getElementById('bookTime').value;
+
+            // حفظ تفاصيل حجز الطاولة كطلب في سجل اللوحة إذا رغبت
+            let orders = JSON.parse(localStorage.getItem('parole_admin_orders')) || [];
+            orders.unshift({
+                id: 'BK-' + Math.floor(1000 + Math.random() * 9000),
+                customerName: name,
+                phone: phone,
+                details: `حجز طاولة في فرع (${branch}) - الوقت: ${time}`,
+                total: 0,
+                date: new Date().toLocaleDateString('ar-SA')
+            });
+            localStorage.setItem('parole_admin_orders', JSON.stringify(orders));
+
             alert(`شكراً لك يا ${name}! تم استلام طلب حجز الطاولة بنجاح، وسيتم إرسال تأكيد الحجز عبر رسالة نصية قصيرة قريباً.`);
             event.target.reset();
         }
