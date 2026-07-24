@@ -34,6 +34,25 @@
         .form-group input, .form-group select { width: 100%; padding: 12px; background: var(--dark-bg); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 8px; font-size: 14px; transition: var(--transition); }
         .form-group input:focus, .form-group select:focus { border-color: var(--gold); outline: none; box-shadow: 0 0 8px rgba(212, 175, 55, 0.2); }
 
+        .address-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        @media (max-width: 480px) { .address-grid { grid-template-columns: 1fr; } }
+
+        .fulfillment-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 15px; }
+        @media (max-width: 600px) { .fulfillment-options { grid-template-columns: 1fr; } }
+        
+        .fulfillment-card { background: var(--dark-bg); border: 1px solid var(--border-color); padding: 10px 8px; border-radius: 8px; cursor: pointer; text-align: center; font-size: 12px; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .fulfillment-card.active { border-color: var(--gold); background: rgba(212, 175, 55, 0.05); color: var(--gold); }
+        .fulfillment-card input { accent-color: var(--gold); }
+
+        .save-info-option { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-muted); margin-top: 10px; cursor: pointer; }
+        .save-info-option input { accent-color: var(--gold); width: 16px; height: 16px; cursor: pointer; }
+
+        .free-shipping-bar-container { background: var(--dark-bg); border: 1px solid var(--border-color); padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 13px; }
+        .free-shipping-text { margin-bottom: 8px; color: var(--text-main); display: flex; align-items: center; gap: 6px; }
+        .free-shipping-text i { color: var(--gold); }
+        .progress-bar-bg { width: 100%; background: #262626; height: 6px; border-radius: 3px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: var(--gold); width: 0%; transition: width 0.4s ease; }
+
         .order-summary-item { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 12px; color: var(--text-muted); }
         .order-total { display: flex; justify-content: space-between; font-size: 18px; font-weight: 600; color: var(--text-main); margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border-color); }
         .order-total span:last-child { color: var(--gold); }
@@ -44,8 +63,6 @@
         .payment-methods { margin-top: 20px; border-top: 1px solid var(--border-color); padding-top: 20px; }
         .payment-option { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; cursor: pointer; font-size: 14px; }
         
-        #card-details-container { margin-top: 15px; background: var(--dark-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color); }
-
         .coupon-box { display: flex; gap: 10px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color); }
         .coupon-box input { flex: 1; padding: 10px; background: var(--dark-bg); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 6px; font-size: 13px; }
         .btn-coupon { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 0 15px; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; transition: var(--transition); }
@@ -53,6 +70,17 @@
         #couponMessage { font-size: 12px; margin-top: -10px; margin-bottom: 15px; display: block; }
         
         .smart-badge { display: inline-block; background: rgba(212, 175, 55, 0.1); color: var(--gold); padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-bottom: 10px; border: 1px solid rgba(212, 175, 55, 0.3); }
+        
+        .notice-box {
+            background: #2d2615;
+            border-right: 4px solid var(--gold);
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-size: 13px;
+            color: #e5d398;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
@@ -64,7 +92,7 @@
             <!-- نموذج البيانات الذكي -->
             <div class="checkout-box">
                 <span class="smart-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> نظام الطلب الذكي والمتزامن</span>
-                <h2>بيانات التوصيل والدفع</h2>
+                <h2>بيانات الاستلام والدفع</h2>
                 
                 <form id="checkoutForm" onsubmit="executeSmartOrder(event)">
                     <div class="form-group">
@@ -75,49 +103,99 @@
                         <label>رقم الجوال (قطر)</label>
                         <input type="tel" id="phone" required placeholder="+974 0000 0000">
                     </div>
-                    <div class="form-group">
-                        <label>المنطقة / العنوان بالتفصيل <small style="color:var(--gold);">(يحدد رسوم التوصيل تلقائياً)</small></label>
-                        <input type="text" id="address" required placeholder="مثال: الدوحة، اللؤلؤة، أو اكتب استلام من الفرع" oninput="calculateDynamicDelivery(this.value)">
+
+                    <label class="save-info-option">
+                        <input type="checkbox" id="saveInfoCheckbox" checked>
+                        <span>تذكر معلوماتي للطلبات القادمة (تخزين محلي آمن)</span>
+                    </label>
+
+                    <!-- خيارات الاستلام الثلاثة -->
+                    <div class="form-group" style="margin-top: 15px;">
+                        <label>طريقة الاستلام والطلب</label>
+                        <div class="fulfillment-options">
+                            <label class="fulfillment-card active" id="cardDelivery">
+                                <input type="radio" name="fulfillment_type" value="delivery" checked onclick="setFulfillmentMode('delivery')">
+                                <span><i class="fa-solid fa-bicycle"></i> توصيل للمنزل</span>
+                            </label>
+                            <label class="fulfillment-card" id="cardDineIn">
+                                <input type="radio" name="fulfillment_type" value="dine_in" onclick="setFulfillmentMode('dine_in')">
+                                <span><i class="fa-solid fa-utensils"></i> طلب داخل الكافيه</span>
+                            </label>
+                            <label class="fulfillment-card" id="cardPickup">
+                                <input type="radio" name="fulfillment_type" value="pickup" onclick="setFulfillmentMode('pickup')">
+                                <span><i class="fa-solid fa-store"></i> استلام من الفرع</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- 1. تفاصيل العنوان المفصلة (تظهر في حالة التوصيل للمنزل) -->
+                    <div id="addressDetailsContainer">
+                        <div class="form-group">
+                            <label>المنطقة / المدينة</label>
+                            <input type="text" id="addrCity" placeholder="مثال: الدوحة، لوسيل، الريان، الوكرة">
+                        </div>
+                        
+                        <div class="address-grid">
+                            <div class="form-group">
+                                <label>رقم الشارع</label>
+                                <input type="text" id="addrStreet" placeholder="مثال: شارع الوجبة (رقم 220)">
+                            </div>
+                            <div class="form-group">
+                                <label>رقم المبنى / الفلة</label>
+                                <input type="text" id="addrBuilding" placeholder="مثال: مبنى 14 أو فلة 5">
+                            </div>
+                        </div>
+
+                        <div class="address-grid">
+                            <div class="form-group">
+                                <label>رقم الطابق / الشقة <small style="color:var(--text-muted);">(اختياري)</small></label>
+                                <input type="text" id="addrUnit" placeholder="مثال: الطابق 3، شقة 302">
+                            </div>
+                            <div class="form-group">
+                                <label>أقرب معلم بارز <small style="color:var(--text-muted);">(اختياري)</small></label>
+                                <input type="text" id="addrLandmark" placeholder="مثال: بجوار حديقة كذا / سوبرماركت">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. حقل رقم الطاولة (يظهر حصرياً في حالة الطلب الداخلي) -->
+                    <div id="dineInContainer" style="display: none;">
+                        <div class="form-group">
+                            <label style="color: var(--gold); font-weight: 600;"><i class="fa-solid fa-chair"></i> رقم الطاولة داخل الكافيه</label>
+                            <input type="text" id="tableNumber" placeholder="مثال: الطاولة رقم 5 أو البار العلوي">
+                        </div>
                     </div>
 
                     <div class="payment-methods">
-                        <label style="color: var(--gold); font-size: 14px; margin-bottom: 10px; display: block; font-weight: 500;">طريقة الدفع</label>
+                        <label style="color: var(--gold); font-size: 14px; margin-bottom: 10px; display: block; font-weight: 500;" id="paymentMethodLabel">طريقة الدفع المتاحة</label>
                         
                         <label class="payment-option">
-                            <input type="radio" name="payment_method" value="online" checked style="accent-color: var(--gold);">
-                            <span><i class="fa-solid fa-credit-card" style="color: var(--gold); margin-left: 5px;"></i> الدفع الإلكتروني الآمن (بطاقة / مدى / Apple Pay)</span>
-                        </label>
-
-                        <label class="payment-option">
-                            <input type="radio" name="payment_method" value="cash" style="accent-color: var(--gold);">
-                            <span><i class="fa-solid fa-money-bill-wave" style="color: var(--gold); margin-left: 5px;"></i> الدفع النقدي عند الاستلام</span>
+                            <input type="radio" name="payment_method" value="cash" checked style="accent-color: var(--gold);">
+                            <span id="paymentMethodText"><i class="fa-solid fa-money-bill-wave" style="color: var(--gold); margin-left: 5px;"></i> الدفع النقدي أو بالشبكة عند الاستلام</span>
                         </label>
                     </div>
 
-                    <div id="card-details-container">
-                        <div class="form-group" style="margin-bottom: 10px;">
-                            <label>رقم البطاقة</label>
-                            <input type="text" placeholder="4532 •••• •••• ••••">
-                        </div>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                            <div class="form-group" style="margin-bottom: 0;">
-                                <label>تاريخ الانتهاء</label>
-                                <input type="text" placeholder="MM/YY">
-                            </div>
-                            <div class="form-group" style="margin-bottom: 0;">
-                                <label>رمز الأمان (CVV)</label>
-                                <input type="password" placeholder="123">
-                            </div>
-                        </div>
+                    <div class="notice-box" id="noticeBoxText">
+                        <strong>ملاحظة هامة:</strong> في الوقت الحالي تتوفر خدمة الدفع عند الاستلام (كاش أو بالشبكة مع المندوب)، وسنتواصل معك فوراً لتأكيد وتنسيق موعد التوصيل.
                     </div>
 
-                    <button type="submit" class="btn-submit">تأكيد ودفع الطلب الذكي</button>
+                    <button type="submit" class="btn-submit">تأكيد الطلب الآن</button>
                 </form>
             </div>
 
             <!-- ملخص الطلب الذكي -->
             <div class="checkout-box" style="height: fit-content;">
                 <h2>ملخص الفاتورة الفوري</h2>
+
+                <!-- شريط إنجاز التوصيل المجاني الديناميكي -->
+                <div class="free-shipping-bar-container" id="freeShippingContainer">
+                    <div class="free-shipping-text" id="freeShippingText">
+                        <i class="fa-solid fa-truck-fast"></i> جاري الحساب...
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="freeShippingProgressBar"></div>
+                    </div>
+                </div>
                 
                 <div class="coupon-box">
                     <input type="text" id="couponInput" placeholder="أدخل الكوبون (مثال: SAMI)" onkeydown="if(event.key === 'Enter') { event.preventDefault(); applyIntelligentCoupon(); }">
@@ -130,7 +208,7 @@
                 </div>
 
                 <div class="order-summary-item" id="deliveryRow" style="margin-top: 15px;">
-                    <span>رسوم التوصيل <small id="deliveryTypeLabel" style="color:var(--gold);"></small></span>
+                    <span>رسوم التوصيل / الخدمة <small id="deliveryTypeLabel" style="color:var(--gold);"></small></span>
                     <span id="deliveryCostText">18.00 ر.س</span>
                 </div>
 
@@ -151,33 +229,71 @@
         let currentDiscountValue = 0;
         let appliedCouponCode = '';
         let currentDeliveryFee = 18.00;
+        let currentFulfillmentMode = 'delivery'; // delivery, dine_in, pickup
+        const FREE_SHIPPING_THRESHOLD = 150.00; // الحد الأدنى للتوصيل المجاني
 
-        // إظهار وإخفاء بطاقة الدفع بذكاء
-        document.querySelectorAll('input[name="payment_method"]').forEach((elem) => {
-            elem.addEventListener('change', function(event) {
-                document.getElementById('card-details-container').style.display = (event.target.value === 'online') ? 'block' : 'none';
-            });
-        });
+        // استرجاع معلومات العميل المحفوظة مسبقاً (تذكرني)
+        function loadSavedCustomerInfo() {
+            const savedInfo = JSON.parse(localStorage.getItem('parole_saved_customer'));
+            if (savedInfo) {
+                if (savedInfo.fullName) document.getElementById('fullName').value = savedInfo.fullName;
+                if (savedInfo.phone) document.getElementById('phone').value = savedInfo.phone;
+                if (savedInfo.addrCity) document.getElementById('addrCity').value = savedInfo.addrCity;
+                if (savedInfo.addrStreet) document.getElementById('addrStreet').value = savedInfo.addrStreet;
+                if (savedInfo.addrBuilding) document.getElementById('addrBuilding').value = savedInfo.addrBuilding;
+                if (savedInfo.addrUnit) document.getElementById('addrUnit').value = savedInfo.addrUnit;
+                if (savedInfo.addrLandmark) document.getElementById('addrLandmark').value = savedInfo.addrLandmark;
+                if (savedInfo.tableNumber) document.getElementById('tableNumber').value = savedInfo.tableNumber;
+            }
+        }
 
-        // محرك ذكي لتغيير رسوم التوصيل بناءً على العنوان المكتوب
-        function calculateDynamicDelivery(addressText) {
-            const lowerAddr = addressText.toLowerCase();
+        // تبديل نظام الاستلام (توصيل، داخل الكافيه، استلام من الفرع)
+        function setFulfillmentMode(mode) {
+            currentFulfillmentMode = mode;
+            const addressContainer = document.getElementById('addressDetailsContainer');
+            const dineInContainer = document.getElementById('dineInContainer');
+            const cardDelivery = document.getElementById('cardDelivery');
+            const cardDineIn = document.getElementById('cardDineIn');
+            const cardPickup = document.getElementById('cardPickup');
             const label = document.getElementById('deliveryTypeLabel');
-            
-            if (lowerAddr.includes('استلام') || lowerAddr.includes('فرع') || lowerAddr.includes('pickup')) {
+            const freeShippingContainer = document.getElementById('freeShippingContainer');
+            const noticeBoxText = document.getElementById('noticeBoxText');
+
+            // إزالة الكلاس النشط من الجميع
+            cardDelivery.classList.remove('active');
+            cardDineIn.classList.remove('active');
+            cardPickup.classList.remove('active');
+
+            if (mode === 'dine_in') {
                 currentDeliveryFee = 0.00;
-                label.innerText = '(استلام من الفرع - مجاني)';
-            } else if (lowerAddr.includes('الدوحة') || lowerAddr.includes('doha')) {
-                currentDeliveryFee = 18.00;
-                label.innerText = '(توصيل محلي قياسي)';
+                cardDineIn.classList.add('active');
+                addressContainer.style.display = 'none';
+                dineInContainer.style.display = 'block';
+                label.innerText = '(طلب محلي داخل الكافيه - بدون رسوم)';
+                freeShippingContainer.style.display = 'none';
+                noticeBoxText.innerHTML = '<strong>ملاحظة هامة:</strong> سيتم تجهيز طلبك وإحضاره مباشرة إلى طاولتك داخل الكافيه (الدفع نقدي أو بالشبكة عند الطاولة).';
+            } else if (mode === 'pickup') {
+                currentDeliveryFee = 0.00;
+                cardPickup.classList.add('active');
+                addressContainer.style.display = 'none';
+                dineInContainer.style.display = 'none';
+                label.innerText = '(استلام شخصي من الفرع - مجاني)';
+                freeShippingContainer.style.display = 'none';
+                noticeBoxText.innerHTML = '<strong>ملاحظة هامة:</strong> سيتم تجهيز طلبك وجاهزيته للاستلام من الكاونتر الرئيسي فوراً.';
             } else {
-                currentDeliveryFee = 18.00; // القيمة الافتراضية لقطر
-                label.innerText = '(توصيل داخل الدولة)';
+                // التوصيل الافتراضي للمنزل
+                currentDeliveryFee = 18.00;
+                cardDelivery.classList.add('active');
+                addressContainer.style.display = 'block';
+                dineInContainer.style.display = 'none';
+                label.innerText = '(توصيل محلي قياسي)';
+                freeShippingContainer.style.display = 'block';
+                noticeBoxText.innerHTML = '<strong>ملاحظة هامة:</strong> في الوقت الحالي تتوفر خدمة الدفع عند الاستلام (كاش أو بالشبكة مع المندوب)، وسنتواصل معك فوراً لتأكيد وتنسيق موعد التوصيل.';
             }
             loadIntelligentSummary();
         }
 
-        // محرك الكوبونات الفائق الذكاء (يدعم النسبة والمبلغ الثابت)
+        // محرك الكوبونات الذكي
         function applyIntelligentCoupon() {
             const inputCode = document.getElementById('couponInput').value.trim().toUpperCase();
             const msg = document.getElementById('couponMessage');
@@ -212,113 +328,5 @@
             loadIntelligentSummary();
         }
 
-        // تحميل وتحديث الملخص عبر مزامنة الأسعار الحية مع لوحة التحكم
-        function loadIntelligentSummary() {
-            let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
-            let adminProducts = JSON.parse(localStorage.getItem('parole_shop_products')) || [];
-            
-            const container = document.getElementById('checkoutSummaryItems');
-            const totalElement = document.getElementById('checkoutTotalAmount');
-            const discountRow = document.getElementById('discountRow');
-            const discountSpan = document.getElementById('discountAmount');
-            const couponNameSpan = document.getElementById('appliedCouponName');
-            const deliveryTextSpan = document.getElementById('deliveryCostText');
-            
-            if (cart.length === 0) {
-                container.innerHTML = '<p style="color: var(--text-muted); font-size: 13px;">حقيبة التسوق فارغة حالياً.</p>';
-                discountRow.style.display = 'none';
-                totalElement.innerText = '0.00 ر.س';
-                return;
-            }
-
-            let html = '';
-            let subtotal = 0;
-            
-            // مطابقة فورية لأسعار المنتجات المحدثة من طرف لوحة التحكم
-            cart = cart.map(item => {
-                let liveProduct = adminProducts.find(p => p.name === item.name);
-                if (liveProduct && liveProduct.price) {
-                    item.price = parseFloat(liveProduct.price); // تحديث السعر الحي تلقائياً
-                }
-                let itemTotal = item.price * (item.quantity || 1);
-                subtotal += itemTotal;
-                
-                html += `<div class="order-summary-item">
-                    <span>${item.name} (x${item.quantity || 1})</span>
-                    <span>${itemTotal.toFixed(2)} ر.س</span>
-                </div>`;
-                return item;
-            });
-
-            container.innerHTML = html;
-
-            // تحديث عرض الخصم
-            if (currentDiscountValue > 0) {
-                discountRow.style.display = 'flex';
-                discountSpan.innerText = '-' + currentDiscountValue.toFixed(2) + ' ر.س';
-                couponNameSpan.innerText = `(${appliedCouponCode})`;
-            } else {
-                discountRow.style.display = 'none';
-            }
-
-            deliveryTextSpan.innerText = currentDeliveryFee.toFixed(2) + ' ر.س';
-            let finalTotal = Math.max(0, (subtotal - currentDiscountValue) + currentDeliveryFee);
-            totalElement.innerText = finalTotal.toFixed(2) + ' ر.س';
-        }
-
-        // تنفيذ الطلب الذكي وترحيله الشامل للوحة التحكم
-        function executeSmartOrder(event) {
-            event.preventDefault();
-            
-            let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
-            if (cart.length === 0) {
-                alert('عذراً، حقيبة التسوق فارغة!');
-                return;
-            }
-
-            const fullName = document.getElementById('fullName').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            const address = document.getElementById('address').value.trim();
-            const paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
-            
-            let subtotal = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
-            let finalTotal = Math.max(0, (subtotal - currentDiscountValue) + currentDeliveryFee);
-
-            // تجميع كائن الطلب المتكامل للوحة التحكم
-            const smartOrder = {
-                id: 'PAR-' + Math.floor(100000 + Math.random() * 900000),
-                customer: fullName,
-                phone: phone,
-                address: address,
-                paymentMethod: paymentMethod === 'online' ? 'دفع إلكتروني آمن' : 'نقدي عند الاستلام',
-                items: cart,
-                subtotal: subtotal.toFixed(2),
-                discount: currentDiscountValue.toFixed(2),
-                coupon: appliedCouponCode || 'لا يوجد',
-                deliveryFee: currentDeliveryFee.toFixed(2),
-                total: finalTotal.toFixed(2),
-                status: 'قيد التجهيز',
-                date: new Date().toLocaleString('ar-QA')
-            };
-
-            // إرسال الطلب فوراً إلى تخزين لوحة التحكم
-            let adminOrders = JSON.parse(localStorage.getItem('parole_admin_orders')) || [];
-            adminOrders.unshift(smartOrder);
-            localStorage.setItem('parole_admin_orders', JSON.stringify(adminOrders));
-
-            if (paymentMethod === 'online') {
-                alert('تمت معالجة الدفع الإلكتروني بنجاح! تم إرسال طلبك إلى لوحة تحكم الإدارة.');
-            } else {
-                alert('تم تسجيل طلبك بنجاح! تم توجيهه إلى قسم الطلبات في لوحة التحكم.');
-            }
-
-            // تفريغ السلة والتحويل الفوري للرئيسية
-            localStorage.removeItem('parole_cart');
-            window.location.href = 'index.html';
-        }
-
-        // تشغيل المحرك عند تحميل الصفحة
-        document.addEventListener('DOMContentLoaded', loadIntelligentSummary);
-    </script>
-</body>
-</html>
+        // تحديث شريط التوصيل المجاني
+        function updateFreeShippingBar(subtotal) {
