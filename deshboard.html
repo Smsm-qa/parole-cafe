@@ -308,7 +308,7 @@
         </main>
     </div>
 
-    <!-- البرمجة التفاعلية وحماية كلمة المرور والمزامنة -->
+    <!-- البرمجة التفاعلية وحماية كلمة المرور والمزامنة والتنبيه الصوتي -->
     <script>
         // ======= [ بيانات الدخول الخاصة بك ] =======
         const ADMIN_USER = "Sami";
@@ -622,6 +622,70 @@
             renderBestSellers();
             renderCustomersAndOrders();
         }
+
+        // ======= [ نظام التنبيه الصوتي للطلبات الواردة ] =======
+        let previousOrdersCount = 0;
+
+        function playTalabatSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                
+                const osc1 = audioCtx.createOscillator();
+                const gain1 = audioCtx.createGain();
+                osc1.type = 'sine';
+                osc1.frequency.setValueAtTime(880, audioCtx.currentTime);
+                gain1.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                osc1.connect(gain1);
+                gain1.connect(audioCtx.destination);
+                osc1.start();
+                osc1.stop(audioCtx.currentTime + 0.12);
+
+                setTimeout(() => {
+                    const osc2 = audioCtx.createOscillator();
+                    const gain2 = audioCtx.createGain();
+                    osc2.type = 'sine';
+                    osc2.frequency.setValueAtTime(1320, audioCtx.currentTime);
+                    gain2.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                    osc2.connect(gain2);
+                    gain2.connect(audioCtx.destination);
+                    osc2.start();
+                    osc2.stop(audioCtx.currentTime + 0.25);
+                }, 140);
+            } catch (e) {
+                console.log("AudioContext blocked or not supported");
+            }
+        }
+
+        function monitorIncomingOrders() {
+            let currentOrders = JSON.parse(localStorage.getItem('parole_admin_orders')) || [];
+            
+            if (previousOrdersCount === 0) {
+                previousOrdersCount = currentOrders.length;
+                return;
+            }
+
+            if (currentOrders.length > previousOrdersCount) {
+                playTalabatSound();
+                showAdminAlert("🚨 تنبيه: وصل طلب جديد للمتجر!");
+                refreshDashboardData();
+            }
+
+            previousOrdersCount = currentOrders.length;
+        }
+
+        function showAdminAlert(text) {
+            let note = document.createElement('div');
+            note.style.cssText = "position: fixed; top: 25px; left: 50%; transform: translateX(-50%); background: #d4af37; color: #000; padding: 12px 25px; border-radius: 8px; font-weight: bold; z-index: 99999; box-shadow: 0 6px 20px rgba(0,0,0,0.6); font-size: 14px; transition: opacity 0.4s ease;";
+            note.innerText = text;
+            document.body.appendChild(note);
+
+            setTimeout(() => {
+                note.style.opacity = '0';
+                setTimeout(() => note.remove(), 400);
+            }, 4500);
+        }
+
+        setInterval(monitorIncomingOrders, 3000);
     </script>
 </body>
 </html>
