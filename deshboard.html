@@ -967,7 +967,61 @@
             if(document.hasFocus()) {
                 refreshDashboardData();
             }
-        }, 2000);
+        }, 2000);// دوال إدارة النافذة المنبثقة وأزرار التصفير الخاصة بالطلبات والإيرادات
+let currentCustomActionType = '';
+
+function openCustomModal(type) {
+    currentCustomActionType = type;
+    const modal = document.getElementById('confirmCustomModal');
+    const title = document.getElementById('customModalTitle');
+    const desc = document.getElementById('customModalDesc');
+    const confirmBtn = document.getElementById('customModalConfirmBtn');
+
+    if (type === 'orders') {
+        title.textContent = 'تصفير الطلبات فقط';
+        desc.textContent = 'سيتم حذف جميع سجلات الطلبات الحالية مع إبقاء المنتجات والإعدادات كما هي دون أي تغيير. هل تريد المتابعة؟';
+        if (confirmBtn) confirmBtn.className = 'btn-action btn-tool-orders';
+    } else if (type === 'revenue') {
+        title.textContent = 'تصفير الإيرادات فقط';
+        desc.textContent = 'سيتم تعديل السجلات المالية المرتبطة بالطلبات وإعادة ضبط الإيرادات إلى الصفر. هل أنت متأكد؟';
+        if (confirmBtn) confirmBtn.className = 'btn-action btn-tool-revenue';
+    } else if (type === 'all') {
+        title.textContent = 'تصفير الكل بنقرة واحدة';
+        desc.textContent = 'تحذير: سيتم حذف جميع الطلبات والإيرادات المرتبطة بها بالكامل. هل أنت متأكد تماماً من رغبتك في البدء من جديد؟';
+        if (confirmBtn) confirmBtn.className = 'btn-action btn-tool-all';
+    }
+
+    if (modal) modal.style.display = 'flex';
+}
+
+function closeCustomModal() {
+    const modal = document.getElementById('confirmCustomModal');
+    if (modal) modal.style.display = 'none';
+    currentCustomActionType = '';
+}
+
+function executeCustomAction() {
+    if (currentCustomActionType === 'orders' || currentCustomActionType === 'all') {
+        localStorage.removeItem('parole_admin_orders');
+        if (typeof previousOrdersCount !== 'undefined') {
+            previousOrdersCount = 0;
+        }
+    }
+    if (currentCustomActionType === 'revenue' || currentCustomActionType === 'all') {
+        let orders = JSON.parse(localStorage.getItem('parole_admin_orders')) || [];
+        orders.forEach(o => o.total = '0 ر.س');
+        localStorage.setItem('parole_admin_orders', JSON.stringify(orders));
+    }
+    
+    if (typeof refreshDashboardData === 'function') {
+        refreshDashboardData();
+    }
+    closeCustomModal();
+    
+    if (typeof showAdminAlert === 'function') {
+        showAdminAlert("✅ تم تنفيذ العملية بنجاح.");
+    }
+        }
     </script>
 <!-- نافذة التأكيد المنبثقة المخصصة للتصفير (Modal) -->
 <div class="modal-overlay" id="confirmCustomModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); justify-content: center; align-items: center; z-index: 10000;">
