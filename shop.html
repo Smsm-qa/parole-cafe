@@ -26,22 +26,27 @@
         header { background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(10px); position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; border-bottom: 1px solid var(--border-color); }
         .nav-container { max-width: 1300px; margin: 0 auto; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; }
         
-        .nav-right, .nav-left { display: flex; align-items: center; gap: 15px; }
+        .nav-right, .nav-left { display: flex; align-items: center; gap: 12px; }
         
         .menu-toggle-btn { background: none; border: none; color: var(--gold); font-size: 22px; cursor: pointer; transition: var(--ease-out-quad); display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; }
         .menu-toggle-btn:hover { background: rgba(212,175,55,0.1); }
 
         .logo { font-size: 22px; font-weight: 800; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; letter-spacing: 1px; }
         
-        .cart-btn { background: rgba(212,175,55,0.1); border: 1px solid var(--border-color); color: var(--gold); padding: 8px 16px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 8px; transition: var(--ease-out-quad); position: relative; }
-        .cart-btn:hover { background: var(--gold); color: #000; transform: translateY(-2px); }
+        .lang-btn { background: rgba(212,175,55,0.1); border: 1px solid var(--border-color); color: var(--gold); padding: 6px 14px; border-radius: 50px; cursor: pointer; font-weight: 700; font-size: 13px; transition: var(--ease-out-quad); display: flex; align-items: center; gap: 6px; }
+        .lang-btn:hover { background: var(--gold); color: #000; }
+
+        .cart-btn, .offers-nav-btn { background: rgba(212,175,55,0.1); border: 1px solid var(--border-color); color: var(--gold); padding: 8px 16px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 8px; transition: var(--ease-out-quad); position: relative; }
+        .cart-btn:hover, .offers-nav-btn:hover { background: var(--gold); color: #000; transform: translateY(-2px); }
         .cart-count { position: absolute; top: -5px; right: -5px; background: #fff; color: #000; width: 18px; height: 18px; border-radius: 50%; font-size: 11px; display: flex; align-items: center; justify-content: center; font-weight: 800; }
 
-        /* Sidebar Drawer (القائمة الجانبية الثلاثة خطوط) */
+        /* Sidebar Drawer */
         .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 2500; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
         .sidebar-overlay.open { opacity: 1; visibility: visible; }
         
         .sidebar-drawer { position: fixed; top: 0; right: -300px; width: 300px; height: 100%; background: #111; border-left: 1px solid var(--border-color); z-index: 2600; transition: right 0.4s var(--ease-out-quad); display: flex; flex-direction: column; padding: 25px; }
+        html[dir="ltr"] .sidebar-drawer { right: auto; left: -300px; border-left: none; border-right: 1px solid var(--border-color); }
+        html[dir="ltr"] .sidebar-overlay.open .sidebar-drawer { left: 0; right: auto; }
         .sidebar-overlay.open .sidebar-drawer { right: 0; }
         
         .sidebar-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; margin-bottom: 20px; }
@@ -53,6 +58,7 @@
         .sidebar-menu li a { display: flex; align-items: center; gap: 15px; color: var(--text-muted); text-decoration: none; font-size: 16px; font-weight: 600; padding: 12px 15px; border-radius: 12px; transition: 0.3s; }
         .sidebar-menu li a i { color: var(--gold); width: 20px; text-align: center; }
         .sidebar-menu li a:hover, .sidebar-menu li a.active { background: rgba(212,175,55,0.1); color: #fff; transform: translateX(-5px); }
+        html[dir="ltr"] .sidebar-menu li a:hover, html[dir="ltr"] .sidebar-menu li a.active { transform: translateX(5px); }
 
         .filters-section { position: sticky; top: 66px; background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(5px); z-index: 900; padding: 15px 0; border-bottom: 1px solid var(--border-color); }
         .filters-container { display: flex; gap: 10px; overflow-x: auto; padding: 0 25px 5px 25px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
@@ -66,7 +72,7 @@
         .product-card { background: var(--card-bg); border-radius: 20px; overflow: hidden; border: 1px solid var(--border-color); transition: var(--ease-out-quad); display: flex; flex-direction: column; position: relative; opacity: 0; animation: fadeIn 0.5s forwards; }
         .product-card:hover { transform: translateY(-8px); border-color: var(--gold); box-shadow: 0 10px 30px rgba(212,175,55,0.15); }
         
-        .img-box { width: 100%; height: 200px; overflow: hidden; position: relative; cursor: pointer; }
+        .img-box { width: 100%; height: 200px; overflow: hidden; position: relative; cursor: pointer; background: #1a1a1a; }
         .img-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s var(--ease-out-quad); }
         .product-card:hover .img-box img { transform: scale(1.05); }
         
@@ -84,8 +90,9 @@
         .modal-content { background: #121212; border: 1px solid var(--gold); width: 90%; max-width: 500px; border-radius: 24px; overflow: hidden; transform: scale(0.9); transition: transform 0.3s var(--ease-out-quad); position: relative; padding: 30px; }
         .modal-overlay.open .modal-content { transform: scale(1); }
         .modal-close { position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.5); color: #fff; border: none; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; font-size: 18px; z-index: 10; display: flex; align-items: center; justify-content: center; transition: var(--ease-out-quad); }
+        html[dir="ltr"] .modal-close { left: auto; right: 15px; }
         .modal-close:hover { background: var(--gold); color: #000; transform: rotate(90deg); }
-        .m-img { width: 100%; height: 230px; object-fit: cover; border-radius: 16px; margin-bottom: 20px; }
+        .m-img { width: 100%; height: 230px; object-fit: cover; border-radius: 16px; margin-bottom: 20px; background: #1a1a1a; }
         .m-title { font-size: 22px; color: #fff; font-weight: 800; margin-bottom: 8px; }
         .m-price { font-size: 20px; font-weight: 800; color: var(--gold); margin-bottom: 12px; }
         .m-desc { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; line-height: 1.7; }
@@ -111,10 +118,15 @@
             .card-body { padding: 12px; }
             .p-title { font-size: 15px; }
             .p-desc { font-size: 12px; }
+            /* إخفاء نص الزر في الشاشات الصغيرة جداً للاكتفاء بالأيقونة حفاظاً على المساحة إذا لزم الأمر، أو تصغيره */
+            .offers-nav-btn span { display: none; }
+            @media (min-width: 480px) {
+                .offers-nav-btn span { display: inline; }
+            }
         }
     </style>
 </head>
-<body>
+<body dir="rtl">
 
     <header>
         <div class="nav-container">
@@ -125,45 +137,48 @@
                 <a href="index.html" class="logo">PAROLE Cafe</a>
             </div>
             <div class="nav-left">
+                <!-- زر تصفح العروض المضاف حديثاً -->
+                <a href="offers.html" class="offers-nav-btn" title="تصفح العروض">
+                    <i class="fa-solid fa-tag"></i> <span data-i18n="offersBtn">العروض</span>
+                </a>
+                <button class="lang-btn" onclick="toggleLanguage()">
+                    <i class="fa-solid fa-globe"></i> <span id="langLabel">EN</span>
+                </button>
                 <a href="cart.html" class="cart-btn">
-                    <i class="fa-solid fa-bag-shopping"></i> السلة
+                    <i class="fa-solid fa-bag-shopping"></i> <span data-i18n="cart">السلة</span>
                     <span class="cart-count" id="cart-counter">0</span>
                 </a>
             </div>
         </div>
     </header>
 
-    <!-- القائمة الجانبية (Sidebar Drawer) -->
+    <!-- القائمة الجانبية -->
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()">
         <div class="sidebar-drawer" onclick="event.stopPropagation()">
             <div class="sidebar-header">
-                <span class="sidebar-title">قائمة التنقل</span>
+                <span class="sidebar-title" data-i18n="navigation">قائمة التنقل</span>
                 <button class="sidebar-close" onclick="toggleSidebar()"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <ul class="sidebar-menu">
-                <li><a href="index.html"><i class="fa-solid fa-house"></i> الرئيسية</a></li>
-                <li><a href="about.html"><i class="fa-solid fa-circle-info"></i> من نحن</a></li>
-                <li><a href="shop.html" class="active"><i class="fa-solid fa-mug-hot"></i> المنيو </a></li>
-                <li><a href="offers.html"><i class="fa-solid fa-tag"></i> العروض</a></li>
-                <li><a href="branches.html"><i class="fa-solid fa-location-dot"></i> الفروع</a></li>
-                <li><a href="blog.html"><i class="fa-solid fa-newspaper"></i> المدونة</a></li>
-                <li><a href="contact.html"><i class="fa-solid fa-headset"></i> تواصل معنا</a></li>
-                <li><a href="faq.html"><i class="fa-solid fa-circle-question"></i> الأسئلة الشائعة</a></li>
-                <li><a href="policies.html"><i class="fa-solid fa-shield-halved"></i> السياسات</a></li>
-                <li><a href="cart.html"><i class="fa-solid fa-basket-shopping"></i> السلة</a></li>
-                <li><a href="checkout.html"><i class="fa-solid fa-credit-card"></i> إتمام الدفع</a></li>
+                <li><a href="index.html"><i class="fa-solid fa-house"></i> <span data-i18n="home">الرئيسية</span></a></li>
+                <li><a href="about.html"><i class="fa-solid fa-circle-info"></i> <span data-i18n="about">من نحن</span></a></li>
+                <li><a href="shop.html" class="active"><i class="fa-solid fa-mug-hot"></i> <span data-i18n="menu">المنيو</span></a></li>
+                <li><a href="offers.html"><i class="fa-solid fa-tag"></i> <span data-i18n="offers">العروض</span></a></li>
+                <li><a href="branches.html"><i class="fa-solid fa-location-dot"></i> <span data-i18n="branches">الفروع</span></a></li>
+                <li><a href="contact.html"><i class="fa-solid fa-headset"></i> <span data-i18n="contact">تواصل معنا</span></a></li>
+                <li><a href="cart.html"><i class="fa-solid fa-basket-shopping"></i> <span data-i18n="cart">السلة</span></a></li>
             </ul>
         </div>
     </div>
 
     <div class="filters-section">
         <div class="filters-container">
-            <button class="filter-btn active" onclick="filterProducts('all', this)">الكل</button>
-            <button class="filter-btn" onclick="filterProducts('hot', this)">المشروبات الساخنة</button>
-            <button class="filter-btn" onclick="filterProducts('cold', this)">المشروبات الباردة</button>
-            <button class="filter-btn" onclick="filterProducts('mojito', this)">الموهيتو والمنعشات</button>
-            <button class="filter-btn" onclick="filterProducts('desserts', this)">الحلويات والمخبوزات</button>
-            <button class="filter-btn" onclick="filterProducts('tea', this)">الشاي</button>
+            <button class="filter-btn active" onclick="filterProducts('all', this)" data-i18n="all">الكل</button>
+            <button class="filter-btn" onclick="filterProducts('hot', this)" data-i18n="hot">المشروبات الساخنة</button>
+            <button class="filter-btn" onclick="filterProducts('cold', this)" data-i18n="cold">المشروبات الباردة</button>
+            <button class="filter-btn" onclick="filterProducts('mojito', this)" data-i18n="mojito">الموهيتو والمنعشات</button>
+            <button class="filter-btn" onclick="filterProducts('desserts', this)" data-i18n="desserts">الحلويات والمخبوزات</button>
+            <button class="filter-btn" onclick="filterProducts('tea', this)" data-i18n="tea">الشاي</button>
         </div>
     </div>
 
@@ -172,8 +187,8 @@
     </main>
 
     <div class="floating-cart" id="floatingCart">
-        <div class="fc-text">الإجمالي: <span id="fcTotal">0 ر.س</span> (<span id="fcCount">0</span> عناصر)</div>
-        <a href="cart.html" class="fc-checkout">إتمام الطلب <i class="fa-solid fa-arrow-left"></i></a>
+        <div class="fc-text"><span data-i18n="total">الإجمالي:</span> <span id="fcTotal">0.00 ر.س</span> (<span id="fcCount">0</span> <span data-i18n="items">عناصر</span>)</div>
+        <a href="cart.html" class="fc-checkout"><span data-i18n="checkout">إتمام الطلب</span> <i class="fa-solid fa-arrow-left" id="checkoutArrow"></i></a>
     </div>
 
     <div class="modal-overlay" id="productModal" onclick="closeModal(event)">
@@ -183,74 +198,144 @@
         </div>
     </div>
 
-    <div id="toast">تمت الإضافة إلى السلة بنجاح ✨</div>
+    <div id="toast" data-i18n="toastMsg">تمت الإضافة إلى السلة بنجاح ✨</div>
 
     <script>
+        let currentLang = 'ar';
+
+        const translations = {
+            ar: {
+                cart: "السلة",
+                offersBtn: "العروض",
+                navigation: "قائمة التنقل",
+                home: "الرئيسية",
+                about: "من نحن",
+                menu: "المنيو",
+                offers: "العروض",
+                branches: "الفروع",
+                contact: "تواصل معنا",
+                all: "الكل",
+                hot: "المشروبات الساخنة",
+                cold: "المشروبات الباردة",
+                mojito: "الموهيتو والمنعشات",
+                desserts: "الحلويات والمخبوزات",
+                tea: "الشاي",
+                total: "الإجمالي:",
+                items: "عناصر",
+                checkout: "إتمام الطلب",
+                addToCartModal: "إضافة إلى السلة الآن",
+                toastMsg: "تمت الإضافة إلى السلة بنجاح ✨",
+                currency: "ر.س"
+            },
+            en: {
+                cart: "Cart",
+                offersBtn: "Offers",
+                navigation: "Navigation",
+                home: "Home",
+                about: "About Us",
+                menu: "Menu",
+                offers: "Offers",
+                branches: "Branches",
+                contact: "Contact Us",
+                all: "All",
+                hot: "Hot Drinks",
+                cold: "Cold Drinks",
+                mojito: "Mojitos & Refreshers",
+                desserts: "Desserts & Bakery",
+                tea: "Tea",
+                total: "Total:",
+                items: "items",
+                checkout: "Checkout",
+                addToCartModal: "Add to Cart Now",
+                toastMsg: "Successfully added to cart ✨",
+                currency: "SAR"
+            }
+        };
+
         const products = [
-            // المشروبات الساخنة (Hot Drinks)
-            { id: 1, name: 'إسبريسو', price: 7, category: 'hot', img: 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=600&q=80', desc: 'جرعة إسبريسو مركزة وغنية بالطاقة.' },
-            { id: 2, name: 'ميكاتو', price: 9, category: 'hot', img: 'https://images.unsplash.com/photo-1485808191679-5f86510681a2?auto=format&fit=crop&w=600&q=80', desc: 'إسبريسو مضاف إليه لمسة خفيفة من رغوة الحليب.' },
-            { id: 3, name: 'هاف هاف', price: 9, category: 'hot', img: 'https://images.unsplash.com/photo-1577968897966-3d4325b36b61?auto=format&fit=crop&w=600&q=80', desc: 'مزيج متوازن وخاص من القهوة والحليب.' },
-            { id: 4, name: 'فلات وايت', price: 12, category: 'hot', img: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=600&q=80', desc: 'إسبريسو دافئ مع حليب مخملي ناعم.' },
-            { id: 5, name: 'كابتشينو', price: 12, category: 'hot', img: 'https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=600&q=80', desc: 'التوازن الكلاسيكي بين الإسبريسو والحليب والرغوة الكثيفة.' },
-            { id: 6, name: 'لاتيه', price: 12, category: 'hot', img: 'https://images.unsplash.com/photo-1561047029-3000c68339ca?auto=format&fit=crop&w=600&q=80', desc: 'حليب مبخر حريري مع جرعة إسبريسو فاخرة.' },
-            { id: 7, name: 'كورتادو', price: 11, category: 'hot', img: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80', desc: 'كمية متساوية من الإسبريسو والحليب الدافئ.' },
-            { id: 8, name: 'بارول موكا', price: 14, category: 'hot', img: 'https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?auto=format&fit=crop&w=600&q=80', desc: 'مزيج الشوكولاتة الغنية مع الإسبريسو والحليب.' },
-            { id: 9, name: 'هوت تشوكليت', price: 14, category: 'hot', img: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=600&q=80', desc: 'شوكولاتة دافئة ومخملية تمنحك الدفء والراحة.' },
-            { id: 10, name: 'سبانيش لاتيه', price: 14, category: 'hot', img: 'https://images.unsplash.com/photo-1558857563-b3c10fdf4d11?auto=format&fit=crop&w=600&q=80', desc: 'لاتيه ساخن مضاف إليه الحليب المكثف المحلى.' },
-            { id: 11, name: 'بارول رِد فلفيت', price: 14, category: 'hot', img: 'https://images.unsplash.com/photo-1616857494578-15ae2617412d?auto=format&fit=crop&w=600&q=80', desc: 'مشروب الرد فلفيت الساخن بنكهة مميزة وفريدة.' },
-            { id: 12, name: 'أمريكانو', price: 9, category: 'hot', img: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80', desc: 'إسبريسو خفيف مضاف إليه الماء الساخن.' },
-            { id: 13, name: 'بلاتك كوفي', price: 9, category: 'hot', img: 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=600&q=80', desc: 'قهوة سوداء محضرة بعناية لذيذة.' },
-            { id: 14, name: 'V60', price: 13, category: 'hot', img: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80', desc: 'قهوة مختصة مقطرة بطريقة V60.' },
-            { id: 15, name: 'كيميكس', price: 13, category: 'hot', img: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=600&q=80', desc: 'قهوة مقطرة بنقاء عالي عبر أداة الكيميكس.' },
-            { id: 16, name: 'قهوة عربي كوب', price: 9, category: 'hot', img: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80', desc: 'القهوة العربية الأصيلة ببهاراتها الهادئة.' },
-            { id: 17, name: 'قهوة عربي دلة', price: 30, category: 'hot', img: 'https://images.unsplash.com/photo-1582281298114-4a331f71887e?auto=format&fit=crop&w=600&q=80', desc: 'دلة قهوة عربية تكفي للمشاركة والجلسات الطويلة.' },
-            { id: 18, name: 'قهوة تركية', price: 9, category: 'hot', img: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80', desc: 'قهوة تركية أصلية مخمرة بعناية على الوجه.' },
+            // المشروبات الساخنة
+            { id: 1, name: {ar: 'إسبريسو', en: 'Espresso'}, price: 7, category: 'hot', img: 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=600&q=80', desc: {ar: 'جرعة إسبريسو مركزة وغنية بالطاقة.', en: 'Concentrated shot of energizing espresso.'} },
+            { id: 2, name: {ar: 'ميكاتو', en: 'Macchiato'}, price: 9, category: 'hot', img: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80', desc: {ar: 'إسبريسو مضاف إليه لمسة خفيفة من رغوة الحليب.', en: 'Espresso topped with a dollop of foamed milk.'} },
+            { id: 3, name: {ar: 'هاف هاف', en: 'Half & Half'}, price: 9, category: 'hot', img: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=600&q=80', desc: {ar: 'مزيج متوازن وخاص من القهوة والحليب.', en: 'A special balanced mix of coffee and milk.'} },
+            { id: 4, name: {ar: 'فلات وايت', en: 'Flat White'}, price: 12, category: 'hot', img: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=600&q=80', desc: {ar: 'إسبريسو دافئ مع حليب مخملي ناعم.', en: 'Warm espresso with smooth velvety microfoam milk.'} },
+            { id: 5, name: {ar: 'كابتشينو', en: 'Cappuccino'}, price: 12, category: 'hot', img: 'https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=600&q=80', desc: {ar: 'التوازن الكلاسيكي بين الإسبريسو والحليب والرغوة الكثيفة.', en: 'Classic balance of espresso, steamed milk and thick foam.'} },
+            { id: 6, name: {ar: 'لاتيه', en: 'Caffe Latte'}, price: 12, category: 'hot', img: 'https://images.unsplash.com/photo-1561047029-3000c68339ca?auto=format&fit=crop&w=600&q=80', desc: {ar: 'حليب مبخر حريري مع جرعة إسبريسو فاخرة.', en: 'Silky steamed milk with a rich espresso shot.'} },
+            { id: 7, name: {ar: 'كورتادو', en: 'Cortado'}, price: 11, category: 'hot', img: 'https://images.unsplash.com/photo-1534482492323-1355d042557d?auto=format&fit=crop&w=600&q=80', desc: {ar: 'كمية متساوية من الإسبريسو والحليب الدافئ.', en: 'Equal parts of espresso and warm milk.'} },
+            { id: 8, name: {ar: 'بارول موكا', en: 'Parole Mocha'}, price: 14, category: 'hot', img: 'https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?auto=format&fit=crop&w=600&q=80', desc: {ar: 'مزيج الشوكولاتة الغنية مع الإسبريسو والحليب.', en: 'Rich chocolate blended with espresso and milk.'} },
+            { id: 9, name: {ar: 'هوت تشوكليت', en: 'Hot Chocolate'}, price: 14, category: 'hot', img: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=600&q=80', desc: {ar: 'شوكولاتة دافئة ومخملية تمنحك الدفء والراحة.', en: 'Warm velvety chocolate for ultimate comfort.'} },
+            { id: 10, name: {ar: 'سبانيش لاتيه', en: 'Spanish Latte'}, price: 14, category: 'hot', img: 'https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?auto=format&fit=crop&w=600&q=80', desc: {ar: 'لاتيه ساخن مضاف إليه الحليب المكثف المحلى.', en: 'Hot latte enhanced with sweetened condensed milk.'} },
+            { id: 11, name: {ar: 'بارول رِد فلفيت', en: 'Parole Red Velvet'}, price: 14, category: 'hot', img: 'https://images.unsplash.com/photo-1616857494578-15ae2617412d?auto=format&fit=crop&w=600&q=80', desc: {ar: 'مشروب الرد فلفيت الساخن بنكهة مميزة وفريدة.', en: 'Hot red velvet beverage with a unique flavor.'} },
+            { id: 12, name: {ar: 'أمريكانو', en: 'Americano'}, price: 9, category: 'hot', img: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80', desc: {ar: 'إسبريسو خفيف مضاف إليه الماء الساخن.', en: 'Espresso diluted with hot water.'} },
+            { id: 13, name: {ar: 'بلاتك كوفي', en: 'Black Coffee'}, price: 9, category: 'hot', img: 'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=600&q=80', desc: {ar: 'قهوة سوداء محضرة بعناية لذيذة.', en: 'Carefully brewed delicious black coffee.'} },
+            { id: 14, name: {ar: 'V60', en: 'V60 Dripper'}, price: 13, category: 'hot', img: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=600&q=80', desc: {ar: 'قهوة مختصة مقطرة بطريقة V60.', en: 'Specialty pour-over coffee using V60.'} },
+            { id: 15, name: {ar: 'كيميكس', en: 'Chemex'}, price: 13, category: 'hot', img: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=600&q=80', desc: {ar: 'قهوة مقطرة بنقاء عالي عبر أداة الكيميكس.', en: 'High purity filter coffee via Chemex.'} },
+            { id: 16, name: {ar: 'قهوة عربي كوب', en: 'Arabic Coffee Cup'}, price: 9, category: 'hot', img: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80', desc: {ar: 'القهوة العربية الأصيلة ببهاراتها الهادئة.', en: 'Authentic Arabic coffee with traditional spices.'} },
+            { id: 17, name: {ar: 'قهوة عربي دلة', en: 'Arabic Coffee Dallah'}, price: 30, category: 'hot', img: 'https://images.unsplash.com/photo-1582281298114-4a331f71887e?auto=format&fit=crop&w=600&q=80', desc: {ar: 'دلة قهوة عربية تكفي للمشاركة والجلسات الطويلة.', en: 'A Dallah of Arabic coffee for sharing.'} },
+            { id: 18, name: {ar: 'قهوة تركية', en: 'Turkish Coffee'}, price: 9, category: 'hot', img: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80', desc: {ar: 'قهوة تركية أصلية مخمرة بعناية على الوجه.', en: 'Authentic Turkish coffee brewed carefully.'} },
 
-            // المشروبات الباردة (Cold Drinks)
-            { id: 19, name: 'آيس سبانيش لاتيه', price: 16, category: 'cold', img: 'https://images.unsplash.com/photo-1558857563-b3c10fdf4d11?auto=format&fit=crop&w=600&q=80', desc: 'المزيج البارد الشهير مع الحليب المكثف المحلى والثلج.' },
-            { id: 20, name: 'آيس كراميل ماكياتو', price: 16, category: 'cold', img: 'https://images.unsplash.com/photo-1485808191679-5f86510681a2?auto=format&fit=crop&w=600&q=80', desc: 'إسبريسو بارد وحليب مع صوص الكراميل الغني.' },
-            { id: 21, name: 'وايت موكا', price: 17, category: 'cold', img: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=600&q=80', desc: 'الشوكولاتة البيضاء الباردة مع الإسبريسو الفاخر.' },
-            { id: 22, name: 'آيس موكا', price: 17, category: 'cold', img: 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=600&q=80', desc: 'مزيج الشوكولاتة والقهوة المثلجة المنعشة.' },
-            { id: 23, name: 'آيس دريب', price: 14, category: 'cold', img: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80', desc: 'قهوة مقطرة باردة ومثلجة.' },
-            { id: 24, name: 'كولد برو', price: 14, category: 'cold', img: 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=600&q=80', desc: 'قهوة مستخلصة على البارد ببطء لنكهة صافية وقوية.' },
-            { id: 25, name: 'آيس أمريكانو', price: 11, category: 'cold', img: 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=600&q=80', desc: 'إسبريسو مثلج مع الماء البارد الصافي.' },
-            { id: 26, name: 'آيس بلاك كوفي', price: 11, category: 'cold', img: 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=600&q=80', desc: 'قهوة سوداء باردة ومنعشة.' },
-            { id: 27, name: 'آيس فستاشيو لاتيه', price: 19, category: 'cold', img: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=600&q=80', desc: 'إسبريسو بارد مع حليب وصوص الفستق الطبيعي.' },
-            { id: 28, name: 'آيس شوكلت', price: 17, category: 'cold', img: 'https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?auto=format&fit=crop&w=600&q=80', desc: 'مشروب شوكولاتة مثلج وغني.' },
-            { id: 29, name: 'وايت موكا (بارد)', price: 17, category: 'cold', img: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=600&q=80', desc: 'وايت موكا بارد ومنعش.' },
-            { id: 30, name: 'آيس موكا (إضافي)', price: 16, category: 'cold', img: 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=600&q=80', desc: 'موكا مثلجة بخليط خاص.' },
+            // المشروبات الباردة
+            { id: 19, name: {ar: 'آيس سبانيش لاتيه', en: 'Iced Spanish Latte'}, price: 16, category: 'cold', img: 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=600&q=80', desc: {ar: 'المزيج البارد الشهير مع الحليب المكثف المحلى والثلج.', en: 'Famous cold blend with condensed milk and ice.'} },
+            { id: 20, name: {ar: 'آيس كراميل ماكياتو', en: 'Iced Caramel Macchiato'}, price: 16, category: 'cold', img: 'https://images.unsplash.com/photo-1485808191679-5f86510681a2?auto=format&fit=crop&w=600&q=80', desc: {ar: 'إسبريسو بارد وحليب مع صوص الكراميل الغني.', en: 'Cold espresso, milk and rich caramel sauce.'} },
+            { id: 21, name: {ar: 'وايت موكا', en: 'Iced White Mocha'}, price: 17, category: 'cold', img: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=600&q=80', desc: {ar: 'الشوكولاتة البيضاء الباردة مع الإسبريسو الفاخر.', en: 'Chilled white chocolate with premium espresso.'} },
+            { id: 22, name: {ar: 'آيس موكا', en: 'Iced Mocha'}, price: 17, category: 'cold', img: 'https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?auto=format&fit=crop&w=600&q=80', desc: {ar: 'مزيج الشوكولاتة والقهوة المثلجة المنعشة.', en: 'Refreshing iced chocolate and coffee blend.'} },
+            { id: 23, name: {ar: 'آيس دريب', en: 'Iced Drip Coffee'}, price: 14, category: 'cold', img: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80', desc: {ar: 'قهوة مقطرة باردة ومثلجة.', en: 'Chilled pour-over iced coffee.'} },
+            { id: 24, name: {ar: 'كولد برو', en: 'Cold Brew'}, price: 14, category: 'cold', img: 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=600&q=80', desc: {ar: 'قهوة مستخلصة على البارد ببطء لنكهة صافية وقوية.', en: 'Slowly cold-extracted coffee for a smooth flavor.'} },
+            { id: 25, name: {ar: 'آيس أمريكانو', en: 'Iced Americano'}, price: 11, category: 'cold', img: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80', desc: {ar: 'إسبريسو مثلج مع الماء البارد الصافي.', en: 'Iced espresso with pure cold water.'} },
+            { id: 26, name: {ar: 'آيس بلاك كوفي', en: 'Iced Black Coffee'}, price: 11, category: 'cold', img: 'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=600&q=80', desc: {ar: 'قهوة سوداء باردة ومنعشة.', en: 'Refreshing cold black coffee.'} },
+            { id: 27, name: {ar: 'آيس فستاشيو لاتيه', en: 'Iced Pistachio Latte'}, price: 19, category: 'cold', img: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=600&q=80', desc: {ar: 'إسبريسو بارد مع حليب وصوص الفستق الطبيعي.', en: 'Cold espresso with milk and natural pistachio sauce.'} },
+            { id: 28, name: {ar: 'آيس شوكلت', en: 'Iced Chocolate'}, price: 17, category: 'cold', img: 'https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?auto=format&fit=crop&w=600&q=80', desc: {ar: 'مشروب شوكولاتة مثلج وغني.', en: 'Rich and chilled chocolate drink.'} },
+            { id: 29, name: {ar: 'وايت موكا (بارد)', en: 'White Mocha (Cold)'}, price: 17, category: 'cold', img: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=600&q=80', desc: {ar: 'وايت موكا بارد ومنعش.', en: 'Refreshing cold white mocha.'} },
+            { id: 30, name: {ar: 'آيس موكا (إضافي)', en: 'Extra Iced Mocha'}, price: 16, category: 'cold', img: 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=600&q=80', desc: {ar: 'موكا مثلجة بخليط خاص.', en: 'Iced mocha with a special blend.'} },
 
-            // الموهيتو والمنعشات (Mojito & Drinks)
-            { id: 31, name: 'بلودي ماري', price: 18, category: 'mojito', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=600&q=80', desc: 'موهيتو منعش بنكهة التوت الأحمر والصودا.' },
-            { id: 32, name: 'جولد ديسيرت', price: 18, category: 'mojito', img: 'https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&w=600&q=80', desc: 'مشروب منعش بنكهات استوائية ذهبية.' },
-            { id: 33, name: 'صن دايز', price: 16, category: 'mojito', img: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80', desc: 'انتعاش الصيف بمزيج الفواكه الفوارة.' },
-            { id: 34, name: 'بلو سكاي', price: 16, category: 'mojito', img: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80', desc: 'موهيتو أزرق منعش وفوار.' },
-            { id: 35, name: 'ليمونا', price: 16, category: 'mojito', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=600&q=80', desc: 'عصير ليمون منعش ولذيذ.' },
-            { id: 36, name: 'برتقال', price: 16, category: 'mojito', img: 'https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&w=600&q=80', desc: 'عصير برتقال طبيعي طازج.' },
-            { id: 37, name: 'مكس بارول', price: 16, category: 'mojito', img: 'https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&w=600&q=80', desc: 'خلطة بارول الخاصة من المنعشات.' },
-            { id: 38, name: 'كود رد باور', price: 16, category: 'mojito', img: 'https://images.unsplash.com/photo-1622543925917-763c34d1a86e?auto=format&fit=crop&w=600&q=80', desc: 'مشروب طاقة كود رد مثلج ومنعش.' },
-            { id: 39, name: 'موزو', price: 16, category: 'mojito', img: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80', desc: 'مشروب منعش بنكهة الفواكه الاستوائية.' },
+            // الموهيتو والمنعشات
+            { id: 31, name: {ar: 'بلودي ماري', en: 'Bloody Mary Refresher'}, price: 18, category: 'mojito', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=600&q=80', desc: {ar: 'موهيتو منعش بنكهة التوت الأحمر والصودا.', en: 'Refreshing red berry mojito with soda.'} },
+            { id: 32, name: {ar: 'جولد ديسيرت', en: 'Gold Desert'}, price: 18, category: 'mojito', img: 'https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&w=600&q=80', desc: {ar: 'مشروب منعش بنكهات استوائية ذهبية.', en: 'Refreshing drink with golden tropical flavors.'} },
+            { id: 33, name: {ar: 'صن دايز', en: 'Sundays'}, price: 16, category: 'mojito', img: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80', desc: {ar: 'انتعاش الصيف بمزيج الفواكه الفوارة.', en: 'Summer freshness with fizzy fruit blend.'} },
+            { id: 34, name: {ar: 'بلو سكاي', en: 'Blue Sky Mojito'}, price: 16, category: 'mojito', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=600&q=80', desc: {ar: 'موهيتو أزرق منعش وفوار.', en: 'Refreshing and fizzy blue mojito.'} },
+            { id: 35, name: {ar: 'ليمونا', en: 'Lemonade'}, price: 16, category: 'mojito', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=600&q=80', desc: {ar: 'عصير ليمون منعش ولذيذ.', en: 'Refreshing and delicious lemonade.'} },
+            { id: 36, name: {ar: 'برتقال', en: 'Fresh Orange Juice'}, price: 16, category: 'mojito', img: 'https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&w=600&q=80', desc: {ar: 'عصير برتقال طبيعي طازج.', en: 'Fresh natural orange juice.'} },
+            { id: 37, name: {ar: 'مكس بارول', en: 'Parole Mix'}, price: 16, category: 'mojito', img: 'https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&w=600&q=80', desc: {ar: 'خلطة بارول الخاصة من المنعشات.', en: 'Parole’s special blend of refreshers.'} },
+            { id: 38, name: {ar: 'كود رد باور', en: 'Code Red Energy'}, price: 16, category: 'mojito', img: 'https://images.unsplash.com/photo-1622543925917-763c34d1a86e?auto=format&fit=crop&w=600&q=80', desc: {ar: 'مشروب طاقة كود رد مثلج ومنعش.', en: 'Chilled and refreshing energy drink.'} },
+            { id: 39, name: {ar: 'موزو', en: 'Muzoo Refresher'}, price: 16, category: 'mojito', img: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80', desc: {ar: 'مشروب منعش بنكهة الفواكه الاستوائية.', en: 'Refreshing drink with tropical fruit flavors.'} },
 
-            // الحلويات والمخبوزات (Desserts)
-            { id: 40, name: 'كريب', price: 22, category: 'desserts', img: 'https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&w=600&q=80', desc: 'كريب فرنسي رقيق مغطى بالشوكولاتة الفاخرة.' },
-            { id: 41, name: 'ميني بان كيك', price: 22, category: 'desserts', img: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=600&q=80', desc: 'قطع ميني بان كيك هشة وساخنة مع الشوكولاتة.' },
-            { id: 42, name: 'وافل', price: 22, category: 'desserts', img: 'https://images.unsplash.com/photo-1562376552-0d160a2f238d?auto=format&fit=crop&w=600&q=80', desc: 'وافل مقرمش ولذيذ يقدم مع الإضافات الغنية.' },
-            { id: 43, name: 'حلى اليوم', price: 18, category: 'desserts', img: 'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=600&q=80', desc: 'تشكيلة مختارة من حلويات اليوم الطازجة.' },
+            // الحلويات والمخبوزات
+            { id: 40, name: {ar: 'كريب', en: 'Chocolate Crepe'}, price: 22, category: 'desserts', img: 'https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&w=600&q=80', desc: {ar: 'كريب فرنسي رقيق مغطى بالشوكولاتة الفاخرة.', en: 'Thin French crepe draped in luxury chocolate.'} },
+            { id: 41, name: {ar: 'ميني بان كيك', en: 'Mini Pancakes'}, price: 22, category: 'desserts', img: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=600&q=80', desc: {ar: 'قطع ميني بان كيك هشة وساخنة مع الشوكولاتة.', en: 'Fluffy warm mini pancakes with chocolate.'} },
+            { id: 42, name: {ar: 'وافل', en: 'Belgian Waffle'}, price: 22, category: 'desserts', img: 'https://images.unsplash.com/photo-1562376552-0d160a2f238d?auto=format&fit=crop&w=600&q=80', desc: {ar: 'وافل مقرمش ولذيذ يقدم مع الإضافات الغنية.', en: 'Crispy and delicious waffle served with rich toppings.'} },
+            { id: 43, name: {ar: 'حلى اليوم', en: 'Dessert of the Day'}, price: 18, category: 'desserts', img: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80', desc: {ar: 'تشكيلة مختارة من حلويات اليوم الطازجة.', en: 'Selected assortment of fresh daily desserts.'} },
 
-            // الشاي (Tea)
-            { id: 44, name: 'شاي أحمر', price: 6, category: 'tea', img: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=600&q=80', desc: 'شاي أحمر كلاسيكي دافئ.' },
-            { id: 45, name: 'شاي أخضر', price: 6, category: 'tea', img: 'https://images.unsplash.com/photo-1627435601361-ec25f5b1d0e5?auto=format&fit=crop&w=600&q=80', desc: 'شاي أخضر صحي ومنعش.' },
-            { id: 46, name: 'شاي أخضر / نكهات', price: 6, category: 'tea', img: 'https://images.unsplash.com/photo-1597481499750-3e6b22637e12?auto=format&fit=crop&w=600&q=80', desc: 'شاي بنكهات الأعشاب المنعشة.' },
-            { id: 47, name: 'شاي تركي', price: 6, category: 'tea', img: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=600&q=80', desc: 'شاي تركي أصيل في كوبه المميز.' },
-            { id: 48, name: 'شاي إنجليزي', price: 6, category: 'tea', img: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=600&q=80', desc: 'شاي إنجليزي تقليدي غني.' },
-            { id: 49, name: 'فيتامين سي', price: 9, category: 'tea', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=600&q=80', desc: 'مشروب دافئ غني بفيتامين سي والليمون.' },
-            { id: 50, name: 'شاي مغربي', price: 6, category: 'tea', img: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=600&q=80', desc: 'شاي مغربي بالنعناع الطازج والتقليدي.' },
-            { id: 51, name: 'شاي كرك', price: 7, category: 'tea', img: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=600&q=80', desc: 'شاي كرك بالحليب والبهارات الهندية العطرة.' }
+            // الشاي
+            { id: 44, name: {ar: 'شاي أحمر', en: 'Red Tea'}, price: 6, category: 'tea', img: 'https://images.unsplash.com/photo-1597481499750-3e6b22637e12?auto=format&fit=crop&w=600&q=80', desc: {ar: 'شاي أحمر كلاسيكي دافئ.', en: 'Classic warm red tea.'} },
+            { id: 45, name: {ar: 'شاي أخضر', en: 'Green Tea'}, price: 6, category: 'tea', img: 'https://images.unsplash.com/photo-1627435601361-ec25f5b1d0e5?auto=format&fit=crop&w=600&q=80', desc: {ar: 'شاي أخضر صحي ومنعش.', en: 'Healthy and refreshing green tea.'} },
+            { id: 46, name: {ar: 'شاي أخضر / نكهات', en: 'Flavored Green Tea'}, price: 6, category: 'tea', img: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=600&q=80', desc: {ar: 'شاي بنكهات الأعشاب المنعشة.', en: 'Tea infused with refreshing herbal flavors.'} },
+            { id: 47, name: {ar: 'شاي تركي', en: 'Turkish Tea'}, price: 6, category: 'tea', img: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=600&q=80', desc: {ar: 'شاي تركي أصيل في كوبه المميز.', en: 'Authentic Turkish tea in its signature glass.'} },
+            { id: 48, name: {ar: 'شاي إنجليزي', en: 'English Tea'}, price: 6, category: 'tea', img: 'https://images.unsplash.com/photo-1597481499750-3e6b22637e12?auto=format&fit=crop&w=600&q=80', desc: {ar: 'شاي إنجليزي تقليدي غني.', en: 'Rich traditional English tea.'} },
+            { id: 49, name: {ar: 'فيتامين سي', en: 'Vitamin C Tea'}, price: 9, category: 'tea', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=600&q=80', desc: {ar: 'مشروب دافئ غني بفيتامين سي والليمون.', en: 'Warm drink rich in vitamin C and lemon.'} },
+            { id: 50, name: {ar: 'شاي مغربي', en: 'Moroccan Mint Tea'}, price: 6, category: 'tea', img: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=600&q=80', desc: {ar: 'شاي مغربي بالنعناع الطازج والتقليدي.', en: 'Traditional Moroccan tea with fresh mint.'} },
+            { id: 51, name: {ar: 'شاي كرك', en: 'Karak Tea'}, price: 7, category: 'tea', img: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=600&q=80', desc: {ar: 'شاي كرك بالحليب والبهارات الهندية العطرة.', en: 'Karak tea with milk and aromatic Indian spices.'} }
         ];
+
+        let activeCategory = 'all';
 
         function toggleSidebar() {
             document.getElementById('sidebarOverlay').classList.toggle('open');
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+            document.body.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+            document.getElementById('langLabel').textContent = currentLang === 'ar' ? 'EN' : 'AR';
+            
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[currentLang][key]) {
+                    el.textContent = translations[currentLang][key];
+                }
+            });
+
+            renderProducts(activeCategory === 'all' ? products : products.filter(item => item.category === activeCategory));
+            updateCartUI();
         }
 
         function renderProducts(items) {
@@ -262,13 +347,13 @@
                 card.style.animationDelay = `${index * 0.05}s`;
                 card.innerHTML = `
                     <div class="img-box" onclick="openModal(${p.id})">
-                        <img src="${p.img}" alt="${p.name}" loading="lazy">
+                        <img src="${p.img}" alt="${p.name[currentLang]}" loading="lazy">
                     </div>
                     <div class="card-body">
-                        <h3 class="p-title" onclick="openModal(${p.id})">${p.name}</h3>
-                        <p class="p-desc">${p.desc}</p>
+                        <h3 class="p-title" onclick="openModal(${p.id})">${p.name[currentLang]}</h3>
+                        <p class="p-desc">${p.desc[currentLang]}</p>
                         <div class="p-footer">
-                            <span class="p-price">${p.price} ر.س</span>
+                            <span class="p-price">${p.price.toFixed(2)} ${translations[currentLang].currency}</span>
                             <button class="add-btn" onclick="addToCart(${p.id})" title="إضافة سريعة"><i class="fa-solid fa-plus"></i></button>
                         </div>
                     </div>
@@ -279,6 +364,7 @@
         }
 
         function filterProducts(cat, btn) {
+            activeCategory = cat;
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             if(cat === 'all') {
@@ -290,13 +376,12 @@
 
         function addToCart(id) {
             const p = products.find(item => item.id === id);
-            // تم توحيد مفتاح التخزين هنا ليطابق cart.html تماماً ('parole_cart')
             let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
-            let existing = cart.find(item => item.name === p.name);
+            let existing = cart.find(item => item.id === p.id);
             if(existing) {
                 existing.quantity = (existing.quantity || 1) + 1;
             } else {
-                cart.push({ name: p.name, price: p.price, image: p.img, quantity: 1 });
+                cart.push({ id: p.id, name: p.name[currentLang], price: p.price, img: p.img, image: p.img, quantity: 1 });
             }
             localStorage.setItem('parole_cart', JSON.stringify(cart));
             updateCartUI();
@@ -305,6 +390,7 @@
 
         function showToast() {
             const toast = document.getElementById('toast');
+            toast.textContent = translations[currentLang].toastMsg;
             toast.classList.add('show');
             setTimeout(() => { toast.classList.remove('show'); }, 1500);
         }
@@ -313,11 +399,11 @@
             const p = products.find(item => item.id === id);
             const modalBody = document.getElementById('modalBody');
             modalBody.innerHTML = `
-                <img src="${p.img}" class="m-img" alt="${p.name}">
-                <h2 class="m-title">${p.name}</h2>
-                <div class="m-price">${p.price} ر.س</div>
-                <p class="m-desc">${p.desc}</p>
-                <button class="m-add-btn" onclick="addToCart(${p.id}); closeModalBtn();">إضافة إلى السلة الآن</button>
+                <img src="${p.img}" class="m-img" alt="${p.name[currentLang]}">
+                <h2 class="m-title">${p.name[currentLang]}</h2>
+                <div class="m-price">${p.price.toFixed(2)} ${translations[currentLang].currency}</div>
+                <p class="m-desc">${p.desc[currentLang]}</p>
+                <button class="m-add-btn" onclick="addToCart(${p.id}); closeModalBtn();">${translations[currentLang].addToCartModal}</button>
             `;
             document.getElementById('productModal').classList.add('open');
         }
@@ -331,14 +417,13 @@
         }
 
         function updateCartUI() {
-            // تم توحيد مفتاح التخزين هنا أيضاً ('parole_cart')
             let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
             let totalCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
             let totalPrice = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
 
             document.getElementById('cart-counter').textContent = totalCount;
             document.getElementById('fcCount').textContent = totalCount;
-            document.getElementById('fcTotal').textContent = totalPrice.toFixed(2) + ' ر.س';
+            document.getElementById('fcTotal').textContent = totalPrice.toFixed(2) + ' ' + translations[currentLang].currency;
 
             const floatingCart = document.getElementById('floatingCart');
             if(totalCount > 0) {
