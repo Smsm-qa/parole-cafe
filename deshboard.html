@@ -331,13 +331,13 @@
                 </div>
             </div>
 
-            <!-- شاشة المطبخ (KDS) مع بحث حي -->
+            <!-- شاشة المطبخ (KDS) -->
             <div id="section-kds" class="dashboard-section">
                 <h2><i class="fa-solid fa-kitchen-set"></i> شاشة التحضير السريعة للباريستا (KDS)</h2>
                 <div class="table-toolbar" style="margin-bottom: 15px;">
                     <div></div>
                     <div class="search-input-box">
-                        <input type="text" id="kds-search-input" placeholder="بحث برقم الطاولة أو اسم العميل..." oninput="renderCustomersAndOrders()">
+                        <input type="text" id="kds-search-input" placeholder="بحث برقم الطاولة أو اسم العميل..." oninput="renderKDSOrders()">
                         <i class="fa-solid fa-search"></i>
                     </div>
                 </div>
@@ -355,27 +355,23 @@
                 </div>
             </div>
 
-            <!-- 10. الطلبات مع بحث وفلترة فورية -->
+            <!-- 10. الطلبات -->
             <div id="section-orders" class="dashboard-section">
-                <h2><i class="fa-solid fa-clipboard-list"></i> سجل الطلبات الواردة</h2>
-                <div id="section-orders" class="dashboard-section">
-    <h2><i class="fa-solid fa-clipboard-list"></i> سجل الطلبات الواردة والإيرادات</h2>
-    
-    <!-- الصق كود الأزرار هنا (بين السطر 361 و 362) -->
-    <div class="toolbar-custom-actions" style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; padding: 15px; background: var(--dark-bg); border: 1px solid var(--border-color); border-radius: 8px;">
-        <button class="btn-custom-tool" style="background-color: #3498db; color: white; padding: 10px 18px; font-size: 13px; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;" onclick="openCustomModal('orders')">
-            🔄 تصفير الطلبات فقط
-        </button>
-        <button class="btn-custom-tool" style="background-color: #f39c12; color: white; padding: 10px 18px; font-size: 13px; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;" onclick="openCustomModal('revenue')">
-            💰 تصفير الإيرادات فقط
-        </button>
-        <button class="btn-custom-tool" style="background-color: #e74c3c; color: white; padding: 10px 18px; font-size: 13px; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;" onclick="openCustomModal('all')">
-            ⚠️ تصفير الكل بنقرة واحدة
-        </button>
-    </div>
+                <h2><i class="fa-solid fa-clipboard-list"></i> سجل الطلبات الواردة والإيرادات</h2>
+                
+                <!-- أزرار تصفير العمليات -->
+                <div class="toolbar-custom-actions" style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; padding: 15px; background: var(--dark-bg); border: 1px solid var(--border-color); border-radius: 8px;">
+                    <button class="btn-custom-tool" style="background-color: #3498db; color: white; padding: 10px 18px; font-size: 13px; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;" onclick="openCustomModal('orders')">
+                        🔄 تصفير الطلبات فقط
+                    </button>
+                    <button class="btn-custom-tool" style="background-color: #f39c12; color: white; padding: 10px 18px; font-size: 13px; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;" onclick="openCustomModal('revenue')">
+                        💰 تصفير الإيرادات فقط
+                    </button>
+                    <button class="btn-custom-tool" style="background-color: #e74c3c; color: white; padding: 10px 18px; font-size: 13px; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;" onclick="openCustomModal('all')">
+                        ⚠️ تصفير الكل بنقرة واحدة
+                    </button>
+                </div>
 
-    <div class="table-toolbar">
-        ...
                 <div class="table-toolbar">
                     <div class="filter-buttons">
                         <button class="filter-btn active-filter" onclick="filterOrders('all', this)">كل الطلبات</button>
@@ -407,7 +403,19 @@
         </main>
     </div>
 
-    <!-- البرمجة التفاعلية ونظام السلاسة والتحكم -->
+    <!-- نافذة التأكيد المنبثقة المخصصة للتصفير (Modal) -->
+    <div class="modal-overlay" id="confirmCustomModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); justify-content: center; align-items: center; z-index: 10000;">
+        <div class="modal-custom" style="background: var(--card-bg, #161616); border: 1px solid var(--border-color, #262626); padding: 25px; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+            <h3 id="customModalTitle" style="margin-top: 0; color: var(--text-main, #f0f0f0); margin-bottom: 12px;">تأكيد العملية</h3>
+            <p id="customModalDesc" style="color: var(--text-muted, #999999); font-size: 14px; line-height: 1.5; margin-bottom: 20px;">هل أنت متأكد من رغبتك في تنفيذ هذا الإجراء؟ لا يمكن التراجع عن هذه الخطوة بعد تأكيدها.</p>
+            <div class="modal-actions" style="display: flex; justify-content: center; gap: 10px;">
+                <button class="btn-modal-cancel" onclick="closeCustomModal()" style="background-color: var(--border-color, #262626); color: var(--text-main, #f0f0f0); border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; font-weight: 600;">إلغاء</button>
+                <button class="btn-action" id="customModalConfirmBtn" onclick="executeCustomAction()">تأكيد التنفيذ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- السكربتات البرمجية -->
     <script>
         const ADMIN_USER = "Sami";
         const ADMIN_PASS = "0900403835";
@@ -415,7 +423,6 @@
         let currentActiveTab = 'overview';
 
         window.onload = function() {
-            // استرجاع الثيم المفضل
             let savedTheme = localStorage.getItem('parole_theme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateThemeButtonUI(savedTheme);
@@ -423,17 +430,12 @@
             if (localStorage.getItem("parole_is_logged_in") === "true") {
                 unlockDashboard();
             }
-            
-            // تفعيل منع سكون الشاشة تلقائياً لضمان عمل الشاشة وصوت الإنذار باستمرار
-            keepScreenAwake();
         };
 
-        // --- دالة منع سكون الشاشة (Wake Lock API) لضمان عدم إطفاء الشاشة في الكافيه ---
         async function keepScreenAwake() {
             try {
                 if ('wakeLock' in navigator) {
-                    let wakeLock = null;
-                    wakeLock = await navigator.wakeLock.request('screen');
+                    let wakeLock = await navigator.wakeLock.request('screen');
                     document.addEventListener('visibilitychange', async () => {
                         if (wakeLock !== null && document.visibilityState === 'visible') {
                             wakeLock = await navigator.wakeLock.request('screen');
@@ -482,12 +484,12 @@
             document.getElementById("login-screen").style.display = "none";
             document.getElementById("dashboard-wrapper").style.display = "flex";
             
-            // استعادة التبويب المحفوظ
             let lastTab = localStorage.getItem('parole_active_tab') || 'overview';
             let targetLink = document.querySelector(`.sidebar-menu a[onclick*="${lastTab}"]`);
             switchTab(lastTab, targetLink);
             
             refreshDashboardData();
+            keepScreenAwake();
         }
 
         function logoutAdmin() {
@@ -555,6 +557,7 @@
             });
             setStorage('parole_shop_products', data);
         }
+
         function addProduct() {
             let name = document.getElementById('new-prod-name').value.trim();
             let price = document.getElementById('new-prod-price').value.trim();
@@ -577,6 +580,7 @@
             });
             setStorage('parole_shop_coupons', data);
         }
+
         function addCoupon() {
             let code = document.getElementById('new-coupon-code').value.trim().toUpperCase();
             let value = document.getElementById('new-coupon-val').value.trim();
@@ -600,6 +604,7 @@
             });
             setStorage('parole_shop_bundles', data);
         }
+
         function addBundle() {
             let title = document.getElementById('new-bundle-title').value.trim();
             let price = document.getElementById('new-bundle-price').value.trim();
@@ -622,6 +627,7 @@
             });
             setStorage('parole_shop_upsell', data);
         }
+
         function addUpsell() {
             let name = document.getElementById('new-upsell-item').value.trim();
             if(!name) return alert('الرجاء إدخال اسم المنتج.');
@@ -642,6 +648,7 @@
             });
             setStorage('parole_shop_crosssell', data);
         }
+
         function addCrossSell() {
             let name = document.getElementById('new-cross-item').value.trim();
             if(!name) return alert('الرجاء إدخال اسم المنتج.');
@@ -662,6 +669,7 @@
             });
             setStorage('parole_shop_suggested', data);
         }
+
         function addSuggested() {
             let name = document.getElementById('new-suggested-item').value.trim();
             if(!name) return alert('الرجاء إدخال اسم المنتج.');
@@ -682,6 +690,7 @@
             });
             setStorage('parole_shop_bestsellers', data);
         }
+
         function addBestSeller() {
             let name = document.getElementById('new-bestseller-item').value.trim();
             if(!name) return alert('الرجاء إدخال اسم المنتج.');
@@ -705,13 +714,11 @@
             let orders = getStorage('parole_admin_orders', []);
             let tbodyOrders = document.getElementById('admin-orders-list');
             let tbodyCustomers = document.getElementById('admin-customers-list');
-            let kdsContainer = document.getElementById('kds-cards-container');
             
             if(!tbodyOrders || !tbodyCustomers) return;
 
             tbodyOrders.innerHTML = '';
             tbodyCustomers.innerHTML = '';
-            if(kdsContainer) kdsContainer.innerHTML = '';
             
             document.getElementById('overview-orders-count').textContent = orders.length + ' طلب';
 
@@ -719,7 +726,6 @@
             let uniqueCustomers = {};
 
             let searchQuery = (document.getElementById('order-search-input')?.value || '').toLowerCase();
-            let kdsSearchQuery = (document.getElementById('kds-search-input')?.value || '').toLowerCase();
 
             let filteredOrders = orders.filter(order => {
                 let isTable = order.address && (order.address.includes('طاولة') || order.address.includes('محلي'));
@@ -740,7 +746,9 @@
             }
 
             orders.forEach((order) => {
-                let numericTotal = parseFloat(order.total) || 0;
+                // تنظيف قيمة الإيراد واستخراج الرقم بدقة لتجنب أخطاء النص
+                let rawTotal = String(order.total || '0');
+                let numericTotal = parseFloat(rawTotal.replace(/[^\d.]/g, '')) || 0;
                 totalRev += numericTotal;
 
                 if(!uniqueCustomers[order.customer]) {
@@ -773,48 +781,8 @@
                 `;
             });
 
-            // تعبئة شاشة المطبخ (KDS)
-            if(kdsContainer) {
-                let activeKdsOrders = orders.filter(order => {
-                    if(order.status === 'مكتمل') return false;
-                    if(kdsSearchQuery) {
-                        let matchId = (order.id || '').toLowerCase().includes(kdsSearchQuery);
-                        let matchCust = (order.customer || '').toLowerCase().includes(kdsSearchQuery);
-                        let matchAddr = (order.address || '').toLowerCase().includes(kdsSearchQuery);
-                        if(!matchId && !matchCust && !matchAddr) return false;
-                    }
-                    return true;
-                });
-
-                if(activeKdsOrders.length === 0) {
-                    kdsContainer.innerHTML = '<div style="color: var(--text-muted); text-align: center; grid-column: 1/-1; padding: 40px; font-size: 15px;">🎉 لا توجد طلبات معلقة مطابقة في المطبخ حالياً.</div>';
-                } else {
-                    activeKdsOrders.forEach((order) => {
-                        let realIndex = orders.indexOf(order);
-                        let isTableOrder = order.address && (order.address.includes('طاولة') || order.address.includes('محلي'));
-                        
-                        kdsContainer.innerHTML += `
-                            <div class="kds-card ${isTableOrder ? 'table-order' : ''}">
-                                <div>
-                                    <div class="kds-header">
-                                        <span style="color: var(--gold); font-weight: bold; font-size: 14px;">${order.id}</span>
-                                        ${isTableOrder ? `<span class="kds-table-badge"><i class="fa-solid fa-chair"></i> ${order.address}</span>` : `<span style="color: #3498db; font-size: 12px; font-weight: bold;"><i class="fa-solid fa-motorcycle"></i> طلب خارجي</span>`}
-                                    </div>
-                                    <div style="font-size: 13px; font-weight: bold; margin-bottom: 8px;">العميل: ${order.customer}</div>
-                                    <div class="kds-items">
-                                        <i class="fa-solid fa-mug-hot" style="color: var(--gold); margin-left: 5px;"></i> الطلب: <strong>${order.items || 'مشروبات / منتجات متعددة'}</strong>
-                                    </div>
-                                    ${order.notes ? `<div class="kds-notes">ملاحظة: ${order.notes}</div>` : ''}
-                                </div>
-                                <div style="margin-top: 15px; display: flex; gap: 8px;">
-                                    <button class="btn-action" style="flex:1; font-size: 12px; padding: 8px;" onclick="setOrderStatus(${realIndex}, 'جاهز')"><i class="fa-solid fa-check"></i> جاهز</button>
-                                    <button class="btn-delete" style="flex:1; font-size: 12px; padding: 8px;" onclick="setOrderStatus(${realIndex}, 'مكتمل')">إنجاز</button>
-                                </div>
-                            </div>
-                        `;
-                    });
-                }
-            }
+            // تحديث شاشة المطبخ بشكل مستقل
+            renderKDSOrders();
 
             let customersCount = Object.keys(uniqueCustomers).length;
             document.getElementById('overview-customers-count').textContent = customersCount + ' عميل';
@@ -833,6 +801,56 @@
             document.getElementById('overview-revenue').textContent = revFormatted;
             document.getElementById('report-total-revenue').textContent = revFormatted;
             document.getElementById('report-avg-order').textContent = avgFormatted;
+        }
+
+        // دالة عرض وإدارة الكاردز الخاصة بالمطبخ (KDS) بشكل مستقل تماماً
+        function renderKDSOrders() {
+            let orders = getStorage('parole_admin_orders', []);
+            let kdsContainer = document.getElementById('kds-cards-container');
+            if(!kdsContainer) return;
+            
+            kdsContainer.innerHTML = '';
+            let kdsSearchQuery = (document.getElementById('kds-search-input')?.value || '').toLowerCase();
+
+            let activeKdsOrders = orders.filter(order => {
+                if(order.status === 'مكتمل') return false;
+                if(kdsSearchQuery) {
+                    let matchId = (order.id || '').toLowerCase().includes(kdsSearchQuery);
+                    let matchCust = (order.customer || '').toLowerCase().includes(kdsSearchQuery);
+                    let matchAddr = (order.address || '').toLowerCase().includes(kdsSearchQuery);
+                    if(!matchId && !matchCust && !matchAddr) return false;
+                }
+                return true;
+            });
+
+            if(activeKdsOrders.length === 0) {
+                kdsContainer.innerHTML = '<div style="color: var(--text-muted); text-align: center; grid-column: 1/-1; padding: 40px; font-size: 15px;">🎉 لا توجد طلبات معلقة مطابقة في المطبخ حالياً.</div>';
+            } else {
+                activeKdsOrders.forEach((order) => {
+                    let realIndex = orders.indexOf(order);
+                    let isTableOrder = order.address && (order.address.includes('طاولة') || order.address.includes('محلي'));
+                    
+                    kdsContainer.innerHTML += `
+                        <div class="kds-card ${isTableOrder ? 'table-order' : ''}">
+                            <div>
+                                <div class="kds-header">
+                                    <span style="color: var(--gold); font-weight: bold; font-size: 14px;">${order.id}</span>
+                                    ${isTableOrder ? `<span class="kds-table-badge"><i class="fa-solid fa-chair"></i> ${order.address}</span>` : `<span style="color: #3498db; font-size: 12px; font-weight: bold;"><i class="fa-solid fa-motorcycle"></i> طلب خارجي</span>`}
+                                </div>
+                                <div style="font-size: 13px; font-weight: bold; margin-bottom: 8px;">العميل: ${order.customer}</div>
+                                <div class="kds-items">
+                                    <i class="fa-solid fa-mug-hot" style="color: var(--gold); margin-left: 5px;"></i> الطلب: <strong>${order.items || 'مشروبات / منتجات متعددة'}</strong>
+                                </div>
+                                ${order.notes ? `<div class="kds-notes">ملاحظة: ${order.notes}</div>` : ''}
+                            </div>
+                            <div style="margin-top: 15px; display: flex; gap: 8px;">
+                                <button class="btn-action" style="flex:1; font-size: 12px; padding: 8px;" onclick="setOrderStatus(${realIndex}, 'جاهز')"><i class="fa-solid fa-check"></i> جاهز</button>
+                                <button class="btn-delete" style="flex:1; font-size: 12px; padding: 8px;" onclick="setOrderStatus(${realIndex}, 'مكتمل')">إنجاز</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
         }
 
         function cycleOrderStatus(index) {
@@ -895,38 +913,27 @@
             renderCustomersAndOrders();
         }
 
-        // ======= [ نظام التنبيه الصوتي القوي والطويل جداً للموظفين ] =======
         let previousOrdersCount = 0;
 
         function playStrongLongBeep() {
             try {
                 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                
-                // دالة لتوليد نغمة قوية وحادة ومستمرة
                 const playTone = (freq, start, duration, type = 'square') => {
                     const osc = audioCtx.createOscillator();
                     const gain = audioCtx.createGain();
-                    
-                    osc.type = type; // موجة مربعة لصوت تنبيه قوي وواضح يشبه أجهزة الإنذار
+                    osc.type = type;
                     osc.frequency.setValueAtTime(freq, audioCtx.currentTime + start);
-                    
-                    // رفع مستوى الصوت (Gain) ليكون قوياً ومسموعاً بوضوح
                     gain.gain.setValueAtTime(0.8, audioCtx.currentTime + start);
                     gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + start + duration);
-                    
                     osc.connect(gain);
                     gain.connect(audioCtx.destination);
-                    
                     osc.start(audioCtx.currentTime + start);
                     osc.stop(audioCtx.currentTime + start + duration);
                 };
-
-                // سلسلة نغمات متتالية وطويلة ومزعجة عمداً لضمان لفت انتباه الموظفين في الكافيه
                 playTone(950, 0.0, 0.4, 'square');
                 playTone(1250, 0.35, 0.4, 'square');
                 playTone(950, 0.7, 0.4, 'square');
                 playTone(1400, 1.05, 0.6, 'square');
-
             } catch (e) {
                 console.log("AudioContext blocked or not supported", e);
             }
@@ -934,18 +941,15 @@
 
         function monitorIncomingOrders() {
             let currentOrders = JSON.parse(localStorage.getItem('parole_admin_orders')) || [];
-            
             if (previousOrdersCount === 0) {
                 previousOrdersCount = currentOrders.length;
                 return;
             }
-
             if (currentOrders.length > previousOrdersCount) {
                 playStrongLongBeep();
                 showAdminAlert("🚨 تنبيه عاجل: وصل طلب جديد للمتجر أو طاولة الكافيه!");
                 refreshDashboardData();
             }
-
             previousOrdersCount = currentOrders.length;
         }
 
@@ -954,85 +958,63 @@
             note.style.cssText = "position: fixed; top: 25px; left: 50%; transform: translateX(-50%); background: var(--gold); color: #000; padding: 14px 30px; border-radius: 8px; font-weight: bold; z-index: 99999; box-shadow: 0 6px 20px rgba(0,0,0,0.2); font-size: 15px;";
             note.innerText = text;
             document.body.appendChild(note);
-
             setTimeout(() => {
                 note.style.opacity = '0';
                 setTimeout(() => note.remove(), 400);
             }, 6000);
         }
 
-        // فحص تلقائي حي كل ثانيتين للطلبات الجديدة والتحديثات الفورية
+        // زيادة الفترة الزمنية إلى 4 ثوانٍ للحفاظ على عمر بطارية الأجهزة اللوحية
         setInterval(() => {
             monitorIncomingOrders();
             if(document.hasFocus()) {
                 refreshDashboardData();
             }
-        }, 2000);// دوال إدارة النافذة المنبثقة وأزرار التصفير الخاصة بالطلبات والإيرادات
-let currentCustomActionType = '';
+        }, 4000);
 
-function openCustomModal(type) {
-    currentCustomActionType = type;
-    const modal = document.getElementById('confirmCustomModal');
-    const title = document.getElementById('customModalTitle');
-    const desc = document.getElementById('customModalDesc');
-    const confirmBtn = document.getElementById('customModalConfirmBtn');
+        let currentCustomActionType = '';
 
-    if (type === 'orders') {
-        title.textContent = 'تصفير الطلبات فقط';
-        desc.textContent = 'سيتم حذف جميع سجلات الطلبات الحالية مع إبقاء المنتجات والإعدادات كما هي دون أي تغيير. هل تريد المتابعة؟';
-        if (confirmBtn) confirmBtn.className = 'btn-action btn-tool-orders';
-    } else if (type === 'revenue') {
-        title.textContent = 'تصفير الإيرادات فقط';
-        desc.textContent = 'سيتم تعديل السجلات المالية المرتبطة بالطلبات وإعادة ضبط الإيرادات إلى الصفر. هل أنت متأكد؟';
-        if (confirmBtn) confirmBtn.className = 'btn-action btn-tool-revenue';
-    } else if (type === 'all') {
-        title.textContent = 'تصفير الكل بنقرة واحدة';
-        desc.textContent = 'تحذير: سيتم حذف جميع الطلبات والإيرادات المرتبطة بها بالكامل. هل أنت متأكد تماماً من رغبتك في البدء من جديد؟';
-        if (confirmBtn) confirmBtn.className = 'btn-action btn-tool-all';
-    }
+        function openCustomModal(type) {
+            currentCustomActionType = type;
+            const modal = document.getElementById('confirmCustomModal');
+            const title = document.getElementById('customModalTitle');
+            const desc = document.getElementById('customModalDesc');
 
-    if (modal) modal.style.display = 'flex';
-}
+            if (type === 'orders') {
+                title.textContent = 'تصفير الطلبات فقط';
+                desc.textContent = 'سيتم حذف جميع سجلات الطلبات الحالية مع إبقاء المنتجات والإعدادات كما هي دون أي تغيير. هل تريد المتابعة؟';
+            } else if (type === 'revenue') {
+                title.textContent = 'تصفير الإيرادات فقط';
+                desc.textContent = 'سيتم تعديل السجلات المالية المرتبطة بالطلبات وإعادة ضبط الإيرادات إلى الصفر. هل أنت متأكد؟';
+            } else if (type === 'all') {
+                title.textContent = 'تصفير الكل بنقرة واحدة';
+                desc.textContent = 'تحذير: سيتم حذف جميع الطلبات والإيرادات المرتبطة بها بالكامل. هل أنت متأكد تماماً من رغبتك في البدء من جديد؟';
+            }
 
-function closeCustomModal() {
-    const modal = document.getElementById('confirmCustomModal');
-    if (modal) modal.style.display = 'none';
-    currentCustomActionType = '';
-}
-
-function executeCustomAction() {
-    if (currentCustomActionType === 'orders' || currentCustomActionType === 'all') {
-        localStorage.removeItem('parole_admin_orders');
-        if (typeof previousOrdersCount !== 'undefined') {
-            previousOrdersCount = 0;
+            if (modal) modal.style.display = 'flex';
         }
-    }
-    if (currentCustomActionType === 'revenue' || currentCustomActionType === 'all') {
-        let orders = JSON.parse(localStorage.getItem('parole_admin_orders')) || [];
-        orders.forEach(o => o.total = '0 ر.س');
-        localStorage.setItem('parole_admin_orders', JSON.stringify(orders));
-    }
-    
-    if (typeof refreshDashboardData === 'function') {
-        refreshDashboardData();
-    }
-    closeCustomModal();
-    
-    if (typeof showAdminAlert === 'function') {
-        showAdminAlert("✅ تم تنفيذ العملية بنجاح.");
-    }
+
+        function closeCustomModal() {
+            const modal = document.getElementById('confirmCustomModal');
+            if (modal) modal.style.display = 'none';
+            currentCustomActionType = '';
+        }
+
+        function executeCustomAction() {
+            if (currentCustomActionType === 'orders' || currentCustomActionType === 'all') {
+                localStorage.removeItem('parole_admin_orders');
+                previousOrdersCount = 0;
+            }
+            if (currentCustomActionType === 'revenue' || currentCustomActionType === 'all') {
+                let orders = JSON.parse(localStorage.getItem('parole_admin_orders')) || [];
+                orders.forEach(o => o.total = '0 ر.س');
+                localStorage.setItem('parole_admin_orders', JSON.stringify(orders));
+            }
+            
+            refreshDashboardData();
+            closeCustomModal();
+            showAdminAlert("✅ تم تنفيذ العملية بنجاح.");
         }
     </script>
-<!-- نافذة التأكيد المنبثقة المخصصة للتصفير (Modal) -->
-<div class="modal-overlay" id="confirmCustomModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); justify-content: center; align-items: center; z-index: 10000;">
-    <div class="modal-custom" style="background: var(--card-bg, #161616); border: 1px solid var(--border-color, #262626); padding: 25px; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
-        <h3 id="customModalTitle" style="margin-top: 0; color: var(--text-main, #f0f0f0); margin-bottom: 12px;">تأكيد العملية</h3>
-        <p id="customModalDesc" style="color: var(--text-muted, #999999); font-size: 14px; line-height: 1.5; margin-bottom: 20px;">هل أنت متأكد من رغبتك في تنفيذ هذا الإجراء؟ لا يمكن التراجع عن هذه الخطوة بعد تأكيدها.</p>
-        <div class="modal-actions" style="display: flex; justify-content: center; gap: 10px;">
-            <button class="btn-modal-cancel" onclick="closeCustomModal()" style="background-color: var(--border-color, #262626); color: var(--text-main, #f0f0f0); border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; font-weight: 600;">إلغاء</button>
-            <button class="btn-action" id="customModalConfirmBtn" onclick="executeCustomAction()">تأكيد التنفيذ</button>
-        </div>
-    </div>
-</div>
-            </body>
+</body>
 </html>
