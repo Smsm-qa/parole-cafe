@@ -555,29 +555,40 @@
             loadCart();
         }
 
-        function proceedToCheckout() {
-            let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
-            if (cart.length === 0) {
-                alert(translations[currentLang].cartEmptyAlert);
-                return;
-            }
+   function proceedToCheckout() {
+    let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
+    if (cart.length === 0) {
+        alert(translations[currentLang].cartEmptyAlert);
+        return;
+    }
 
-            let subtotal = cart.reduce((sum, item) => sum + ((parseFloat(item.price) || 0) * (item.quantity || 1)), 0);
-            let currentShipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0.00 : BASE_SHIPPING_FEE;
-            let finalTotal = subtotal + currentShipping - currentDiscountValue;
-            if (finalTotal < 0) finalTotal = 0;
+    let subtotal = cart.reduce((sum, item) => sum + ((parseFloat(item.price) || 0) * (item.quantity || 1)), 0);
+    let currentShipping = subtotal >= FREE_SHIPPING_THRESHOLD? 0.00 : BASE_SHIPPING_FEE;
+    let finalTotal = subtotal + currentShipping - currentDiscountValue;
+    if (finalTotal < 0) finalTotal = 0;
 
-            let orderSummary = {
-                subtotal: subtotal,
-                shippingFee: currentShipping,
-                discount: currentDiscountValue,
-                appliedCoupon: appliedCouponCode,
-                total: finalTotal
-            };
+    let newOrder = {
+        id: 'PRL-' + Date.now(),
+        date: new Date().toISOString(),
+        customer: 'طلب سريع',
+        phone: '',
+        address: 'طلب من السلة',
+        items: cart.map(i => `${i.name} × ${i.quantity || 1}`).join(', '),
+        subtotal: subtotal,
+        deliveryFee: currentShipping,
+        discount: currentDiscountValue,
+        total: finalTotal.toFixed(2) + ' ' + translations[currentLang].currency,
+        status: 'قيد التجهيز'
+    };
 
-            localStorage.setItem('parole_order_summary', JSON.stringify(orderSummary));
-            window.location.href = 'checkout.html';
-        }
+    // أهم سطرين: نحفظ في parole_admin_orders
+    let existingOrders = JSON.parse(localStorage.getItem('parole_admin_orders')) || [];
+    existingOrders.unshift(newOrder);
+    localStorage.setItem('parole_admin_orders', JSON.stringify(existingOrders));
+
+    localStorage.removeItem('parole_cart');
+    window.location.href = 'checkout.html';
+}
 
         document.addEventListener('DOMContentLoaded', loadCart);
         window.addEventListener('pageshow', loadCart);
