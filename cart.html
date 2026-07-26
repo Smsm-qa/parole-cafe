@@ -2,225 +2,585 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>سلة المشتريات | PAROLE Cafe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-          --primary-gold: #d4af37;
-          --gold-light: #f3e5ab;
-          --dark-bg: #0b0b0b;
-          --card-bg: #161616;
-          --border-color: #262626;
-          --text-main: #f0f0f0;
-          --text-muted: #999999;
+          --gold: #d4af37;
+          --gold-light: #f9d976;
+          --gold-gradient: linear-gradient(135deg, #d4af37 0%, #f9d976 100%);
+          --dark-bg: #050505;
+          --card-bg: rgba(20, 20, 20, 0.95);
+          --border-color: rgba(212, 175, 55, 0.2);
+          --text-main: #ffffff;
+          --text-muted: #a0a0a0;
           --success: #2ecc71;
           --danger: #e74c3c;
-          --transition: all 0.3s ease;
+          --ease-out-quad: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+          --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--dark-bg); color: var(--text-main); line-height: 1.6; direction: rtl; text-align: right; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--dark-bg); color: var(--text-main); line-height: 1.6; direction: rtl; text-align: right; padding-bottom: 60px; }
         
-        header { background: rgba(11, 11, 11, 0.95); backdrop-filter: blur(10px); position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; border-bottom: 1px solid var(--border-color); }
-        .nav-container { max-width: 1200px; margin: 0 auto; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 22px; font-weight: 300; color: var(--text-main); letter-spacing: 4px; text-decoration: none; text-transform: uppercase; }
-        .logo span { color: var(--primary-gold); font-weight: 500; }
-        .nav-links { display: flex; list-style: none; gap: 15px; align-items: center; }
-        .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 13px; transition: var(--transition); padding: 6px 12px; border-radius: 6px; }
-        .nav-links a:hover, .nav-links a.active { color: var(--primary-gold); background-color: rgba(212, 175, 55, 0.08); }
+        header { background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(10px); position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; border-bottom: 1px solid var(--border-color); }
+        .nav-container { max-width: 1300px; margin: 0 auto; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 22px; font-weight: 800; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; letter-spacing: 1px; }
+        
+        .nav-right, .nav-left { display: flex; align-items: center; gap: 15px; }
+        .menu-toggle-btn { background: none; border: none; color: var(--gold); font-size: 22px; cursor: pointer; transition: var(--ease-out-quad); display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; }
+        .menu-toggle-btn:hover { background: rgba(212,175,55,0.1); }
 
-        section { padding: 120px 20px 60px; max-width: 1100px; margin: 0 auto; }
+        /* زر التبديل بين اللغات */
+        .lang-btn { background: rgba(212,175,55,0.1); border: 1px solid var(--border-color); color: var(--gold); padding: 6px 14px; border-radius: 50px; cursor: pointer; font-weight: 700; font-size: 13px; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
+        .lang-btn:hover { background: var(--gold); color: #000; }
+
+        /* Sidebar Drawer */
+        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 2500; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+        .sidebar-overlay.open { opacity: 1; visibility: visible; }
+        
+        .sidebar-drawer { position: fixed; top: 0; right: -300px; width: 300px; height: 100%; background: #111; border-left: 1px solid var(--border-color); z-index: 2600; transition: right 0.4s var(--ease-out-quad); display: flex; flex-direction: column; padding: 25px; }
+        .sidebar-overlay.open .sidebar-drawer { right: 0; }
+        html[dir="ltr"] .sidebar-drawer { right: auto; left: -300px; border-left: none; border-right: 1px solid var(--border-color); }
+        html[dir="ltr"] .sidebar-overlay.open .sidebar-drawer { left: 0; right: auto; }
+        
+        .sidebar-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; margin-bottom: 20px; }
+        .sidebar-title { font-size: 18px; font-weight: 800; color: var(--gold); }
+        .sidebar-close { background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; transition: 0.3s; }
+        .sidebar-close:hover { color: var(--gold); transform: rotate(90deg); }
+
+        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 15px; }
+        .sidebar-menu li a { display: flex; align-items: center; gap: 15px; color: var(--text-muted); text-decoration: none; font-size: 16px; font-weight: 600; padding: 12px 15px; border-radius: 12px; transition: 0.3s; }
+        .sidebar-menu li a i { color: var(--gold); width: 20px; text-align: center; }
+        .sidebar-menu li a:hover, .sidebar-menu li a.active { background: rgba(212,175,55,0.1); color: #fff; transform: translateX(-5px); }
+        html[dir="ltr"] .sidebar-menu li a:hover, html[dir="ltr"] .sidebar-menu li a.active { transform: translateX(5px); }
+
+        section { padding: 110px 25px 60px; max-width: 1300px; margin: 0 auto; }
         .section-header { text-align: center; margin-bottom: 40px; }
-        .section-header h1 { font-size: 30px; color: var(--primary-gold); font-weight: 300; margin-bottom: 8px; }
-        .section-header p { color: var(--text-muted); font-size: 13px; }
+        .section-header h1 { font-size: 28px; color: var(--gold); font-weight: 800; margin-bottom: 8px; }
+        .section-header p { color: var(--text-muted); font-size: 14px; }
 
-        .cart-grid { display: grid; grid-template-columns: 2fr 1.2fr; gap: 30px; }
+        .cart-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; }
         @media(max-width: 900px) { .cart-grid { grid-template-columns: 1fr; } }
 
-        .cart-table-container { background-color: var(--card-bg); border-radius: 12px; border: 1px solid var(--border-color); overflow-x: auto; }
-        .cart-table { width: 100%; border-collapse: collapse; min-width: 500px; }
-        .cart-table th, .cart-table td { padding: 16px 20px; text-align: right; font-size: 13px; }
-        .cart-table th { background-color: #111; color: var(--primary-gold); font-weight: 400; border-bottom: 1px solid var(--border-color); }
-        .cart-table tr { border-bottom: 1px solid var(--border-color); }
+        .cart-items-container { display: flex; flex-direction: column; gap: 15px; }
+        .cart-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 15px; display: flex; align-items: center; gap: 15px; transition: var(--ease-out-quad); }
+        .cart-card:hover { border-color: rgba(212, 175, 55, 0.4); transform: translateY(-2px); }
         
-        .qty-control { display: inline-flex; align-items: center; border: 1px solid var(--border-color); border-radius: 6px; background-color: var(--dark-bg); overflow: hidden; }
-        .qty-btn { background: transparent; border: none; color: var(--text-main); width: 30px; height: 30px; cursor: pointer; transition: var(--transition); }
-        .qty-btn:hover { background-color: var(--primary-gold); color: #000; }
-        .qty-val { padding: 0 10px; font-size: 13px; font-weight: 600; }
+        .cart-img { width: 75px; height: 75px; border-radius: 12px; object-fit: cover; border: 1px solid var(--border-color); flex-shrink: 0; }
+        .cart-info { flex: 1; }
+        .cart-info h4 { font-size: 16px; color: var(--text-main); margin-bottom: 4px; font-weight: 700; }
+        .cart-info .item-price { font-size: 14px; color: var(--gold); font-weight: 800; }
 
-        .cart-summary { background-color: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); height: fit-content; }
-        .cart-summary h3 { font-size: 16px; color: var(--text-main); margin-bottom: 20px; font-weight: 400; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; }
-        .cart-summary h3 i { color: var(--primary-gold); }
+        .cart-actions-group { display: flex; align-items: center; gap: 15px; }
 
-        .summary-row { display: flex; justify-content: space-between; margin-bottom: 14px; font-size: 13px; color: var(--text-muted); }
-        .summary-row strong { color: var(--text-main); }
-        .total-price { color: var(--primary-gold); font-weight: 600; font-size: 18px; }
-        
-        .btn-checkout { background-color: var(--primary-gold); color: #000; padding: 15px; width: 100%; border-radius: 8px; text-decoration: none; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; text-align: center; transition: var(--transition); margin-top: 20px; font-size: 14px; }
-        .btn-checkout:hover { background-color: var(--gold-light); }
-        
-        .btn-remove { background: transparent; border: 1px solid var(--danger); color: var(--danger); width: 34px; height: 34px; border-radius: 6px; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; }
+        .qty-control { display: inline-flex; align-items: center; border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--dark-bg); overflow: hidden; }
+        .qty-btn { background: transparent; border: none; color: var(--text-main); width: 32px; height: 32px; cursor: pointer; transition: var(--ease-out-quad); display: flex; align-items: center; justify-content: center; }
+        .qty-btn:hover { background-color: var(--gold); color: #000; }
+        .qty-val { padding: 0 10px; font-size: 14px; font-weight: 700; color: #fff; }
+
+        .btn-remove { background: transparent; border: 1px solid var(--danger); color: var(--danger); width: 36px; height: 36px; border-radius: 8px; cursor: pointer; transition: var(--ease-out-quad); display: flex; align-items: center; justify-content: center; }
         .btn-remove:hover { background: var(--danger); color: #fff; }
 
-        .empty-cart-state { text-align: center; padding: 40px; color: var(--text-muted); }
-        .empty-cart-state i { font-size: 40px; color: var(--primary-gold); margin-bottom: 15px; }
-        .btn-shop-now { display: inline-block; background-color: var(--border-color); color: var(--text-main); padding: 10px 20px; border-radius: 8px; text-decoration: none; font-size: 13px; margin-top: 15px; }
-        .btn-shop-now:hover { background-color: var(--primary-gold); color: #000; }
+        /* زر نسيت شيئاً؟ */
+        .forgot-item-box { background: rgba(212, 175, 55, 0.05); border: 1px dashed var(--gold); border-radius: 16px; padding: 15px; display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-top: 5px; }
+        .forgot-item-text { font-size: 14px; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
+        .forgot-item-text i { color: var(--gold); font-size: 18px; }
+        .btn-add-more { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 8px 16px; border-radius: 10px; text-decoration: none; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 6px; transition: var(--ease-out-quad); white-space: nowrap; }
+        .btn-add-more:hover { background: var(--gold); color: #000; transform: translateY(-2px); }
 
-        footer { background-color: #070707; padding: 25px 20px; text-align: center; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 12px; margin-top: 60px; }
+        /* ملخص الفاتورة */
+        .cart-summary { background-color: var(--card-bg); padding: 25px; border-radius: 20px; border: 1px solid var(--border-color); height: fit-content; position: sticky; top: 90px; }
+        .cart-summary h3 { font-size: 18px; color: var(--text-main); margin-bottom: 20px; font-weight: 700; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; }
+        .cart-summary h3 i { color: var(--gold); }
+
+        .free-shipping-bar-container { background: var(--dark-bg); border: 1px solid var(--border-color); padding: 12px; border-radius: 12px; margin-bottom: 20px; font-size: 13px; }
+        .free-shipping-text { margin-bottom: 8px; display: flex; align-items: center; gap: 6px; color: var(--text-main); font-weight: 600; }
+        .progress-bar-bg { width: 100%; background: #262626; height: 6px; border-radius: 3px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: var(--gold); width: 0%; transition: width 0.4s ease; }
+
+        .coupon-box { display: flex; gap: 8px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color); }
+        .coupon-box input { flex: 1; padding: 12px; background: var(--dark-bg); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 10px; font-size: 13px; }
+        .coupon-box input:focus { outline: none; border-color: var(--gold); }
+        .btn-coupon { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 0 16px; border-radius: 10px; font-weight: 700; font-size: 13px; cursor: pointer; transition: var(--ease-out-quad); }
+        .btn-coupon:hover { background: var(--gold); color: #000; }
+        #couponMessage { font-size: 12px; margin-top: -12px; margin-bottom: 15px; display: block; font-weight: 600; }
+
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px; color: var(--text-muted); }
+        .summary-row strong { color: var(--text-main); }
+        .total-price { color: var(--gold); font-weight: 800; font-size: 20px; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .btn-checkout { background: var(--gold-gradient); color: #000; padding: 15px; width: 100%; border-radius: 14px; text-decoration: none; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 10px; text-align: center; transition: var(--ease-out-quad); margin-top: 20px; font-size: 16px; box-shadow: 0 4px 15px rgba(212,175,55,0.3); cursor: pointer; border: none; }
+        .btn-checkout:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(212,175,55,0.4); }
+
+        .empty-cart-state { text-align: center; padding: 60px 20px; color: var(--text-muted); background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; grid-column: 1 / -1; }
+        .empty-cart-state i { font-size: 50px; color: var(--gold); margin-bottom: 20px; }
+        .empty-cart-state p { font-size: 16px; margin-bottom: 20px; color: var(--text-main); }
+        .btn-shop-now { display: inline-block; background: var(--gold); color: #000; padding: 12px 30px; border-radius: 50px; text-decoration: none; font-size: 14px; font-weight: 800; transition: var(--ease-out-quad); }
+        .btn-shop-now:hover { transform: scale(1.05); }
+
+        footer { background-color: #030303; padding: 25px 20px; text-align: center; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 13px; margin-top: 80px; }
+
+        @media(max-width: 768px) {
+            .cart-card { flex-direction: column; align-items: flex-start; }
+            .cart-actions-group { width: 100%; justify-content: space-between; border-top: 1px solid var(--border-color); padding-top: 12px; margin-top: 5px; }
+            .cart-img { width: 100%; height: 140px; }
+            .forgot-item-box { flex-direction: column; align-items: stretch; text-align: center; }
+            .btn-add-more { justify-content: center; }
+        }
     </style>
 </head>
 <body>
 
     <header>
         <div class="nav-container">
-            <a href="index.html" class="logo">PAROLE <span>CAFE</span></a>
-            <ul class="nav-links">
-                <li><a href="index.html">الرئيسية</a></li>
-                <li><a href="shop.html">المتجر</a></li>
-                <li><a href="cart.html" class="active">السلة</a></li>
-            </ul>
+            <div class="nav-right">
+                <button class="menu-toggle-btn" onclick="toggleSidebar()" aria-label="القائمة">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <a href="index.html" class="logo">PAROLE Cafe</a>
+            </div>
+            <div class="nav-left">
+                <button class="lang-btn" onclick="toggleLanguage()">
+                    <i class="fa-solid fa-globe"></i> <span id="langLabel">EN</span>
+                </button>
+                <a href="shop.html" style="color: var(--gold); text-decoration: none; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 6px;">
+                    <i class="fa-solid fa-mug-hot"></i> <span data-i18n="menuText">المنيو</span>
+                </a>
+            </div>
         </div>
     </header>
 
+    <!-- القائمة الجانبية -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()">
+        <div class="sidebar-drawer" onclick="event.stopPropagation()">
+            <div class="sidebar-header">
+                <span class="sidebar-title" data-i18n="sidebarTitle">قائمة التنقل</span>
+                <button class="sidebar-close" onclick="toggleSidebar()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="index.html"><i class="fa-solid fa-house"></i> <span data-i18n="navHome">الرئيسية</span></a></li>
+                <li><a href="about.html"><i class="fa-solid fa-circle-info"></i> <span data-i18n="navAbout">من نحن</span></a></li>
+                <li><a href="shop.html"><i class="fa-solid fa-mug-hot"></i> <span data-i18n="navShop">المنيو</span></a></li>
+                <li><a href="offers.html"><i class="fa-solid fa-tag"></i> <span data-i18n="navOffers">العروض</span></a></li>
+                <li><a href="branches.html"><i class="fa-solid fa-location-dot"></i> <span data-i18n="navBranches">الفروع</span></a></li>
+                <li><a href="blog.html"><i class="fa-solid fa-newspaper"></i> <span data-i18n="navBlog">المدونة</span></a></li>
+                <li><a href="contact.html"><i class="fa-solid fa-headset"></i> <span data-i18n="navContact">تواصل معنا</span></a></li>
+                <li><a href="faq.html"><i class="fa-solid fa-circle-question"></i> <span data-i18n="navFaq">الأسئلة الشائعة</span></a></li>
+                <li><a href="policies.html"><i class="fa-solid fa-shield-halved"></i> <span data-i18n="navPolicies">السياسات</span></a></li>
+                <li><a href="cart.html" class="active"><i class="fa-solid fa-basket-shopping"></i> <span data-i18n="navCart">السلة</span></a></li>
+                <li><a href="checkout.html"><i class="fa-solid fa-credit-card"></i> <span data-i18n="navCheckout">إتمام الدفع</span></a></li>
+            </ul>
+        </div>
+    </div>
+
     <section>
         <div class="section-header">
-            <h1>سلة المشتريات</h1>
-            <p>راجع طلباتك وقم بالتعديل عليها قبل الانتقال لصفحة الدفع الآمن.</p>
+            <h1 data-i18n="pageTitle">سلة المشتريات</h1>
+            <p data-i18n="pageSubTitle">راجع طلباتك وقم بالتعديل عليها قبل الانتقال لصفحة الدفع الآمن.</p>
         </div>
         
         <div class="cart-grid">
-            <div class="cart-table-container">
-                <table class="cart-table">
-                    <thead>
-                        <tr>
-                            <th>المنتج</th>
-                            <th>السعر</th>
-                            <th>الكمية</th>
-                            <th>الإجمالي</th>
-                            <th>إجراء</th>
-                        </tr>
-                    </thead>
-                    <tbody id="cart-items">
-                        <!-- يتم جلب البيانات هنا برمجياً -->
-                    </tbody>
-                </table>
+            <!-- قائمة المنتجات -->
+            <div id="cart-container-main" class="cart-items-container">
+                <!-- يتم تعبئتها ديناميكياً -->
             </div>
 
+            <!-- ملخص الفاتورة -->
             <div class="cart-summary">
-                <h3><i class="fa-solid fa-receipt"></i> ملخص الفاتورة</h3>
+                <h3 data-i18n="invoiceSummaryTitle"><i class="fa-solid fa-receipt"></i> ملخص الفاتورة</h3>
+
+                <!-- شريط التوصيل المجاني الديناميكي -->
+                <div class="free-shipping-bar-container" id="freeShippingContainer">
+                    <div class="free-shipping-text" id="freeShippingText">
+                        <i class="fa-solid fa-truck-fast"></i> <span data-i18n="calculating">جاري الحساب...</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="freeShippingProgressBar"></div>
+                    </div>
+                </div>
+
+                <!-- صندوق الكوبون داخل السلة -->
+                <div class="coupon-box">
+                    <input type="text" id="couponInput" placeholder="أدخل كوبون الخصم" data-i18n-placeholder="couponPlaceholder" onkeydown="if(event.key === 'Enter') { event.preventDefault(); applyCartCoupon(); }">
+                    <button type="button" class="btn-coupon" onclick="applyCartCoupon()" data-i18n="applyBtn">تطبيق</button>
+                </div>
+                <span id="couponMessage"></span>
+
                 <div class="summary-row">
-                    <span>المجموع الفرعي:</span>
+                    <span data-i18n="subtotalLabel">المجموع الفرعي:</span>
                     <strong id="sub-total">0.00 ر.س</strong>
                 </div>
                 <div class="summary-row">
-                    <span>رسوم التوصيل:</span>
-                    <strong>18.00 ر.س</strong>
+                    <span data-i18n="shippingFeeLabel">رسوم التوصيل:</span>
+                    <strong id="shipping-fee-text">18.00 ر.س</strong>
                 </div>
-                <div class="summary-row" style="border-top: 1px solid var(--border-color); padding-top: 15px; margin-bottom: 20px; font-size: 15px;">
-                    <span>الإجمالي النهائي:</span>
+                <div class="summary-row" id="discountRow" style="display: none; color: #2ecc71;">
+                    <span><span data-i18n="discountLabel">قيمة الخصم</span> <span id="appliedCouponName" style="font-size: 11px;"></span>:</span>
+                    <strong id="discountAmount">0.00 ر.س</strong>
+                </div>
+                <div class="summary-row" style="border-top: 1px solid var(--border-color); padding-top: 15px; margin-bottom: 20px; font-size: 16px;">
+                    <span data-i18n="grandTotalLabel">الإجمالي النهائي:</span>
                     <span class="total-price" id="cart-total">18.00 ر.س</span>
                 </div>
 
-                <a href="checkout.html" class="btn-checkout">
-                    <i class="fa-solid fa-lock"></i> الانتقال لإتمام الدفع الآمن
-                </a>
+                <button type="button" onclick="proceedToCheckout()" class="btn-checkout">
+                    <i class="fa-solid fa-lock"></i> <span data-i18n="checkoutBtnText">الانتقال لإتمام الدفع الآمن</span>
+                </button>
             </div>
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2026 PAROLE Cafe. جميع الحقوق محفوظة.</p>
+        <p data-i18n="footerText">&copy; 2026 PAROLE Cafe. جميع الحقوق محفوظة.</p>
     </footer>
 
     <script>
-        function loadCart() {
-            // جلب البيانات مع دمج الاحتمالين لضمان عدم ضياع السلة بأي شكل
-            let cart1 = JSON.parse(localStorage.getItem('parole_cart')) || [];
-            let cart2 = JSON.parse(localStorage.getItem('parole_cart_full')) || [];
-            let cart = cart1.length > 0 ? cart1 : cart2;
+        let currentLang = 'ar';
+        const translations = {
+            ar: {
+                menuText: "المنيو",
+                sidebarTitle: "قائمة التنقل",
+                navHome: "الرئيسية",
+                navAbout: "من نحن",
+                navShop: "المنيو",
+                navOffers: "العروض",
+                navBranches: "الفروع",
+                navBlog: "المدونة",
+                navContact: "تواصل معنا",
+                navFaq: "الأسئلة الشائعة",
+                navPolicies: "السياسات",
+                navCart: "السلة",
+                navCheckout: "إتمام الدفع",
+                pageTitle: "سلة المشتريات",
+                pageSubTitle: "راجع طلباتك وقم بالتعديل عليها قبل الانتقال لصفحة الدفع الآمن.",
+                invoiceSummaryTitle: "ملخص الفاتورة",
+                calculating: "جاري الحساب...",
+                couponPlaceholder: "أدخل كوبون الخصم",
+                applyBtn: "تطبيق",
+                subtotalLabel: "المجموع الفرعي:",
+                shippingFeeLabel: "رسوم التوصيل:",
+                discountLabel: "قيمة الخصم",
+                grandTotalLabel: "الإجمالي النهائي:",
+                checkoutBtnText: "الانتقال لإتمام الدفع الآمن",
+                footerText: "&copy; 2026 PAROLE Cafe. جميع الحقوق محفوظة.",
+                emptyCartMsg: "سلة المشتريات فارغة حالياً.",
+                browseMenuBtn: "تصفح المنيو الآن",
+                forgotText: "هل نسيت شيئاً آخر تحبه؟",
+                addMoreBtn: "عودة للمنيو للإضافة",
+                currency: "ر.س",
+                freeShippingText: "لقد حصلت على",
+                freeShippingBadge: "توصيل مجاني!",
+                freeShippingAddMore: "أضف منتجات بقيمة",
+                freeShippingAddMoreSuffix: "للحصول على توصيل مجاني!",
+                freeSuffix: "مجاني",
+                invalidCoupon: "كود الخصم غير صحيح أو منتهي الصلاحية.",
+                couponCancelled: "تم إلغاء صلاحية الكوبون السابق.",
+                percentCouponSuccess: "تم تطبيق خصم نسبة مئوية",
+                fixedCouponSuccess: "تم تطبيق خصم ثابت بقيمة",
+                confirmRemove: "هل أنت متأكد من حذف هذا المنتج من السلة؟",
+                confirmDelete: "هل تريد إزالة هذا المنتج من السلة؟",
+                cartEmptyAlert: "سلة المشتريات فارغة. يرجى إضافة منتجات أولاً."
+            },
+            en: {
+                menuText: "Menu",
+                sidebarTitle: "Navigation",
+                navHome: "Home",
+                navAbout: "About Us",
+                navShop: "Menu",
+                navOffers: "Offers",
+                navBranches: "Branches",
+                navBlog: "Blog",
+                navContact: "Contact Us",
+                navFaq: "FAQ",
+                navPolicies: "Policies",
+                navCart: "Cart",
+                navCheckout: "Checkout",
+                pageTitle: "Shopping Cart",
+                pageSubTitle: "Review your items and modify them before proceeding to secure checkout.",
+                invoiceSummaryTitle: "Invoice Summary",
+                calculating: "Calculating...",
+                couponPlaceholder: "Enter coupon code",
+                applyBtn: "Apply",
+                subtotalLabel: "Subtotal:",
+                shippingFeeLabel: "Delivery Fee:",
+                discountLabel: "Discount",
+                grandTotalLabel: "Grand Total:",
+                checkoutBtnText: "Proceed to Secure Checkout",
+                footerText: "&copy; 2026 PAROLE Cafe. All rights reserved.",
+                emptyCartMsg: "Your shopping cart is currently empty.",
+                browseMenuBtn: "Browse Menu Now",
+                forgotText: "Forgot something else you love?",
+                addMoreBtn: "Back to Menu to Add",
+                currency: "SAR",
+                freeShippingText: "You got",
+                freeShippingBadge: "Free Delivery!",
+                freeShippingAddMore: "Add items worth",
+                freeShippingAddMoreSuffix: "more for free delivery!",
+                freeSuffix: "Free",
+                invalidCoupon: "Invalid or expired coupon code.",
+                couponCancelled: "Previous coupon has expired.",
+                percentCouponSuccess: "Percentage discount applied successfully!",
+                fixedCouponSuccess: "Fixed discount applied successfully!",
+                confirmRemove: "Are you sure you want to remove this item from the cart?",
+                confirmDelete: "Do you want to remove this item from the cart?",
+                cartEmptyAlert: "Shopping cart is empty. Please add items first."
+            }
+        };
 
-            let cartItemsContainer = document.getElementById('cart-items');
+        let currentDiscountValue = 0;
+        let appliedCouponCode = '';
+        const FREE_SHIPPING_THRESHOLD = 150.00;
+        const BASE_SHIPPING_FEE = 18.00;
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+            document.body.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+            document.body.style.textAlign = currentLang === 'ar' ? 'right' : 'left';
+            document.getElementById('langLabel').textContent = currentLang === 'ar' ? 'EN' : 'AR';
+
+            // تحديث النصوص العادية
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[currentLang][key]) {
+                    el.innerHTML = translations[currentLang][key];
+                }
+            });
+
+            // تحديث الـ Placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (translations[currentLang][key]) {
+                    el.placeholder = translations[currentLang][key];
+                }
+            });
+
+            loadCart();
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebarOverlay').classList.toggle('open');
+        }
+
+        function loadCart() {
+            let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
+            let container = document.getElementById('cart-container-main');
             let subTotalContainer = document.getElementById('sub-total');
+            let shippingFeeContainer = document.getElementById('shipping-fee-text');
             let cartTotalContainer = document.getElementById('cart-total');
+            let couponMsgEl = document.getElementById('couponMessage');
             
-            cartItemsContainer.innerHTML = '';
+            container.innerHTML = '';
             let subtotal = 0;
 
             if (cart.length === 0) {
-                cartItemsContainer.innerHTML = `
-                    <tr>
-                        <td colspan="5">
-                            <div class="empty-cart-state">
-                                <i class="fa-solid fa-cart-shopping"></i>
-                                <p>سلة المشتريات فارغة حالياً.</p>
-                                <a href="shop.html" class="btn-shop-now">تصفح المنتجات الآن</a>
-                            </div>
-                        </td>
-                    </tr>
+                container.innerHTML = `
+                    <div class="empty-cart-state">
+                        <i class="fa-solid fa-basket-shopping"></i>
+                        <p>${translations[currentLang].emptyCartMsg}</p>
+                        <a href="shop.html" class="btn-shop-now"><i class="fa-solid fa-mug-hot"></i> ${translations[currentLang].browseMenuBtn}</a>
+                    </div>
                 `;
-                subTotalContainer.textContent = '0.00 ر.س';
-                cartTotalContainer.textContent = '18.00 ر.س';
+                subTotalContainer.textContent = `0.00 ${translations[currentLang].currency}`;
+                shippingFeeContainer.textContent = `0.00 ${translations[currentLang].currency}`;
+                cartTotalContainer.textContent = `0.00 ${translations[currentLang].currency}`;
+                document.getElementById('freeShippingContainer').style.display = 'none';
+                
+                currentDiscountValue = 0;
+                appliedCouponCode = '';
+                if (couponMsgEl) couponMsgEl.innerText = '';
+                document.getElementById('discountRow').style.display = 'none';
                 return;
             }
 
+            document.getElementById('freeShippingContainer').style.display = 'block';
+
             cart.forEach((item, index) => {
                 let qty = item.quantity || 1;
-                let itemTotal = item.price * qty;
+                let itemPrice = parseFloat(item.price) || 0;
+                let itemTotal = itemPrice * qty;
                 subtotal += itemTotal;
+                let itemImg = item.image || item.img || 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=300&q=80';
 
-                cartItemsContainer.innerHTML += `
-                    <tr>
-                        <td><strong>${item.name}</strong></td>
-                        <td>${item.price.toFixed(2)} ر.س</td>
-                        <td>
+                container.innerHTML += `
+                    <div class="cart-card">
+                        <img src="${itemImg}" alt="${item.name || 'منتج'}" class="cart-img">
+                        <div class="cart-info">
+                            <h4>${item.name || 'منتج غير محدد'}</h4>
+                            <div class="item-price">${itemPrice.toFixed(2)} ${translations[currentLang].currency}</div>
+                        </div>
+                        <div class="cart-actions-group">
                             <div class="qty-control">
                                 <button class="qty-btn" onclick="updateQuantity(${index}, -1)">-</button>
                                 <span class="qty-val">${qty}</span>
                                 <button class="qty-btn" onclick="updateQuantity(${index}, 1)">+</button>
                             </div>
-                        </td>
-                        <td><strong>${itemTotal.toFixed(2)} ر.س</strong></td>
-                        <td><button class="btn-remove" onclick="removeItem(${index})"><i class="fa-solid fa-trash-can"></i></button></td>
-                    </tr>
+                            <strong style="font-size: 15px; min-width: 75px; text-align: left; color: #fff;">${itemTotal.toFixed(2)} ${translations[currentLang].currency}</strong>
+                            <button class="btn-remove" onclick="confirmRemoveItem(${index})" title="حذف المنتج"><i class="fa-solid fa-trash-can"></i></button>
+                        </div>
+                    </div>
                 `;
             });
 
-            let shipping = 18.00;
-            let finalTotal = subtotal + shipping;
+            // زر العودة للمنيو إذا نسيت شيئاً
+            container.innerHTML += `
+                <div class="forgot-item-box">
+                    <div class="forgot-item-text">
+                        <i class="fa-solid fa-circle-question"></i>
+                        <span>${translations[currentLang].forgotText}</span>
+                    </div>
+                    <a href="shop.html" class="btn-add-more">
+                        <i class="fa-solid fa-mug-hot"></i> ${translations[currentLang].addMoreBtn}
+                    </a>
+                </div>
+            `;
 
-            subTotalContainer.textContent = subtotal.toFixed(2) + ' ر.س';
-            cartTotalContainer.textContent = finalTotal.toFixed(2) + ' ر.س';
+            // حساب التوصيل المجاني
+            let currentShipping = BASE_SHIPPING_FEE;
+            const textEl = document.getElementById('freeShippingText');
+            const fillEl = document.getElementById('freeShippingProgressBar');
+
+            if (subtotal >= FREE_SHIPPING_THRESHOLD) {
+                currentShipping = 0.00;
+                textEl.innerHTML = `<i class="fa-solid fa-truck-fast" style="color: #2ecc71;"></i> ${translations[currentLang].freeShippingText} <strong style="color: #2ecc71; margin: 0 4px;">${translations[currentLang].freeShippingBadge}</strong>`;
+                fillEl.style.width = '100%';
+                shippingFeeContainer.innerHTML = `<span style="text-decoration: line-through; color: var(--text-muted); font-weight: normal; margin-left: 6px;">${BASE_SHIPPING_FEE.toFixed(2)} ${translations[currentLang].currency}</span> <strong style="color: #2ecc71;">${translations[currentLang].freeSuffix}</strong>`;
+            } else {
+                let diff = FREE_SHIPPING_THRESHOLD - subtotal;
+                let percent = (subtotal / FREE_SHIPPING_THRESHOLD) * 100;
+                textEl.innerHTML = `<i class="fa-solid fa-truck-fast"></i> ${translations[currentLang].freeShippingAddMore} <strong style="color:var(--gold); margin: 0 4px;">${diff.toFixed(2)} ${translations[currentLang].currency}</strong> ${translations[currentLang].freeShippingAddMoreSuffix}`;
+                fillEl.style.width = `${percent}%`;
+                shippingFeeContainer.textContent = currentShipping.toFixed(2) + ' ' + translations[currentLang].currency;
+            }
+
+            subTotalContainer.textContent = subtotal.toFixed(2) + ' ' + translations[currentLang].currency;
+
+            // حساب الخصم المطبق إن وجد
+            if (appliedCouponCode) {
+                let coupons = JSON.parse(localStorage.getItem('parole_shop_coupons')) || [];
+                let found = coupons.find(c => c.code && c.code.toUpperCase() === appliedCouponCode.toUpperCase());
+                if (found) {
+                    let rawVal = parseFloat(found.value) || 0;
+                    if (rawVal <= 100 && rawVal > 0 && !found.isFixed) {
+                        currentDiscountValue = subtotal * (rawVal / 100);
+                    } else {
+                        currentDiscountValue = rawVal;
+                    }
+                    if (currentDiscountValue > subtotal) {
+                        currentDiscountValue = subtotal;
+                    }
+                } else {
+                    currentDiscountValue = 0;
+                    appliedCouponCode = '';
+                    if (couponMsgEl) {
+                        couponMsgEl.style.color = '#e74c3c';
+                        couponMsgEl.innerText = translations[currentLang].couponCancelled;
+                    }
+                }
+            }
+
+            const discountRow = document.getElementById('discountRow');
+            if (currentDiscountValue > 0) {
+                discountRow.style.display = 'flex';
+                document.getElementById('appliedCouponName').textContent = `(${appliedCouponCode})`;
+                document.getElementById('discountAmount').textContent = '-' + currentDiscountValue.toFixed(2) + ' ' + translations[currentLang].currency;
+            } else {
+                discountRow.style.display = 'none';
+            }
+
+            let finalTotal = subtotal + currentShipping - currentDiscountValue;
+            if (finalTotal < 0) finalTotal = 0;
+            cartTotalContainer.textContent = finalTotal.toFixed(2) + ' ' + translations[currentLang].currency;
         }
 
         function updateQuantity(index, change) {
-            let cart1 = JSON.parse(localStorage.getItem('parole_cart')) || [];
-            let cart2 = JSON.parse(localStorage.getItem('parole_cart_full')) || [];
-            let cartKey = cart1.length > 0 ? 'parole_cart' : (cart2.length > 0 ? 'parole_cart_full' : 'parole_cart');
-            let cart = JSON.parse(localStorage.getItem(cartKey)) || [];
-
+            let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
             if (cart[index]) {
                 cart[index].quantity = (cart[index].quantity || 1) + change;
                 if (cart[index].quantity <= 0) {
-                    cart.splice(index, 1);
+                    if (confirm(translations[currentLang].confirmDelete)) {
+                        cart.splice(index, 1);
+                    } else {
+                        cart[index].quantity = 1;
+                    }
                 }
-                localStorage.setItem(cartKey, JSON.stringify(cart));
+                localStorage.setItem('parole_cart', JSON.stringify(cart));
                 loadCart();
             }
         }
 
-        function removeItem(index) {
-            let cart1 = JSON.parse(localStorage.getItem('parole_cart')) || [];
-            let cart2 = JSON.parse(localStorage.getItem('parole_cart_full')) || [];
-            let cartKey = cart1.length > 0 ? 'parole_cart' : (cart2.length > 0 ? 'parole_cart_full' : 'parole_cart');
-            let cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+        function confirmRemoveItem(index) {
+            if (confirm(translations[currentLang].confirmRemove)) {
+                let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
+                cart.splice(index, 1);
+                localStorage.setItem('parole_cart', JSON.stringify(cart));
+                loadCart();
+            }
+        }
 
-            cart.splice(index, 1);
-            localStorage.setItem(cartKey, JSON.stringify(cart));
+        function applyCartCoupon() {
+            const inputCode = document.getElementById('couponInput').value.trim().toUpperCase();
+            const msg = document.getElementById('couponMessage');
+            
+            if (!inputCode) return;
+
+            let coupons = JSON.parse(localStorage.getItem('parole_shop_coupons')) || [];
+            let found = coupons.find(c => c.code && c.code.toUpperCase() === inputCode);
+
+            let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
+            let subtotal = cart.reduce((sum, item) => sum + ((parseFloat(item.price) || 0) * (item.quantity || 1)), 0);
+
+            if (found) {
+                appliedCouponCode = found.code;
+                let rawVal = parseFloat(found.value) || 0;
+                
+                if (rawVal <= 100 && rawVal > 0 && !found.isFixed) {
+                    currentDiscountValue = subtotal * (rawVal / 100);
+                    msg.style.color = '#2ecc71';
+                    msg.innerText = currentLang === 'ar' ? `تم تطبيق خصم نسبة مئوية (${rawVal}%) بنجاح!` : `Percentage discount (${rawVal}%) applied successfully!`;
+                } else {
+                    currentDiscountValue = rawVal;
+                    msg.style.color = '#2ecc71';
+                    msg.innerText = currentLang === 'ar' ? `تم تطبيق خصم ثابت بقيمة (${rawVal} ر.س) بنجاح!` : `Fixed discount (${rawVal} ${translations[currentLang].currency}) applied successfully!`;
+                }
+            } else {
+                currentDiscountValue = 0;
+                appliedCouponCode = '';
+                msg.style.color = '#e74c3c';
+                msg.innerText = translations[currentLang].invalidCoupon;
+            }
             loadCart();
         }
 
+        function proceedToCheckout() {
+            let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
+            if (cart.length === 0) {
+                alert(translations[currentLang].cartEmptyAlert);
+                return;
+            }
+
+            let subtotal = cart.reduce((sum, item) => sum + ((parseFloat(item.price) || 0) * (item.quantity || 1)), 0);
+            let currentShipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0.00 : BASE_SHIPPING_FEE;
+            let finalTotal = subtotal + currentShipping - currentDiscountValue;
+            if (finalTotal < 0) finalTotal = 0;
+
+            let orderSummary = {
+                subtotal: subtotal,
+                shippingFee: currentShipping,
+                discount: currentDiscountValue,
+                appliedCoupon: appliedCouponCode,
+                total: finalTotal
+            };
+
+            localStorage.setItem('parole_order_summary', JSON.stringify(orderSummary));
+            window.location.href = 'checkout.html';
+        }
+
         document.addEventListener('DOMContentLoaded', loadCart);
+        window.addEventListener('pageshow', loadCart);
     </script>
 </body>
 </html>
