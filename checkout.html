@@ -602,13 +602,10 @@
                 total: grandTotal,
                 status: 'pending'
             };
-
-            // التعديل هنا: حفظ الطلبات في المفتاح المخصص للوحة التحكم parole_admin_orders
+ //  حفظ الطلبات في المفتاح المخصص للوحة التحكم parole_admin_orders
             let existingOrders = JSON.parse(localStorage.getItem('parole_admin_orders')) || [];
             existingOrders.unshift(newOrder);
             localStorage.setItem('parole_admin_orders', JSON.stringify(existingOrders));
-            // حفظ احتياطي للمفتاح القديم لضمان عدم حدوث أي تضارب
-            localStorage.setItem('parole_orders', JSON.stringify(existingOrders));
 
             alert(translations[currentLang].orderSuccess);
             localStorage.removeItem('parole_cart');
