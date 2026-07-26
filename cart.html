@@ -567,23 +567,7 @@
     let finalTotal = subtotal + currentShipping - currentDiscountValue;
     if (finalTotal < 0) finalTotal = 0;
 
-    let newOrder = {
-        id: 'PRL-' + Date.now(),
-        date: new Date().toISOString(),
-        customer: 'طلب سريع',
-        phone: '',
-        address: 'طلب من السلة',
-        items: cart.map(i => `${i.name} × ${i.quantity || 1}`).join(', '),
-        subtotal: subtotal,
-        deliveryFee: currentShipping,
-        discount: currentDiscountValue,
-        total: finalTotal.toFixed(2) + ' ' + translations[currentLang].currency,
-        status: 'قيد التجهيز'
-    };
- 
-    let existingOrders = JSON.parse(localStorage.getItem('parole_admin_orders')) || [];
-    existingOrders.unshift(newOrder);
-    localStorage.setItem('parole_admin_orders', JSON.stringify(existingOrders));
+  
     window.location.href = 'checkout.html';
 }
 
