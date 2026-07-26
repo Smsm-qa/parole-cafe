@@ -8,7 +8,6 @@
     <meta name="description" content="اكتشف فخامة القهوة المختصة والحلويات الراقية في PAROLE Cafe. تصفح المنيو، اطلب أونلاين، وتعرف على فروعنا.">
     <meta name="theme-color" content="#050505">
 
-    <!-- FontAwesome للأيقونات -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -36,7 +35,7 @@
             overflow-x: hidden;
             background-image: radial-gradient(circle at 50% 0%, rgba(223, 185, 83, 0.06) 0%, transparent 70%);
             background-attachment: fixed;
-            padding-bottom: 90px; /* مسافة أمان للشريط السفلي للجوال */
+            padding-bottom: 90px;
         }
 
         .announcement-bar {
@@ -62,10 +61,9 @@
             border-radius: 16px;
         }
 
-        /* الهيدر العلوي */
         .site-header {
             position: fixed;
-            top: 26px;
+            top: 25px;
             left: 0;
             width: 100%;
             z-index: 1000;
@@ -78,14 +76,10 @@
             backdrop-filter: blur(20px);
         }
 
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+        .header-right { display: flex; align-items: center; gap: 12px; }
 
         .menu-toggle-btn {
-            background: none;
+            background: var(--card-bg);
             color: var(--gold);
             font-size: 18px;
             cursor: pointer;
@@ -95,7 +89,6 @@
             width: 38px;
             height: 38px;
             border-radius: 50%;
-            background: var(--card-bg);
             border: 1px solid var(--border-gold);
             transition: var(--transition);
         }
@@ -112,7 +105,7 @@
         .logo span { color: var(--gold); font-weight: 600; }
 
         .header-actions { display: flex; gap: 10px; align-items: center; }
-        
+
         .icon-btn {
             color: var(--text-main);
             font-size: 15px;
@@ -148,7 +141,6 @@
             box-shadow: 0 0 10px var(--gold);
         }
 
-        /* القائمة الجانبية */
         .sidebar-menu {
             position: fixed;
             top: 0;
@@ -166,6 +158,9 @@
             overflow-y: auto;
         }
         .sidebar-menu.open { right: 0; }
+        /* في حال تحولت الصفحة إلى الإنجليزية (LTR) تفتح القائمة من اليسار */
+        html[dir="ltr"] .sidebar-menu { right: auto; left: -300px; border-left: none; border-right: 1px solid var(--border-gold); }
+        html[dir="ltr"] .sidebar-menu.open { left: 0; }
 
         .sidebar-header {
             display: flex;
@@ -210,10 +205,7 @@
 
         .menu-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
+            top: 0; left: 0; width: 100%; height: 100vh;
             background: rgba(0,0,0,0.6);
             backdrop-filter: blur(4px);
             z-index: 1500;
@@ -223,7 +215,6 @@
         }
         .menu-overlay.active { opacity: 1; visibility: visible; }
 
-        /* المحتوى الرئيسي */
         .main-content { 
             padding: 105px 16px 40px; 
             max-width: 1150px; 
@@ -244,12 +235,7 @@
         .hero h1 span { color: var(--gold); font-weight: 600; }
         .hero p { color: var(--text-muted); margin-bottom: 24px; font-size: 13px; max-width: 600px; margin-left: auto; margin-right: auto; }
         
-        .hero-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
+        .hero-buttons { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
 
         .btn-primary {
             background: linear-gradient(135deg, var(--gold-light), var(--gold));
@@ -298,12 +284,7 @@
         .feature-card h3 { font-size: 15px; margin-bottom: 6px; }
         .feature-card p { font-size: 12.5px; color: var(--text-muted); }
 
-        .section-title {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 19px;
-            font-weight: 400;
-        }
+        .section-title { text-align: center; margin-bottom: 20px; font-size: 19px; font-weight: 400; }
         .section-title span { color: var(--gold); font-weight: 600; }
 
         .category-img-card {
@@ -321,93 +302,50 @@
         }
         .category-img-card img {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             object-fit: cover;
             transition: transform 0.5s ease;
             z-index: 1;
         }
         .category-img-card::after {
             content: '';
-            position: absolute;
-            inset: 0;
+            position: absolute; inset: 0;
             background: linear-gradient(to top, rgba(0,0,0,0.85) 10%, rgba(0,0,0,0.2) 90%);
             z-index: 2;
         }
         .category-img-card:hover img { transform: scale(1.1); }
         .category-img-card:hover { border-color: var(--gold); box-shadow: var(--shadow-gold); }
         
-        .category-content {
-            position: relative;
-            z-index: 3;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        .category-content { position: relative; z-index: 3; width: 100%; display: flex; justify-content: space-between; align-items: center; }
         .category-title { font-size: 14px; font-weight: 600; color: #fff; }
         .category-icon-arrow {
-            width: 28px;
-            height: 28px;
+            width: 28px; height: 28px;
             background: rgba(223, 185, 83, 0.2);
             border: 1px solid var(--border-gold);
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--gold);
-            font-size: 11px;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--gold); font-size: 11px;
         }
+        html[dir="ltr"] .category-icon-arrow i { transform: rotate(180deg); }
 
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-        .gallery-item {
-            position: relative;
-            border-radius: 14px;
-            overflow: hidden;
-            height: 130px;
-            border: 1px solid var(--border-color);
-        }
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.4s ease;
-        }
+        .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .gallery-item { position: relative; border-radius: 14px; overflow: hidden; height: 130px; border: 1px solid var(--border-color); }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
         .gallery-item:hover img { transform: scale(1.08); }
 
         .mobile-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            display: flex;
-            justify-content: space-around;
-            padding: 12px 10px;
-            z-index: 1000;
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            display: flex; justify-content: space-around;
+            padding: 12px 10px; z-index: 1000;
             border-radius: 16px 16px 0 0;
-            border-bottom: none;
             background: rgba(5, 5, 5, 0.95);
             backdrop-filter: blur(25px);
             border-top: 1px solid var(--border-color);
         }
-        .mobile-nav-item {
-            color: var(--text-muted);
-            font-size: 18px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: var(--transition);
-            background: none;
-            border: none;
-        }
+        .mobile-nav-item { color: var(--text-muted); font-size: 18px; cursor: pointer; text-decoration: none; transition: var(--transition); background: none; border: none; }
         .mobile-nav-item.active, .mobile-nav-item:hover { color: var(--gold); }
 
-        footer { background: #020202; padding: 30px 16px 30px; text-align: center; border-top: 1px solid var(--border-color); margin-top: 40px; }
+        footer { background: #020202; padding: 30px 16px; text-align: center; border-top: 1px solid var(--border-color); margin-top: 40px; }
         .social-icons { display: flex; justify-content: center; gap: 14px; margin-bottom: 14px; font-size: 16px; }
         .social-icons a { color: var(--text-muted); background: var(--card-bg); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-color); text-decoration: none; }
         .social-icons a:hover { color: var(--gold); border-color: var(--gold); }
@@ -425,11 +363,10 @@
 </head>
 <body>
 
-    <div class="announcement-bar">
+    <div class="announcement-bar" data-i18n="announcement">
         ✨ استمتع بخصم 10% على طلبك الأول باستخدام الكود (PAROLE10) ✨
     </div>
 
-    <!-- الهيدر العلوي الموحد -->
     <header class="site-header">
         <div class="header-right">
             <button class="menu-toggle-btn" id="menuToggleBtn" aria-label="فتح القائمة">
@@ -439,6 +376,13 @@
         </div>
 
         <div class="header-actions">
+            <!-- زر تبديل اللغة -->
+            <button onclick="toggleLanguage()" class="icon-btn" style="width: auto; padding: 0 12px; font-size: 12px; font-weight: bold; gap: 5px;" aria-label="تغيير اللغة">
+                <i class="fa-solid fa-globe"></i>
+                <span id="langToggleText">English</span>
+            </button>
+
+            <!-- زر السلة مع العداد -->
             <a href="cart.html" class="icon-btn" aria-label="السلة">
                 <i class="fa-solid fa-basket-shopping"></i>
                 <span class="cart-badge" id="cartBadgeCount">0</span>
@@ -446,7 +390,6 @@
         </div>
     </header>
 
-    <!-- القائمة الجانبية -->
     <div class="menu-overlay" id="menuOverlay"></div>
     <nav class="sidebar-menu" id="sidebarMenu">
         <div class="sidebar-header">
@@ -454,159 +397,137 @@
             <button class="sidebar-close-btn" id="sidebarCloseBtn"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <ul class="sidebar-nav-links">
-            <li><a href="index.html" class="active"><i class="fa-solid fa-house"></i> الرئيسية</a></li>
-            <li><a href="about.html"><i class="fa-solid fa-circle-info"></i> من نحن</a></li>
-            <li><a href="shop.html"><i class="fa-solid fa-mug-hot"></i> المنيو </a></li>
-            <li><a href="offers.html"><i class="fa-solid fa-tag"></i> العروض</a></li>
-            <li><a href="branches.html"><i class="fa-solid fa-location-dot"></i> الفروع</a></li>
-            <li><a href="blog.html"><i class="fa-solid fa-newspaper"></i> المدونة</a></li>
-            <li><a href="contact.html"><i class="fa-solid fa-headset"></i> تواصل معنا</a></li>
-            <li><a href="faq.html"><i class="fa-solid fa-circle-question"></i> الأسئلة الشائعة</a></li>
-            <li><a href="policies.html"><i class="fa-solid fa-shield-halved"></i> السياسات</a></li>
-            <li><a href="cart.html"><i class="fa-solid fa-basket-shopping"></i> السلة</a></li>
-            <li><a href="checkout.html"><i class="fa-solid fa-credit-card"></i> إتمام الدفع</a></li>
+            <li><a href="index.html" class="active"><i class="fa-solid fa-house"></i> <span data-i18n="navHome">الرئيسية</span></a></li>
+            <li><a href="about.html"><i class="fa-solid fa-circle-info"></i> <span data-i18n="navAbout">من نحن</span></a></li>
+            <li><a href="shop.html"><i class="fa-solid fa-mug-hot"></i> <span data-i18n="navShop">المنيو</span></a></li>
+            <li><a href="offers.html"><i class="fa-solid fa-tag"></i> <span data-i18n="navOffers">العروض</span></a></li>
+            <li><a href="branches.html"><i class="fa-solid fa-location-dot"></i> <span data-i18n="navBranches">الفروع</span></a></li>
+            <li><a href="blog.html"><i class="fa-solid fa-newspaper"></i> <span data-i18n="navBlog">المدونة</span></a></li>
+            <li><a href="contact.html"><i class="fa-solid fa-headset"></i> <span data-i18n="navContact">تواصل معنا</span></a></li>
+            <li><a href="faq.html"><i class="fa-solid fa-circle-question"></i> <span data-i18n="navFaq">الأسئلة الشائعة</span></a></li>
+            <li><a href="policies.html"><i class="fa-solid fa-shield-halved"></i> <span data-i18n="navPolicies">السياسات</span></a></li>
+            <li><a href="cart.html"><i class="fa-solid fa-basket-shopping"></i> <span data-i18n="navCart">السلة</span></a></li>
+            <li><a href="checkout.html"><i class="fa-solid fa-credit-card"></i> <span data-i18n="navCheckout">إتمام الدفع</span></a></li>
         </ul>
     </nav>
 
-    <!-- المحتوى الرئيسي -->
     <main class="main-content">
-        <!-- قسم الـ Hero الرئيسي -->
         <div class="hero">
-            <span class="hero-tag">فن القهوة المختصة في المملكة</span>
-            <h1>تجربة القهوة الفاخرة <span>PAROLE</span></h1>
-            <p>اكتشف تشكيلة استثنائية من أجود محاصيل القهوة والمشروبات المصممة خصيصاً لتناسب ذوقك الرفيع.</p>
+            <span class="hero-tag" data-i18n="heroTag">فن القهوة المختصة في المملكة</span>
+            <h1 data-i18n="heroTitle">تجربة القهوة الفاخرة <span>PAROLE</span></h1>
+            <p data-i18n="heroDesc">اكتشف تشكيلة استثنائية من أجود محاصيل القهوة والمشروبات المصممة خصيصاً لتناسب ذوقك الرفيع.</p>
             
             <div class="hero-buttons">
-                <a href="shop.html" class="btn-primary"><i class="fa-solid fa-mug-hot"></i> استعرض المنيو</a>
-                <a href="branches.html" class="btn-secondary-outline"><i class="fa-solid fa-location-dot"></i> فروعنا بالسعودية</a>
+                <a href="shop.html" class="btn-primary"><i class="fa-solid fa-mug-hot"></i> <span data-i18n="menuBtn">استعرض المنيو</span></a>
+                <a href="branches.html" class="btn-secondary-outline"><i class="fa-solid fa-location-dot"></i> <span data-i18n="branchesBtn">فروعنا بالسعودية</span></a>
             </div>
         </div>
 
-        <!-- قسم المميزات الثلاثية -->
         <div class="features-grid">
             <div class="feature-card glass-effect">
                 <i class="fa-solid fa-seedling"></i>
-                <h3>محاصيل مختصة</h3>
-                <p>نختار بعناية أجود حبوب القهوة العالمية لتصلك طازجة.</p>
+                <h3 data-i18n="feat1Title">محاصيل مختصة</h3>
+                <p data-i18n="feat1Desc">نختار بعناية أجود حبوب القهوة العالمية لتصلك طازجة.</p>
             </div>
             <div class="feature-card glass-effect">
                 <i class="fa-solid fa-truck-fast"></i>
-                <h3>توصيل فائق السرعة</h3>
-                <p>نغطي كافة المناطق بخدمة احترافية تضمن جودة الطلب.</p>
+                <h3 data-i18n="feat2Title">توصيل فائق السرعة</h3>
+                <p data-i18n="feat2Desc">نغطي كافة المناطق بخدمة احترافية تضمن جودة الطلب.</p>
             </div>
             <div class="feature-card glass-effect">
                 <i class="fa-solid fa-award"></i>
-                <h3>جودة عالمية</h3>
-                <p>فريق باريستا محترف لإعداد طلبك بكل إتقان وشغف.</p>
+                <h3 data-i18n="feat3Title">جودة عالمية</h3>
+                <p data-i18n="feat3Desc">فريق باريستا محترف لإعداد طلبك بكل إتقان وشغف.</p>
             </div>
         </div>
 
-        <!-- 1. أقسام المنيو بصور جاهزة -->
         <section style="margin-bottom: 35px;">
-            <h2 class="section-title">استكشف أقسام <span>المنيو</span></h2>
+            <h2 class="section-title" data-i18n="sectionsTitle">استكشف أقسام <span>المنيو</span></h2>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px;">
-                
                 <a href="shop.html" class="category-img-card">
                     <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&q=80" alt="القهوة الساخنة">
                     <div class="category-content">
-                        <span class="category-title">القهوة الساخنة</span>
+                        <span class="category-title" data-i18n="catHot">القهوة الساخنة</span>
                         <div class="category-icon-arrow"><i class="fa-solid fa-arrow-left"></i></div>
                     </div>
                 </a>
-
                 <a href="shop.html" class="category-img-card">
                     <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=600&q=80" alt="المشروبات الباردة">
                     <div class="category-content">
-                        <span class="category-title">المشروبات الباردة</span>
+                        <span class="category-title" data-i18n="catCold">المشروبات الباردة</span>
                         <div class="category-icon-arrow"><i class="fa-solid fa-arrow-left"></i></div>
                     </div>
                 </a>
-
                 <a href="shop.html" class="category-img-card">
                     <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&q=80" alt="الحلويات والمخبوزات">
                     <div class="category-content">
-                        <span class="category-title">الحلويات والمخبوزات</span>
+                        <span class="category-title" data-i18n="catDessert">الحلويات والمخبوزات</span>
                         <div class="category-icon-arrow"><i class="fa-solid fa-arrow-left"></i></div>
                     </div>
                 </a>
-
                 <a href="offers.html" class="category-img-card">
                     <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80" alt="العروض الخاصة">
                     <div class="category-content">
-                        <span class="category-title">العروض الخاصة</span>
+                        <span class="category-title" data-i18n="catOffers">العروض الخاصة</span>
                         <div class="category-icon-arrow"><i class="fa-solid fa-arrow-left"></i></div>
                     </div>
                 </a>
-
             </div>
         </section>
 
-        <!-- 2. معرض الصور (لحظات بارول) بصور جاهزة -->
         <section style="margin-bottom: 35px;">
-            <h2 class="section-title">لحظات من <span>PAROLE</span></h2>
+            <h2 class="section-title" data-i18n="galleryTitle">لحظات من <span>PAROLE</span></h2>
             <div class="gallery-grid">
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?w=500&q=80" alt="صورة 1">
-                </div>
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1559496417-e7f25cb247f3?w=500&q=80" alt="صورة 2">
-                </div>
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?w=500&q=80" alt="صورة 3">
-                </div>
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=500&q=80" alt="صورة 4">
-                </div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?w=500&q=80" alt="صورة 1"></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1559496417-e7f25cb247f3?w=500&q=80" alt="صورة 2"></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?w=500&q=80" alt="صورة 3"></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=500&q=80" alt="صورة 4"></div>
             </div>
         </section>
 
-        <!-- 3. أحدث المقالات من المدونة -->
         <section style="margin-bottom: 35px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h2 style="font-size: 18px; font-weight: 400;">من <span style="color: var(--gold); font-weight: 600;">مدونة بارول</span></h2>
-                <a href="blog.html" style="color: var(--gold); font-size: 12px; text-decoration: none; display: flex; align-items: center; gap: 5px;">عرض الكل <i class="fa-solid fa-arrow-left" style="font-size: 10px;"></i></a>
+                <h2 style="font-size: 18px; font-weight: 400;"><span data-i18n="blogHeadingStart">من</span> <span style="color: var(--gold); font-weight: 600;" data-i18n="blogHeadingHighlight">مدونة بارول</span></h2>
+                <a href="blog.html" style="color: var(--gold); font-size: 12px; text-decoration: none; display: flex; align-items: center; gap: 5px;"><span data-i18n="viewAll">عرض الكل</span> <i class="fa-solid fa-arrow-left" style="font-size: 10px;"></i></a>
             </div>
             <div class="glass-effect" style="padding: 22px; display: flex; flex-direction: column; gap: 10px;">
-                <span style="color: var(--gold); font-size: 11px;"><i class="fa-regular fa-calendar"></i> أسرار القهوة المختصة</span>
-                <h3 style="font-size: 15px; font-weight: 600;">كيف تختار حبة البن المناسبة لتحضير كوبك اليومي؟</h3>
-                <p style="color: var(--text-muted); font-size: 12.5px;">تعرف معنا على الفروق الدقيقة بين محاصيل الإسبريسو والقهوة المقطرة وكيف تؤثر على نكهتك المفضلة...</p>
-                <a href="blog.html" style="color: var(--text-main); font-size: 12px; font-weight: 600; text-decoration: none; margin-top: 5px; display: inline-flex; align-items: center; gap: 5px;">اقرأ المقال الكامل <i class="fa-solid fa-chevron-left" style="font-size: 9px; color: var(--gold);"></i></a>
+                <span style="color: var(--gold); font-size: 11px;"><i class="fa-regular fa-calendar"></i> <span data-i18n="blogTag">أسرار القهوة المختصة</span></span>
+                <h3 style="font-size: 15px; font-weight: 600;" data-i18n="blogTitle">كيف تختار حبة البن المناسبة لتحضير كوبك اليومي؟</h3>
+                <p style="color: var(--text-muted); font-size: 12.5px;" data-i18n="blogDesc">تعرف معنا على الفروق الدقيقة بين محاصيل الإسبريسو والقهوة المقطرة وكيف تؤثر على نكهتك المفضلة...</p>
+                <a href="blog.html" style="color: var(--text-main); font-size: 12px; font-weight: 600; text-decoration: none; margin-top: 5px; display: inline-flex; align-items: center; gap: 5px;"><span data-i18n="readMore">اقرأ المقال الكامل</span> <i class="fa-solid fa-chevron-left" style="font-size: 9px; color: var(--gold);"></i></a>
             </div>
         </section>
 
-        <!-- 4. آراء العملاء -->
         <section style="margin-bottom: 35px;">
-            <h2 class="section-title">ماذا يقول <span>عملائنا</span></h2>
+            <h2 class="section-title" data-i18n="reviewsTitle">ماذا يقول <span>عملائنا</span></h2>
             <div class="glass-effect" style="padding: 22px; text-align: center;">
                 <div style="color: var(--gold); margin-bottom: 10px; font-size: 13px;">
                     <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
                 </div>
-                <p style="font-size: 13px; margin-bottom: 12px; color: var(--text-main);">"أفضل قهوة مختصة جربتها في المملكة، الفلات وايت لديهم موزون بشكل لا يُصدق وتوصيلهم سريع جداً."</p>
-                <span style="color: var(--text-muted); font-size: 11px;">- محمد القحطاني (الرياض)</span>
+                <p style="font-size: 13px; margin-bottom: 12px; color: var(--text-main);" data-i18n="reviewText">"أفضل قهوة مختصة جربتها في المملكة، الفلات وايت لديهم موزون بشكل لا يُصدق وتوصيلهم سريع جداً."</p>
+                <span style="color: var(--text-muted); font-size: 11px;" data-i18n="reviewAuthor">- محمد القحطاني (الرياض)</span>
             </div>
         </section>
 
-        <!-- 5. الأسئلة الشائعة السريعة -->
         <section style="margin-bottom: 15px;">
-            <h2 class="section-title">أسئلة <span>شائعة</span></h2>
+            <h2 class="section-title" data-i18n="faqTitle">أسئلة <span>شائعة</span></h2>
             <div style="display: flex; flex-direction: column; gap: 12px;">
                 <div class="glass-effect" style="padding: 16px;">
                     <h4 style="font-size: 13px; margin-bottom: 6px; color: var(--gold); display: flex; align-items: center; gap: 8px;">
-                        <i class="fa-solid fa-circle-question"></i> هل تتوفر خدمة التوصيل لكافة مدن المملكة؟
+                        <i class="fa-solid fa-circle-question"></i> <span data-i18n="faqQ1">هل تتوفر خدمة التوصيل لكافة مدن المملكة؟</span>
                     </h4>
-                    <p style="color: var(--text-muted); font-size: 12px;">نعم، نغطي التوصيل السريع لأبرز مناطق ومدن المملكة عبر شركائنا المعتمدين.</p>
+                    <p style="color: var(--text-muted); font-size: 12px;" data-i18n="faqA1">نعم، نغطي التوصيل السريع لأبرز مناطق ومدن المملكة عبر شركائنا المعتمدين.</p>
                 </div>
                 <div class="glass-effect" style="padding: 16px;">
                     <h4 style="font-size: 13px; margin-bottom: 6px; color: var(--gold); display: flex; align-items: center; gap: 8px;">
-                        <i class="fa-solid fa-circle-question"></i> كيف يمكنني الاستفادة من خصم الطلب الأول؟
+                        <i class="fa-solid fa-circle-question"></i> <span data-i18n="faqQ2">كيف يمكنني الاستفادة من خصم الطلب الأول؟</span>
                     </h4>
-                    <p style="color: var(--text-muted); font-size: 12px;">فقط قم بإدخال كود الخصم (PAROLE10) في صفحة إتمام الدفع لتحصل على خصم 10% مباشرة.</p>
+                    <p style="color: var(--text-muted); font-size: 12px;" data-i18n="faqA2">فقط قم بإدخال كود الخصم (PAROLE10) في صفحة إتمام الدفع لتحصل على خصم 10% مباشرة.</p>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- القائمة السفلية للجوال -->
     <nav class="mobile-nav glass-effect">
         <a href="index.html" class="mobile-nav-item active" aria-label="الرئيسية"><i class="fa-solid fa-house"></i></a>
         <a href="shop.html" class="mobile-nav-item" aria-label="المنيو"><i class="fa-solid fa-mug-hot"></i></a>
@@ -621,10 +542,134 @@
             <a href="https://tiktok.com" target="_blank" aria-label="تيك توك"><i class="fa-brands fa-tiktok"></i></a>
             <a href="https://wa.me/966500000000" target="_blank" aria-label="واتساب"><i class="fa-brands fa-whatsapp"></i></a>
         </div>
-        <p class="footer-note">&copy; 2026 PAROLE Cafe. جميع الحقوق محفوظة.</p>
+        <p class="footer-note" data-i18n="footerText">&copy; 2026 PAROLE Cafe. جميع الحقوق محفوظة.</p>
     </footer>
 
     <script>
+        // قاموس الترجمات الشامل للموقع (عربي وإنجليزي)
+        const translations = {
+            ar: {
+                announcement: "✨ استمتع بخصم 10% على طلبك الأول باستخدام الكود (PAROLE10) ✨",
+                navHome: "الرئيسية",
+                navAbout: "من نحن",
+                navShop: "المنيو",
+                navOffers: "العروض",
+                navBranches: "الفروع",
+                navBlog: "المدونة",
+                navContact: "تواصل معنا",
+                navFaq: "الأسئلة الشائعة",
+                navPolicies: "السياسات",
+                navCart: "السلة",
+                navCheckout: "إتمام الدفع",
+                heroTag: "فن القهوة المختصة في المملكة",
+                heroTitle: "تجربة القهوة الفاخرة <span>PAROLE</span>",
+                heroDesc: "اكتشف تشكيلة استثنائية من أجود محاصيل القهوة والمشروبات المصممة خصيصاً لتناسب ذوقك الرفيع.",
+                menuBtn: "استعرض المنيو",
+                branchesBtn: "فروعنا بالسعودية",
+                feat1Title: "محاصيل مختصة",
+                feat1Desc: "نختار بعناية أجود حبوب القهوة العالمية لتصلك طازجة.",
+                feat2Title: "توصيل فائق السرعة",
+                feat2Desc: "نغطي كافة المناطق بخدمة احترافية تضمن جودة الطلب.",
+                feat3Title: "جودة عالمية",
+                feat3Desc: "فريق باريستا محترف لإعداد طلبك بكل إتقان وشغف.",
+                sectionsTitle: "استكشف أقسام <span>المنيو</span>",
+                catHot: "القهوة الساخنة",
+                catCold: "المشروبات الباردة",
+                catDessert: "الحلويات والمخبوزات",
+                catOffers: "العروض الخاصة",
+                galleryTitle: "لحظات من <span>PAROLE</span>",
+                blogHeadingStart: "من",
+                blogHeadingHighlight: "مدونة بارول",
+                viewAll: "عرض الكل",
+                blogTag: "أسرار القهوة المختصة",
+                blogTitle: "كيف تختار حبة البن المناسبة لتحضير كوبك اليومي؟",
+                blogDesc: "تعرف معنا على الفروق الدقيقة بين محاصيل الإسبريسو والقهوة المقطرة وكيف تؤثر على نكهتك المفضلة...",
+                readMore: "اقرأ المقال الكامل",
+                reviewsTitle: "ماذا يقول <span>عملائنا</span>",
+                reviewText: "\"أفضل قهوة مختصة جربتها في المملكة، الفلات وايت لديهم موزون بشكل لا يُصدق وتوصيلهم سريع جداً.\"",
+                reviewAuthor: "- محمد القحطاني (الرياض)",
+                faqTitle: "أسئلة <span>شائعة</span>",
+                faqQ1: "هل تتوفر خدمة التوصيل لكافة مدن المملكة؟",
+                faqA1: "نعم، نغطي التوصيل السريع لأبرز مناطق ومدن المملكة عبر شركائنا المعتمدين.",
+                faqQ2: "كيف يمكنني الاستفادة من خصم الطلب الأول؟",
+                faqA2: "فقط قم بإدخال كود الخصم (PAROLE10) في صفحة إتمام الدفع لتحصل على خصم 10% مباشرة.",
+                footerText: "&copy; 2026 PAROLE Cafe. جميع الحقوق محفوظة."
+            },
+            en: {
+                announcement: "✨ Enjoy 10% off your first order using code (PAROLE10) ✨",
+                navHome: "Home",
+                navAbout: "About Us",
+                navShop: "Menu",
+                navOffers: "Offers",
+                navBranches: "Branches",
+                navBlog: "Blog",
+                navContact: "Contact Us",
+                navFaq: "FAQ",
+                navPolicies: "Policies",
+                navCart: "Cart",
+                navCheckout: "Checkout",
+                heroTag: "THE ART OF SPECIALTY COFFEE IN SAUDI ARABIA",
+                heroTitle: "The Ultimate Luxury Coffee Experience <span>PAROLE</span>",
+                heroDesc: "Discover an exceptional selection of the finest coffee beans and beverages crafted to suit your refined taste.",
+                menuBtn: "Explore Menu",
+                branchesBtn: "Our Branches",
+                feat1Title: "Specialty Crops",
+                feat1Desc: "We carefully select the finest global coffee beans delivered fresh to you.",
+                feat2Title: "Lightning-Fast Delivery",
+                feat2Desc: "We cover all areas with professional service ensuring order quality.",
+                feat3Title: "Global Quality",
+                feat3Desc: "A professional barista team to prepare your order with perfection and passion.",
+                sectionsTitle: "Explore <span>Menu</span> Sections",
+                catHot: "Hot Coffee",
+                catCold: "Cold Drinks",
+                catDessert: "Desserts & Pastries",
+                catOffers: "Special Offers",
+                galleryTitle: "Moments from <span>PAROLE</span>",
+                blogHeadingStart: "From",
+                blogHeadingHighlight: "Parole Blog",
+                viewAll: "View All",
+                blogTag: "Specialty Coffee Secrets",
+                blogTitle: "How to choose the right coffee bean for your daily cup?",
+                blogDesc: "Learn the subtle differences between espresso and pour-over crops and how they affect your favorite flavor...",
+                readMore: "Read Full Article",
+                reviewsTitle: "What Our <span>Customers Say</span>",
+                reviewText: "\"The best specialty coffee I've tried in the kingdom, their flat white is incredibly balanced and delivery is super fast.\"",
+                reviewAuthor: "- Mohammed Al-Qahtani (Riyadh)",
+                faqTitle: "Frequently Asked <span>Questions</span>",
+                faqQ1: "Is delivery available to all cities in the Kingdom?",
+                faqA1: "Yes, we cover fast delivery to major regions and cities across the Kingdom via our certified partners.",
+                faqQ2: "How can I benefit from the first order discount?",
+                faqA2: "Just enter the coupon code (PAROLE10) on the checkout page to get 10% off immediately.",
+                footerText: "&copy; 2026 PAROLE Cafe. All rights reserved."
+            }
+        };
+
+        // دالة تغيير اللغة
+        function changeLanguage(lang) {
+            localStorage.setItem('parole_lang', lang);
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.innerHTML = translations[lang][key];
+                }
+            });
+
+            const langToggleBtn = document.getElementById('langToggleText');
+            if (langToggleBtn) {
+                langToggleBtn.innerText = lang === 'ar' ? 'English' : 'العربية';
+            }
+        }
+
+        function toggleLanguage() {
+            const currentLang = localStorage.getItem('parole_lang') || 'ar';
+            const newLang = currentLang === 'ar' ? 'en' : 'ar';
+            changeLanguage(newLang);
+        }
+
+        // تشغيل القائمة الجانبية وإغلاقها تلقائياً
         const menuToggleBtn = document.getElementById('menuToggleBtn');
         const sidebarMenu = document.getElementById('sidebarMenu');
         const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
@@ -639,24 +684,29 @@
         if (sidebarCloseBtn) sidebarCloseBtn.addEventListener('click', toggleMenu);
         if (menuOverlay) menuOverlay.addEventListener('click', toggleMenu);
 
-        // دالة موحدة وذكية لقراءة أعداد القطع في السلة بدقة تامة وتجنب أي تناقض
+        document.querySelectorAll('.sidebar-nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                sidebarMenu.classList.remove('open');
+                menuOverlay.classList.remove('active');
+            });
+        });
+
+        // دالة موحدة لتحديث شارة السلة
         function updateCartBadge() {
             let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
-            if (cart.length === 0) {
-                cart = JSON.parse(localStorage.getItem('parole_cart_full')) || [];
-            }
-            
-            // حساب إجمالي عدد القطع الفعلي (مجموع الكميات)
             let totalCount = cart.reduce((sum, item) => sum + (parseInt(item.quantity) || 1), 0);
             
-            // تحديث كافة عدادات السلة في الصفحة الهيدر أو أي شريط عائم
-            document.querySelectorAll('.cart-badge, #cartBadgeCount, .cart-counter').forEach(badge => {
+            document.querySelectorAll('.cart-badge, #cartBadgeCount').forEach(badge => {
                 badge.innerText = totalCount;
             });
         }
 
-        // تشغيل التحديث فور تحميل الصفحة وعند التغيير في التخزين المحلي
-        document.addEventListener('DOMContentLoaded', updateCartBadge);
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('parole_lang') || 'ar';
+            changeLanguage(savedLang);
+            updateCartBadge();
+        });
+
         window.addEventListener('storage', updateCartBadge);
     </script>
 </body>
