@@ -159,6 +159,34 @@
             gap: 20px;
         }
 
+        .header-action-btns {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-header-checkout {
+            background: linear-gradient(135deg, var(--gold) 0%, #b89728 100%);
+            color: #000;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12.5px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+            white-space: nowrap;
+        }
+
+        .btn-header-checkout:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
+            background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%);
+        }
+
         .cart-icon-btn {
             color: var(--text-main);
             font-size: 18px;
@@ -166,14 +194,22 @@
             position: relative;
             cursor: pointer;
             transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
         }
 
-        .cart-icon-btn:hover { color: var(--gold); }
+        .cart-icon-btn:hover { color: var(--gold); border-color: var(--gold); }
 
         .cart-badge {
             position: absolute;
-            top: -8px;
-            left: -10px;
+            top: -6px;
+            left: -6px;
             background-color: var(--gold);
             color: #000;
             font-size: 10px;
@@ -197,51 +233,53 @@
         /* محتوى الصفحة */
         .page-section { padding: 140px 20px 80px; max-width: 1400px; margin: 0 auto; min-height: 100vh; }
         
-        .section-header { text-align: center; margin-bottom: 40px; }
+        .section-header { text-align: center; margin-bottom: 30px; }
         .menu-main-title { font-size: 38px; font-weight: 300; color: var(--gold); margin-bottom: 10px; letter-spacing: 3px; }
         .menu-sub-title { color: var(--text-muted); font-size: 14px; letter-spacing: 1px; }
 
-        /* زر العودة للقائمة الرئيسية الفاخر */
-        .back-home-container {
+        /* أزرار التنقل السريعة (العودة للرئيسية والمنيو) */
+        .navigation-buttons-container {
             display: flex;
             justify-content: center;
-            margin-bottom: 40px;
+            gap: 15px;
+            margin-bottom: 35px;
+            flex-wrap: wrap;
         }
 
-        .btn-back-home {
+        .btn-nav-action {
             display: inline-flex;
             align-items: center;
-            gap: 12px;
-            background: linear-gradient(135deg, rgba(212,175,55,0.15) 0%, rgba(22,22,22,0.9) 100%);
+            gap: 10px;
+            background: linear-gradient(135deg, rgba(212,175,55,0.12) 0%, rgba(22,22,22,0.9) 100%);
             border: 1px solid var(--gold);
             color: var(--gold);
-            padding: 12px 28px;
+            padding: 12px 24px;
             border-radius: 30px;
             text-decoration: none;
             font-size: 14px;
             font-weight: 600;
             transition: var(--transition);
-            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.1);
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.08);
         }
 
-        .btn-back-home:hover {
+        .btn-nav-action:hover {
             background: var(--gold);
             color: #000;
             transform: translateY(-3px);
             box-shadow: 0 6px 25px rgba(212, 175, 55, 0.25);
         }
 
-        .btn-back-home i {
-            font-size: 15px;
+        .btn-nav-action i {
+            font-size: 14px;
             transition: transform 0.3s ease;
         }
 
-        .btn-back-home:hover i {
-            transform: translateX(4px);
+        .btn-nav-action:hover i {
+            transform: scale(1.1);
         }
 
         /* شريط التصفية بالعروض */
-        .filter-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 40px; flex-wrap: wrap; }
+        .filter-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 35px; flex-wrap: wrap; }
         .filter-btn { background: transparent; border: 1px solid var(--border-color); color: var(--text-muted); padding: 8px 18px; border-radius: 30px; cursor: pointer; transition: var(--transition); font-size: 13px; }
         .filter-btn:hover, .filter-btn.active { background: var(--gold); color: #000; border-color: var(--gold); font-weight: 500; }
 
@@ -396,6 +434,47 @@
         .form-control:focus { border-color: var(--gold); box-shadow: 0 0 10px rgba(212,175,55,0.1); }
         .booking-submit-container { grid-column: 1 / -1; margin-top: 10px; }
 
+        /* قسم آراء العملاء */
+        .testimonials-section {
+            margin-bottom: 60px;
+        }
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        .testimonial-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 25px;
+            border-radius: 14px;
+            position: relative;
+        }
+        .testimonial-card i.fa-quote-right {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 30px;
+            color: rgba(212, 175, 55, 0.15);
+        }
+        .client-stars {
+            color: var(--gold);
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+        .client-comment {
+            color: var(--text-muted);
+            font-size: 13.5px;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        .client-name {
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
         /* برنامج الولاء */
         .vip-banner {
             background: linear-gradient(135deg, rgba(212,175,55,0.08) 0%, rgba(22,22,22,0.95) 100%);
@@ -425,6 +504,13 @@
 
         .whatsapp-float { position: fixed; bottom: 25px; left: 25px; background-color: #25d366; color: #fff; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); z-index: 9999; transition: var(--transition); text-decoration: none; }
         .whatsapp-float:hover { transform: scale(1.1); }
+
+        @media (max-width: 768px) {
+            .nav-container { padding: 15px 20px; }
+            .btn-header-checkout span { display: none; }
+            .btn-header-checkout { padding: 8px 10px; }
+            .vip-banner { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -457,10 +543,18 @@
             <a href="index.html" class="logo">PAROLE <span>CAFE</span></a>
             
             <div class="header-actions">
-                <a href="cart.html" class="cart-icon-btn" aria-label="حقيبة التسوق">
-                    <i class="fa-solid fa-bag-shopping"></i>
-                    <span class="cart-badge" id="cartBadgeCount">0</span>
-                </a>
+                <div class="header-action-btns">
+                    <a href="checkout.html" class="btn-header-checkout" aria-label="إتمام الدفع">
+                        <i class="fa-solid fa-credit-card"></i>
+                        <span>إتمام الدفع</span>
+                    </a>
+                    
+                    <a href="cart.html" class="cart-icon-btn" aria-label="حقيبة التسوق">
+                        <i class="fa-solid fa-bag-shopping"></i>
+                        <span class="cart-badge" id="cartBadgeCount">0</span>
+                    </a>
+                </div>
+
                 <button class="menu-toggle" id="menuToggle" aria-label="فتح القائمة">
                     <i class="fa-solid fa-bars-staggered"></i>
                 </button>
@@ -475,10 +569,13 @@
             <p class="menu-sub-title">ارتقِ بتجربتك اليومية مع باقاتنا المختارة بعناية فائقة من أصناف المنيو الحقيقية</p>
         </div>
 
-        <!-- زر العودة للقائمة الرئيسية بشكل أنيق وفاخر -->
-        <div class="back-home-container">
-            <a href="index.html" class="btn-back-home">
+        <!-- أزرار التنقل السريعة: العودة للقائمة الرئيسية + الرجوع للمنيو والتاجر -->
+        <div class="navigation-buttons-container">
+            <a href="index.html" class="btn-nav-action">
                 <i class="fa-solid fa-arrow-right"></i> العودة للقائمة الرئيسية
+            </a>
+            <a href="shop.html" class="btn-nav-action">
+                <i class="fa-solid fa-mug-saucer"></i> العودة للمنيو  
             </a>
         </div>
 
@@ -562,6 +659,26 @@
                     <button class="btn-primary" onclick="addOfferToCart('باقة المحاصيل المنزلية', 75, 'https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=600&q=80')">أضف للسلة</button>
                 </div>
             </div>
+
+            <!-- عرض 4: باقة الفطور الملكي -->
+            <div class="offer-card" data-category="breakfast">
+                <span class="offer-badge">جديد</span>
+                <div class="offer-img-box">
+                    <img src="https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&w=600&q=80" alt="باقة الفطور الملكي">
+                </div>
+                <div class="offer-content">
+                    <h3 class="offer-title">باقة الفطور الملكي</h3>
+                    <p class="offer-desc">كرواسون فرنسي طازج مع اختيارك من الكابتشينو أو اللاتيه الساخن لبداية يوم مثالية.</p>
+                    <div class="offer-meta">
+                        <i class="fa-solid fa-sun"></i> كرواسون + مشروب قهوة ساخن
+                    </div>
+                    <div class="offer-pricing">
+                        <span class="current-price">22 ر.س</span>
+                        <span class="old-price">28 ر.س</span>
+                    </div>
+                    <button class="btn-primary" onclick="addOfferToCart('باقة الفطور الملكي', 22, 'https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&w=600&q=80')">أضف للسلة</button>
+                </div>
+            </div>
         </div>
 
         <!-- حاسبة توفير العروض -->
@@ -577,6 +694,7 @@
                         <option value="25">ثنائي السبيانش لاتيه (25 ر.س)</option>
                         <option value="30">جلسة V60 والوافل (30 ر.س)</option>
                         <option value="75">باقة المحاصيل المنزلية (75 ر.س)</option>
+                        <option value="22">باقة الفطور الملكي (22 ر.س)</option>
                     </select>
                 </div>
                 <div class="calc-input-group">
@@ -590,7 +708,7 @@
                 </div>
                 <div class="calc-result-box">
                     <div class="calc-result-title">إجمالي التوفير المتوقع:</div>
-                    <div class="calc-result-value" id="savingsResult">144 ر.س</div>
+                    <div class="calc-result-value" id="savingsResult">126 ر.س</div>
                 </div>
             </div>
         </div>
@@ -625,6 +743,39 @@
                     <button type="submit" class="btn-primary">تأكيد حجز الطاولة الآن</button>
                 </div>
             </form>
+        </div>
+
+        <!-- قسم آراء العملاء -->
+        <div class="testimonials-section">
+            <div class="section-header" style="margin-bottom: 20px;">
+                <h3 style="font-size: 24px; color: var(--gold); font-weight: 300;">ماذا يقول عملاؤنا عن العروض؟</h3>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <i class="fa-solid fa-quote-right"></i>
+                    <div class="client-stars">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="client-comment">باقة ثنائي السبيانش لاتيه هي خياري الدائم كل صباح، التوفير رائع والجودة ثابتة ولا أروع.</p>
+                    <div class="client-name">فيصل الشمري</div>
+                </div>
+                <div class="testimonial-card">
+                    <i class="fa-solid fa-quote-right"></i>
+                    <div class="client-stars">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="client-comment">استخدمت حجز الطاولات مسبقاً في فرع التحلية وكانت التجربة منظمة جداً بدون أي انتظار.</p>
+                    <div class="client-name">سارة القحطاني</div>
+                </div>
+                <div class="testimonial-card">
+                    <i class="fa-solid fa-quote-right"></i>
+                    <div class="client-stars">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="client-comment">محاصيل القهوة المنزلية وصلتني طازجة والتغليف فاخر جداً، شكراً بارول كافيه.</p>
+                    <div class="client-name">عبدالله الدوسري</div>
+                </div>
+            </div>
         </div>
 
         <!-- برنامج الولاء -->
@@ -676,7 +827,6 @@
         sidebarCloseBtn.addEventListener('click', toggleSidebar);
         sidebarOverlay.addEventListener('click', toggleSidebar);
 
-        // تحديث شارة السلة عند التحميل
         function updateCartBadge() {
             let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
             let totalCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
@@ -702,7 +852,6 @@
             });
         }
 
-        // إضافة العرض إلى سلة التسوق المحلية (localStorage)
         function addOfferToCart(offerName, price, imgUrl) {
             let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
             
@@ -737,18 +886,20 @@
             event.preventDefault();
             const name = document.getElementById('bookName').value;
             const phone = document.getElementById('bookPhone').value;
-            const branch = document.getElementById('bookBranch').value;
+            const branchSelect = document.getElementById('bookBranch');
+            const branchName = branchSelect.options[branchSelect.selectedIndex].text;
             const time = document.getElementById('bookTime').value;
 
-            // حفظ تفاصيل حجز الطاولة كطلب في سجل اللوحة إذا رغبت
             let orders = JSON.parse(localStorage.getItem('parole_admin_orders')) || [];
             orders.unshift({
                 id: 'BK-' + Math.floor(1000 + Math.random() * 9000),
-                customerName: name,
+                customer: name,
                 phone: phone,
-                details: `حجز طاولة في فرع (${branch}) - الوقت: ${time}`,
-                total: 0,
-                date: new Date().toLocaleDateString('ar-SA')
+                address: `حجز طاولة: ${branchName}`,
+                items: `موعد الحضور: ${time}`,
+                notes: 'حجز مسبق من صفحة العروض',
+                status: 'قيد التجهيز',
+                total: '0.00 ر.س'
             });
             localStorage.setItem('parole_admin_orders', JSON.stringify(orders));
 
