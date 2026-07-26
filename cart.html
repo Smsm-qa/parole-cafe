@@ -580,18 +580,15 @@
         total: finalTotal.toFixed(2) + ' ' + translations[currentLang].currency,
         status: 'قيد التجهيز'
     };
-
-    // أهم سطرين: نحفظ في parole_admin_orders
+ 
     let existingOrders = JSON.parse(localStorage.getItem('parole_admin_orders')) || [];
     existingOrders.unshift(newOrder);
     localStorage.setItem('parole_admin_orders', JSON.stringify(existingOrders));
-
-    localStorage.removeItem('parole_cart');
     window.location.href = 'checkout.html';
 }
 
-        document.addEventListener('DOMContentLoaded', loadCart);
-        window.addEventListener('pageshow', loadCart);
-    </script>
+    document.addEventListener('DOMContentLoaded', loadCart);
+    window.addEventListener('pageshow', loadCart);
+</script>
 </body>
 </html>
