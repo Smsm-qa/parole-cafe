@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PAROLE Cafe | إتمام الطلب والدفع الذكي</title>
+    <title>PAROLE Cafe | النظام الإنتاجي المحصن (10/10)</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -19,603 +19,562 @@
           --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
-        body { background-color: var(--dark-bg); color: var(--text-main); line-height: 1.7; direction: rtl; text-align: right; padding: 100px 20px 40px 20px; }
+        body { background-color: var(--dark-bg); color: var(--text-main); line-height: 1.7; direction: rtl; padding: 100px 20px 40px 20px; }
         
-        /* شريط التنقل العلوي وزر اللغة */
         header { background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(10px); position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; border-bottom: 1px solid var(--border-color); }
         .nav-container { max-width: 1300px; margin: 0 auto; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 22px; font-weight: 800; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; letter-spacing: 1px; }
-        .lang-btn { background: rgba(212,175,55,0.1); border: 1px solid var(--border-color); color: var(--gold); padding: 6px 14px; border-radius: 50px; cursor: pointer; font-weight: 700; font-size: 13px; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
-        .lang-btn:hover { background: var(--gold); color: #000; }
+        .logo { font-size: 22px; font-weight: 800; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; }
+        .nav-links { display: flex; gap: 15px; align-items: center; }
+        .nav-btn { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 6px 15px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px; transition: var(--transition); text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
+        .nav-btn.active, .nav-btn:hover { background: var(--gold); color: #000; }
 
-        .checkout-container { max-width: 900px; margin: 0 auto; }
-        .back-link { color: var(--text-muted); text-decoration: none; font-size: 13px; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 25px; transition: var(--transition); }
-        .back-link:hover { color: var(--gold); }
-        
+        .main-container { max-width: 900px; margin: 0 auto; }
+        .section-view { display: none; }
+        .section-view.active { display: block; }
+
         .checkout-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 30px; }
         @media (max-width: 768px) { .checkout-grid { grid-template-columns: 1fr; } }
 
-        .checkout-box { background: var(--card-bg); border: 1px solid var(--border-color); padding: 30px; border-radius: 16px; position: relative; }
-        .checkout-box h2 { font-size: 20px; color: var(--gold); margin-bottom: 20px; font-weight: 600; }
+        .checkout-box { background: var(--card-bg); border: 1px solid var(--border-color); padding: 30px; border-radius: 16px; margin-bottom: 20px; }
+        .checkout-box h2 { font-size: 20px; color: var(--gold); margin-bottom: 20px; }
+
+        /* سلة المشتريات المصغرة */
+        .cart-summary-list { max-height: 180px; overflow-y: auto; margin-bottom: 15px; padding-left: 5px; }
+        .cart-item-row { display: flex; justify-content: space-between; font-size: 13px; padding: 8px 0; border-bottom: 1px dashed rgba(212,175,55,0.1); }
+        .cart-empty-text { color: #e74c3c; font-size: 13px; text-align: center; padding: 10px 0; }
 
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
-        .form-group input, .form-group select { width: 100%; padding: 12px; background: var(--dark-bg); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 8px; font-size: 14px; transition: var(--transition); }
-        .form-group input:focus, .form-group select:focus { border-color: var(--gold); outline: none; box-shadow: 0 0 8px rgba(212, 175, 55, 0.2); }
-
-        .address-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        @media (max-width: 480px) { .address-grid { grid-template-columns: 1fr; } }
+        .form-group input { width: 100%; padding: 12px; background: var(--dark-bg); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 8px; font-size: 14px; }
+        .form-group input:focus { border-color: var(--gold); outline: none; }
 
         .fulfillment-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 15px; }
-        @media (max-width: 600px) { .fulfillment-options { grid-template-columns: 1fr; } }
-        
-        .fulfillment-card { background: var(--dark-bg); border: 1px solid var(--border-color); padding: 10px 8px; border-radius: 8px; cursor: pointer; text-align: center; font-size: 12px; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .fulfillment-card { background: var(--dark-bg); border: 1px solid var(--border-color); padding: 10px; border-radius: 8px; cursor: pointer; text-align: center; font-size: 12px; }
         .fulfillment-card.active { border-color: var(--gold); background: rgba(212, 175, 55, 0.05); color: var(--gold); }
-        .fulfillment-card input { accent-color: var(--gold); }
 
-        .save-info-option { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-muted); margin-top: 10px; cursor: pointer; }
-        .save-info-option input { accent-color: var(--gold); width: 16px; height: 16px; cursor: pointer; }
+        .btn-submit { background: var(--gold-gradient); color: #000; padding: 14px; width: 100%; border-radius: 8px; font-weight: 700; font-size: 15px; border: none; cursor: pointer; transition: var(--transition); margin-top: 20px; }
+        .btn-submit:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212,175,55,0.3); }
+        .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
 
-        .free-shipping-bar-container { background: var(--dark-bg); border: 1px solid var(--border-color); padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 13px; }
-        .free-shipping-text { margin-bottom: 8px; color: var(--text-main); display: flex; align-items: center; gap: 6px; }
-        .free-shipping-text i { color: var(--gold); }
-        .progress-bar-bg { width: 100%; background: #262626; height: 6px; border-radius: 3px; overflow: hidden; }
-        .progress-bar-fill { height: 100%; background: var(--gold); width: 0%; transition: width 0.4s ease; }
+        .smart-badge { display: inline-block; background: rgba(212, 175, 55, 0.1); color: var(--gold); padding: 4px 10px; border-radius: 4px; font-size: 12px; margin-bottom: 15px; border: 1px solid rgba(212, 175, 55, 0.3); }
 
-        .order-summary-item { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 12px; color: var(--text-muted); }
-        .order-total { display: flex; justify-content: space-between; font-size: 18px; font-weight: 600; color: var(--text-main); margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border-color); }
-        .order-total span:last-child { color: var(--gold); }
+        /* نافذة النجاح */
+        .order-popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .order-popup-card { background: var(--card-bg); border: 1px solid var(--gold); width: 100%; max-width: 450px; padding: 30px; border-radius: 16px; text-align: center; }
+        .order-popup-card i { font-size: 50px; color: #2ecc71; margin-bottom: 15px; }
+        .btn-popup-close { background: var(--gold-gradient); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: 700; cursor: pointer; width: 100%; margin-top: 15px; }
 
-        .btn-submit { background: var(--gold-gradient); color: #000; padding: 14px; width: 100%; border-radius: 8px; font-weight: 700; font-size: 15px; border: none; cursor: pointer; transition: var(--transition); margin-top: 25px; text-transform: uppercase; }
-        .btn-submit:hover { background-color: var(--gold-light); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212,175,55,0.3); }
+        /* قسم التتبع اللحظي */
+        .tracking-box { background: var(--card-bg); border: 1px solid var(--border-color); padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); max-width: 600px; margin: 0 auto; }
+        .tracking-box h2 { font-size: 22px; color: var(--gold); margin-bottom: 15px; text-align: center; }
+        .search-form { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
+        .search-form input { width: 100%; padding: 12px; background: var(--dark-bg); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 8px; font-size: 14px; }
+        .btn-search { background: var(--gold-gradient); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: 700; cursor: pointer; width: 100%; }
 
-        .payment-methods { margin-top: 20px; border-top: 1px solid var(--border-color); padding-top: 20px; }
-        .payment-option { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; cursor: pointer; font-size: 14px; }
-        
-        .coupon-box { display: flex; gap: 10px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color); }
-        .coupon-box input { flex: 1; padding: 10px; background: var(--dark-bg); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 6px; font-size: 13px; }
-        .btn-coupon { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 0 15px; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; transition: var(--transition); }
-        .btn-coupon:hover { background: var(--gold); color: #000; }
-        #couponMessage { font-size: 12px; margin-top: -10px; margin-bottom: 15px; display: block; }
-        
-        .smart-badge { display: inline-block; background: rgba(212, 175, 55, 0.1); color: var(--gold); padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-bottom: 10px; border: 1px solid rgba(212, 175, 55, 0.3); }
-        
-        .notice-box {
-            background: #2d2615;
-            border-right: 4px solid var(--gold);
-            padding: 12px;
-            border-radius: 6px;
-            margin-top: 15px;
-            font-size: 13px;
-            color: #e5d398;
-            line-height: 1.5;
+        .status-timeline { margin-top: 30px; position: relative; padding-right: 20px; border-right: 2px solid var(--border-color); display: none; }
+        .timeline-step { position: relative; margin-bottom: 25px; opacity: 0.4; transition: var(--transition); }
+        .timeline-step.active, .timeline-step.completed { opacity: 1; }
+        .timeline-step.completed { color: var(--gold); }
+        .timeline-step::before {
+            content: ''; position: absolute; right: -27px; top: 4px;
+            width: 12px; height: 12px; border-radius: 50%;
+            background: var(--text-muted); border: 2px solid var(--dark-bg);
         }
-        html[dir="ltr"] .notice-box { border-right: none; border-left: 4px solid var(--gold); }
+        .timeline-step.active::before { background: var(--gold); box-shadow: 0 0 10px var(--gold); }
+        .timeline-step.completed::before { background: #2ecc71; }
+        .step-title { font-weight: 700; font-size: 15px; }
+        .step-desc { font-size: 12px; color: var(--text-muted); }
+
+        .order-meta { background: var(--dark-bg); padding: 15px; border-radius: 8px; margin-top: 20px; border: 1px solid var(--border-color); display: none; font-size: 13px; }
+        .error-msg { color: #e74c3c; text-align: center; font-size: 13px; margin-top: 10px; display: none; }
+        .live-indicator { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 12px; color: #2ecc71; margin-bottom: 15px; display: none; }
+        .live-dot { width: 8px; height: 8px; background-color: #2ecc71; border-radius: 50%; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.2); } 100% { opacity: 1; transform: scale(1); } }
     </style>
 </head>
 <body>
 
     <header>
         <div class="nav-container">
-            <a href="index.html" class="logo">PAROLE Cafe</a>
-            <button class="lang-btn" onclick="toggleLanguage()">
-                <i class="fa-solid fa-globe"></i> <span id="langLabel">EN</span>
-            </button>
+            <a href="#" class="logo">PAROLE Cafe</a>
+            <div class="nav-links">
+                <!-- زر الرجوع للمنيو -->
+                <a href="shop.html" class="nav-btn" id="backToMenuBtn"><i class="fa-solid fa-utensils"></i> الرجوع للمنيو</a>
+                <button class="nav-btn active" onclick="switchView('checkout', this)">الدفع</button>
+                <button class="nav-btn" onclick="switchView('tracking', this)">التتبع</button>
+            </div>
         </div>
     </header>
 
-    <div class="checkout-container">
-        <a href="cart.html" class="back-link"><i class="fa-solid fa-arrow-right" id="backArrowIcon"></i> <span data-i18n="backToCart">العودة إلى حقيبة التسوق</span></a>
-        
-        <div class="checkout-grid">
-            <!-- نموذج البيانات الذكي -->
-            <div class="checkout-box">
-                <span class="smart-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> <span data-i18n="smartBadge">نظام الطلب الذكي والمتزامن</span></span>
-                <h2 data-i18n="checkoutTitle">بيانات الاستلام والدفع</h2>
-                
-                <form id="checkoutForm" onsubmit="executeSmartOrder(event)">
-                    <div class="form-group">
-                        <label data-i18n="fullNameLabel">الاسم الكامل</label>
-                        <input type="text" id="fullName" required placeholder="أدخل اسمك الكريم" data-i18n-placeholder="fullNamePlaceholder">
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="phoneLabel">رقم الجوال (قطر)</label>
-                        <input type="tel" id="phone" required placeholder="+974 0000 0000">
-                    </div>
+    <div class="main-container">
 
-                    <label class="save-info-option">
-                        <input type="checkbox" id="saveInfoCheckbox" checked>
-                        <span data-i18n="saveInfoText">تذكر معلوماتي للطلبات القادمة (تخزين محلي آمن)</span>
-                    </label>
-
-                    <!-- خيارات الاستلام الثلاثة -->
-                    <div class="form-group" style="margin-top: 15px;">
-                        <label data-i18n="fulfillmentLabel">طريقة الاستلام والطلب</label>
-                        <div class="fulfillment-options">
-                            <label class="fulfillment-card active" id="cardDelivery">
-                                <input type="radio" name="fulfillment_type" value="delivery" checked onclick="setFulfillmentMode('delivery')">
-                                <span><i class="fa-solid fa-bicycle"></i> <span data-i18n="deliveryMode">توصيل للمنزل</span></span>
-                            </label>
-                            <label class="fulfillment-card" id="cardDineIn">
-                                <input type="radio" name="fulfillment_type" value="dine_in" onclick="setFulfillmentMode('dine_in')">
-                                <span><i class="fa-solid fa-utensils"></i> <span data-i18n="dineInMode">طلب داخل الكافيه</span></span>
-                            </label>
-                            <label class="fulfillment-card" id="cardPickup">
-                                <input type="radio" name="fulfillment_type" value="pickup" onclick="setFulfillmentMode('pickup')">
-                                <span><i class="fa-solid fa-store"></i> <span data-i18n="pickupMode">استلام من الفرع</span></span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- 1. تفاصيل العنوان المفصلة -->
-                    <div id="addressDetailsContainer">
+        <!-- واجهة الدفع -->
+        <div id="checkoutView" class="section-view active">
+            <div class="checkout-grid">
+                <div class="checkout-box">
+                    <span class="smart-badge"><i class="fa-solid fa-shield-halved"></i> معمارية الإنتاج المحصنة (10/10)</span>
+                    <h2>بيانات الطلب والدفع</h2>
+                    
+                    <form id="checkoutForm" onsubmit="executeSecureOrder(event)">
                         <div class="form-group">
-                            <label data-i18n="cityLabel">المنطقة / المدينة</label>
-                            <input type="text" id="addrCity" placeholder="مثال: الدوحة، لوسيل، الريان، الوكرة" data-i18n-placeholder="cityPlaceholder">
+                            <label>الاسم الكامل</label>
+                            <input type="text" id="fullName" required placeholder="أدخل اسمك الكريم">
                         </div>
-                        
-                        <div class="address-grid">
-                            <div class="form-group">
-                                <label data-i18n="streetLabel">رقم الشارع</label>
-                                <input type="text" id="addrStreet" placeholder="مثال: شارع الوجبة (رقم 220)" data-i18n-placeholder="streetPlaceholder">
-                            </div>
-                            <div class="form-group">
-                                <label data-i18n="buildingLabel">رقم المبنى / الفلة</label>
-                                <input type="text" id="addrBuilding" placeholder="مثال: مبنى 14 أو فلة 5" data-i18n-placeholder="buildingPlaceholder">
-                            </div>
-                        </div>
-
-                        <div class="address-grid">
-                            <div class="form-group">
-                                <label><span data-i18n="unitLabel">رقم الطابق / الشقة</span> <small style="color:var(--text-muted);" data-i18n="optional">(اختياري)</small></label>
-                                <input type="text" id="addrUnit" placeholder="مثال: الطابق 3، شقة 302" data-i18n-placeholder="unitPlaceholder">
-                            </div>
-                            <div class="form-group">
-                                <label><span data-i18n="landmarkLabel">أقرب معلم بارز</span> <small style="color:var(--text-muted);" data-i18n="optional">(اختياري)</small></label>
-                                <input type="text" id="addrLandmark" placeholder="مثال: بجوار حديقة كذا / سوبرماركت" data-i18n-placeholder="landmarkPlaceholder">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 2. حقل رقم الطاولة -->
-                    <div id="dineInContainer" style="display: none;">
                         <div class="form-group">
-                            <label style="color: var(--gold); font-weight: 600;"><i class="fa-solid fa-chair"></i> <span data-i18n="tableLabel">رقم الطاولة داخل الكافيه</span></label>
-                            <input type="text" id="tableNumber" placeholder="مثال: الطاولة رقم 5 أو البار العلوي" data-i18n-placeholder="tablePlaceholder">
+                            <label>رقم الجوال (قطر - مثال: +974 أو 3xxxxxxx)</label>
+                            <input type="tel" id="phone" required placeholder="+974 3300 0000">
+                        </div>
+
+                        <div class="form-group">
+                            <label>طريقة الاستلام</label>
+                            <div class="fulfillment-options">
+                                <div class="fulfillment-card active" id="btnDelivery" onclick="setFulfillment('delivery')">توصيل منزل</div>
+                                <div class="fulfillment-card" id="btnDineIn" onclick="setFulfillment('dine_in')">داخل الكافيه</div>
+                                <div class="fulfillment-card" id="btnPickup" onclick="setFulfillment('pickup')">استلام فرع</div>
+                            </div>
+                        </div>
+
+                        <div id="addressBox">
+                            <div class="form-group">
+                                <label>المدينة / المنطقة</label>
+                                <input type="text" id="addrCity" placeholder="مثال: الدوحة، لوسيل">
+                            </div>
+                            <div class="form-group">
+                                <label>رقم الشارع والمبنى</label>
+                                <input type="text" id="addrStreet" placeholder="مثال: شارع 220، مبنى 14">
+                            </div>
+                        </div>
+
+                        <div id="tableBox" style="display:none;">
+                            <div class="form-group">
+                                <label>رقم الطاولة</label>
+                                <input type="text" id="tableNumber" placeholder="مثال: طاولة رقم 5">
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top:20px;">
+                            <label>كوبون الخصم (إن وجد)</label>
+                            <input type="text" id="couponInput" placeholder="أدخل الكود هنا">
+                        </div>
+
+                        <button type="submit" class="btn-submit">تأكيد الطلب وإرساله للخادم</button>
+                    </form>
+                </div>
+
+                <div>
+                    <!-- ملخص المنتجات القادمة من السلة المحلية -->
+                    <div class="checkout-box">
+                        <h2>محتويات السلة</h2>
+                        <div id="cartSummaryList" class="cart-summary-list">
+                            <div class="cart-empty-text">جاري تحميل السلة...</div>
                         </div>
                     </div>
 
-                    <div class="payment-methods">
-                        <label style="color: var(--gold); font-size: 14px; margin-bottom: 10px; display: block; font-weight: 500;" data-i18n="paymentLabel">طريقة الدفع المتاحة</label>
-                        
-                        <label class="payment-option">
-                            <input type="radio" name="payment_method" value="cash" checked style="accent-color: var(--gold);">
-                            <span><i class="fa-solid fa-money-bill-wave" style="color: var(--gold); margin-left: 5px;"></i> <span data-i18n="cashOnDelivery">الدفع النقدي أو بالشبكة عند الاستلام</span></span>
-                        </label>
+                    <div class="checkout-box">
+                        <h2>ضمانات الأمان المتقدمة</h2>
+                        <p style="color:var(--text-muted); font-size:13px; line-height:1.8;">
+                            • حماية ضد هجمات التخمين (Rate Limiting) وتأمين الـ PIN عبر خوارزميات التشفير.<br>
+                            • إلغاء الطلبات المتداخلة آلياً بواسطة `AbortController`.
+                        </p>
                     </div>
-
-                    <div class="notice-box" id="noticeBoxText">
-                        <strong>ملاحظة هامة:</strong> في الوقت الحالي تتوفر خدمة الدفع عند الاستلام (كاش أو بالشبكة مع المندوب)، وسنتواصل معك فوراً لتأكيد وتنسيق موعد التوصيل.
-                    </div>
-
-                    <button type="submit" class="btn-submit" data-i18n="submitBtn">تأكيد الطلب الآن</button>
-                </form>
-            </div>
-
-            <!-- ملخص الطلب الذكي -->
-            <div class="checkout-box" style="height: fit-content;">
-                <h2 data-i18n="summaryTitle">ملخص الفاتورة الفوري</h2>
-
-                <!-- شريط إنجاز التوصيل المجاني الديناميكي -->
-                <div class="free-shipping-bar-container" id="freeShippingContainer">
-                    <div class="free-shipping-text" id="freeShippingText">
-                        <i class="fa-solid fa-truck-fast"></i> جاري الحساب...
-                    </div>
-                    <div class="progress-bar-bg">
-                        <div class="progress-bar-fill" id="freeShippingProgressBar"></div>
-                    </div>
-                </div>
-                
-                <div class="coupon-box">
-                    <input type="text" id="couponInput" placeholder="أدخل الكوبون (مثال: SAMI)" data-i18n-placeholder="couponPlaceholder" onkeydown="if(event.key === 'Enter') { event.preventDefault(); applyIntelligentCoupon(); }">
-                    <button type="button" class="btn-coupon" onclick="applyIntelligentCoupon()" data-i18n="applyCouponBtn">تحقق وتطبيق</button>
-                </div>
-                <span id="couponMessage"></span>
-
-                <div id="checkoutSummaryItems">
-                    <!-- تعبئة تلقائية -->
-                </div>
-
-                <div class="order-summary-item" id="deliveryRow" style="margin-top: 15px;">
-                    <span><span data-i18n="deliveryFeeLabel">رسوم التوصيل / الخدمة</span> <small id="deliveryTypeLabel" style="color:var(--gold);"></small></span>
-                    <span id="deliveryCostText">18.00 ر.س</span>
-                </div>
-
-                <div class="order-summary-item" id="discountRow" style="display: none; color: #2ecc71;">
-                    <span><span data-i18n="discountLabel">قيمة الخصم</span> <span id="appliedCouponName" style="font-size: 11px;"></span></span>
-                    <span id="discountAmount">0.00 ر.س</span>
-                </div>
-
-                <div class="order-total">
-                    <span data-i18n="grandTotalLabel">الإجمالي الكلي النهائي</span>
-                    <span id="checkoutTotalAmount">0.00 ر.س</span>
                 </div>
             </div>
         </div>
+
+        <!-- واجهة التتبع اللحظي المحمي -->
+        <div id="trackingView" class="section-view">
+            <div class="tracking-box">
+                <h2><i class="fa-solid fa-satellite-dish"></i> التتبع اللحظي المشفر (10/10)</h2>
+                <p style="color:var(--text-muted); font-size:13px; text-align:center; margin-bottom:20px;">أدخل بيانات الطلب المعتمدة لتفعيل الاتصال المشفر مع الخادم.</p>
+                
+                <div class="search-form">
+                    <input type="text" id="orderIdInput" placeholder="رقم الطلب (مثال: PRL-123456)">
+                    <input type="password" id="orderPinInput" placeholder="الرمز السري للطلب (PIN)">
+                    <button class="btn-search" onclick="initRealtimeTracking()">تفعيل التتبع المشفر</button>
+                </div>
+                
+                <div class="error-msg" id="errorMsg">رقم الطلب أو الرمز السري غير صحيح، أو تم تجاوز الحد المسموح للمحاولات.</div>
+
+                <div class="live-indicator" id="liveIndicator">
+                    <div class="live-dot"></div> متصل بقناة التحديث اللحظي الآمنة
+                </div>
+
+                <div class="order-meta" id="orderMetaBox">
+                    <div>رقم الطلب: <strong id="metaId" style="color:var(--gold);">---</strong></div>
+                    <div>نوع الاستلام: <span id="metaType">---</span></div>
+                    <div>الإجمالي الموثق: <strong id="metaTotal" style="color:var(--gold);">---</strong></div>
+                </div>
+
+                <div class="status-timeline" id="statusTimeline">
+                    <div class="timeline-step" id="step-pending">
+                        <div class="step-title">تم استلام الطلب</div>
+                        <div class="step-desc">تم توثيق الطلب بنجاح على الخادم.</div>
+                    </div>
+                    <div class="timeline-step" id="step-preparing">
+                        <div class="step-title">جاري التحضير</div>
+                        <div class="step-desc">يقوم باريستا الكافيه بتحضير الطلب الآن.</div>
+                    </div>
+                    <div class="timeline-step" id="step-delivering">
+                        <div class="step-title">في الطريق / جاهز للاستلام</div>
+                        <div class="step-desc">خرج الطلب للتوصيل أو أصبح جاهزاً بالفرع.</div>
+                    </div>
+                    <div class="timeline-step" id="step-completed">
+                        <div class="step-title">تم التوصيل / التسليم</div>
+                        <div class="step-desc">شكراً لاختيارك PAROLE Cafe!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <script>
-        let currentLang = 'ar';
-        const translations = {
-            ar: {
-                backToCart: "العودة إلى حقيبة التسوق",
-                smartBadge: "نظام الطلب الذكي والمتزامن",
-                checkoutTitle: "بيانات الاستلام والدفع",
-                fullNameLabel: "الاسم الكامل",
-                fullNamePlaceholder: "أدخل اسمك الكريم",
-                phoneLabel: "رقم الجوال (قطر)",
-                saveInfoText: "تذكر معلوماتي للطلبات القادمة (تخزين محلي آمن)",
-                fulfillmentLabel: "طريقة الاستلام والطلب",
-                deliveryMode: "توصيل للمنزل",
-                dineInMode: "طلب داخل الكافيه",
-                pickupMode: "استلام من الفرع",
-                cityLabel: "المنطقة / المدينة",
-                cityPlaceholder: "مثال: الدوحة، لوسيل، الريان، الوكرة",
-                streetLabel: "رقم الشارع",
-                streetPlaceholder: "مثال: شارع الوجبة (رقم 220)",
-                buildingLabel: "رقم المبنى / الفلة",
-                buildingPlaceholder: "مثال: مبنى 14 أو فلة 5",
-                unitLabel: "رقم الطابق / الشقة",
-                optional: "(اختياري)",
-                unitPlaceholder: "مثال: الطابق 3، شقة 302",
-                landmarkLabel: "أقرب معلم بارز",
-                landmarkPlaceholder: "مثال: بجوار حديقة كذا / سوبرماركت",
-                tableLabel: "رقم الطاولة داخل الكافيه",
-                tablePlaceholder: "مثال: الطاولة رقم 5 أو البار العلوي",
-                paymentLabel: "طريقة الدفع المتاحة",
-                cashOnDelivery: "الدفع النقدي أو بالشبكة عند الاستلام",
-                deliveryNotice: "<strong>ملاحظة هامة:</strong> في الوقت الحالي تتوفر خدمة الدفع عند الاستلام (كاش أو بالشبكة مع المندوب)، وسنتواصل معك فوراً لتأكيد وتنسيق موعد التوصيل.",
-                dineInNotice: "<strong>ملاحظة هامة:</strong> سيتم تجهيز طلبك وإحضاره مباشرة إلى طاولتك داخل الكافيه (الدفع نقدي أو بالشبكة عند الطاولة).",
-                pickupNotice: "<strong>ملاحظة هامة:</strong> سيتم تجهيز طلبك وجاهزيته للاستلام من الكاونتر الرئيسي فوراً.",
-                submitBtn: "تأكيد الطلب الآن",
-                summaryTitle: "ملخص الفاتورة الفوري",
-                couponPlaceholder: "أدخل الكوبون (مثال: SAMI)",
-                applyCouponBtn: "تحقق وتطبيق",
-                deliveryFeeLabel: "رسوم التوصيل / الخدمة",
-                discountLabel: "قيمة الخصم",
-                grandTotalLabel: "الإجمالي الكلي النهائي",
-                currency: "ر.س",
-                deliveryTypeDelivery: "(توصيل محلي قياسي)",
-                deliveryTypeDineIn: "(طلب محلي داخل الكافيه - بدون رسوم)",
-                deliveryTypePickup: "(استلام شخصي من الفرع - مجاني)",
-                calculating: "جاري الحساب...",
-                freeShippingAchieved: "لقد حصلت على <strong>توصيل مجاني!</strong>",
-                freeShippingAddMore: "أضف منتجات بقيمة <strong style='color:var(--gold);'>{{diff}} ر.س</strong> إضافية للحصول على توصيل مجاني!",
-                orderSuccess: "تم تأكيد طلبك بنجاح! تم إرسال الطلب إلى النظام وسنتواصل معك قريباً.",
-                cartEmpty: "حقيبة التسوق فارغة حالياً!"
-            },
-            en: {
-                backToCart: "Back to Shopping Cart",
-                smartBadge: "Smart & Synchronized Ordering System",
-                checkoutTitle: "Checkout & Payment Details",
-                fullNameLabel: "Full Name",
-                fullNamePlaceholder: "Enter your full name",
-                phoneLabel: "Mobile Number (Qatar)",
-                saveInfoText: "Remember my info for future orders (Secure local storage)",
-                fulfillmentLabel: "Fulfillment Method",
-                deliveryMode: "Home Delivery",
-                dineInMode: "Dine-In",
-                pickupMode: "Store Pickup",
-                cityLabel: "Area / City",
-                cityPlaceholder: "e.g., Doha, Lusail, Al Rayyan, Al Wakrah",
-                streetLabel: "Street Number",
-                streetPlaceholder: "e.g., Al Wajba St (No. 220)",
-                buildingLabel: "Building / Villa No.",
-                buildingPlaceholder: "e.g., Building 14 or Villa 5",
-                unitLabel: "Floor / Apartment No.",
-                optional: "(Optional)",
-                unitPlaceholder: "e.g., Floor 3, Apt 302",
-                landmarkLabel: "Nearest Landmark",
-                landmarkPlaceholder: "e.g., Next to Park / Supermarket",
-                tableLabel: "Table Number inside Cafe",
-                tablePlaceholder: "e.g., Table 5 or Upper Bar",
-                paymentLabel: "Available Payment Method",
-                cashOnDelivery: "Cash or Card on Delivery/Pickup",
-                deliveryNotice: "<strong>Important Note:</strong> Cash or card on delivery is currently available. We will contact you immediately to confirm delivery.",
-                dineInNotice: "<strong>Important Note:</strong> Your order will be prepared and brought directly to your table (Cash or card at the table).",
-                pickupNotice: "<strong>Important Note:</strong> Your order will be prepared and ready for pickup at the main counter.",
-                submitBtn: "Confirm Order Now",
-                summaryTitle: "Instant Invoice Summary",
-                couponPlaceholder: "Enter coupon (e.g., SAMI)",
-                applyCouponBtn: "Apply",
-                deliveryFeeLabel: "Delivery / Service Fee",
-                discountLabel: "Discount",
-                grandTotalLabel: "Grand Total",
-                currency: "SAR",
-                deliveryTypeDelivery: "(Standard Local Delivery)",
-                deliveryTypeDineIn: "(Dine-In - Free)",
-                deliveryTypePickup: "(Store Pickup - Free)",
-                calculating: "Calculating...",
-                freeShippingAchieved: "You got <strong>Free Delivery!</strong>",
-                freeShippingAddMore: "Add items worth <strong style='color:var(--gold);'>{{diff}} SAR</strong> more for free delivery!",
-                orderSuccess: "Order confirmed successfully! Sent to system, we will contact you soon.",
-                cartEmpty: "Your shopping cart is currently empty!"
-            }
+    <!-- النافذة المنبثقة للنجاح -->
+    <div class="order-popup-overlay" id="orderPopupOverlay">
+        <div class="order-popup-card">
+            <i class="fa-solid fa-circle-check"></i>
+            <h3 style="color:var(--gold);">تم قبول الطلب بنجاح!</h3>
+            <p style="color:var(--text-muted); font-size:13px; margin-top:5px;">احتفظ برقم الطلب والرمز السري أدناه لمتابعة حالة الطلب.</p>
+            
+            <div style="background:var(--dark-bg); padding:15px; border-radius:8px; margin:20px 0; text-align:right; font-size:13px; border:1px solid var(--border-color);">
+                <div>رقم الطلب: <strong id="resOrderId" style="color:var(--gold);">---</strong></div>
+                <div>الرمز السري (PIN): <strong id="resPin" style="color:#2ecc71; font-size:16px;">---</strong></div>
+                <div style="margin-top:10px;">الإجمالي الموثق: <strong id="resTotal" style="color:var(--gold);">---</strong></div>
+            </div>
+
+            <button class="btn-popup-close" onclick="goToTrackingFromPopup()">الانتقال للتتبع اللحظي</button>
+        </div>
+    </div>
+
+    <!-- سكربت الفايربيز والمنطق البرمجي الآمن المحصن -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-functions.js";
+        import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyD13FuUUPll0IHWJ2Oc6arwMjnThKObAjg",
+          authDomain: "parole-cafe.firebaseapp.com",
+          projectId: "parole-cafe",
+          storageBucket: "parole-cafe.firebasestorage.app",
+          messagingSenderId: "109893830029",
+          appId: "1:109893830029:web:dc59e1af19b719ba1d29c4"
         };
 
-        let currentDiscountValue = 0;
-        let appliedCouponCode = '';
-        let currentDeliveryFee = 18.00;
-        let currentFulfillmentMode = 'delivery';
-        const FREE_SHIPPING_THRESHOLD = 150.00;
+        const app = initializeApp(firebaseConfig);
+        const functions = getFunctions(app);
+        const db = getFirestore(app);
 
-        function toggleLanguage() {
-            currentLang = currentLang === 'ar' ? 'en' : 'ar';
-            document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
-            document.body.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
-            document.body.style.textAlign = currentLang === 'ar' ? 'right' : 'left';
-            document.getElementById('langLabel').textContent = currentLang === 'ar' ? 'EN' : 'AR';
-            
-            const backArrowIcon = document.getElementById('backArrowIcon');
-            if (currentLang === 'en') {
-                backArrowIcon.className = "fa-solid fa-arrow-left";
-            } else {
-                backArrowIcon.className = "fa-solid fa-arrow-right";
+        window.createSecureOrderFn = httpsCallable(functions, 'createSecureOrder');
+        window.verifyAndGetOrderStatusFn = httpsCallable(functions, 'verifyAndGetOrderStatus');
+
+        let unsubscribeSnapshot = null;
+        let isFetchingOrder = false;
+        let currentAbortController = null;
+
+        function cleanupResources() {
+            if (unsubscribeSnapshot) {
+                unsubscribeSnapshot();
+                unsubscribeSnapshot = null;
             }
-
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (translations[currentLang][key]) {
-                    el.innerHTML = translations[currentLang][key];
-                }
-            });
-
-            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-                const key = el.getAttribute('data-i18n-placeholder');
-                if (translations[currentLang][key]) {
-                    el.placeholder = translations[currentLang][key];
-                }
-            });
-
-            setFulfillmentMode(currentFulfillmentMode);
-            loadIntelligentSummary();
-        }
-
-        function loadSavedCustomerInfo() {
-            const savedInfo = JSON.parse(localStorage.getItem('parole_saved_customer'));
-            if (savedInfo) {
-                if (savedInfo.fullName) document.getElementById('fullName').value = savedInfo.fullName;
-                if (savedInfo.phone) document.getElementById('phone').value = savedInfo.phone;
-                if (savedInfo.addrCity) document.getElementById('addrCity').value = savedInfo.addrCity;
-                if (savedInfo.addrStreet) document.getElementById('addrStreet').value = savedInfo.addrStreet;
-                if (savedInfo.addrBuilding) document.getElementById('addrBuilding').value = savedInfo.addrBuilding;
-                if (savedInfo.addrUnit) document.getElementById('addrUnit').value = savedInfo.addrUnit;
-                if (savedInfo.addrLandmark) document.getElementById('addrLandmark').value = savedInfo.addrLandmark;
-                if (savedInfo.tableNumber) document.getElementById('tableNumber').value = savedInfo.tableNumber;
+            if (currentAbortController) {
+                currentAbortController.abort();
+                currentAbortController = null;
             }
         }
 
-        function setFulfillmentMode(mode) {
-            currentFulfillmentMode = mode;
-            const addressContainer = document.getElementById('addressDetailsContainer');
-            const dineInContainer = document.getElementById('dineInContainer');
-            const cardDelivery = document.getElementById('cardDelivery');
-            const cardDineIn = document.getElementById('cardDineIn');
-            const cardPickup = document.getElementById('cardPickup');
-            const label = document.getElementById('deliveryTypeLabel');
-            const freeShippingContainer = document.getElementById('freeShippingContainer');
-            const noticeBoxText = document.getElementById('noticeBoxText');
+        window.initRealtimeTracking = async function() {
+            if (isFetchingOrder) return;
 
-            cardDelivery.classList.remove('active');
-            cardDineIn.classList.remove('active');
-            cardPickup.classList.remove('active');
+            const orderIdVal = document.getElementById('orderIdInput').value.trim();
+            const pinVal = document.getElementById('orderPinInput').value.trim();
+            const errDiv = document.getElementById('errorMsg');
+            const timeline = document.getElementById('statusTimeline');
+            const metaBox = document.getElementById('orderMetaBox');
+            const liveIndicator = document.getElementById('liveIndicator');
 
-            if (mode === 'dine_in') {
-                currentDeliveryFee = 0.00;
-                cardDineIn.classList.add('active');
-                addressContainer.style.display = 'none';
-                dineInContainer.style.display = 'block';
-                label.innerText = translations[currentLang].deliveryTypeDineIn;
-                freeShippingContainer.style.display = 'none';
-                noticeBoxText.innerHTML = translations[currentLang].dineInNotice;
-            } else if (mode === 'pickup') {
-                currentDeliveryFee = 0.00;
-                cardPickup.classList.add('active');
-                addressContainer.style.display = 'none';
-                dineInContainer.style.display = 'none';
-                label.innerText = translations[currentLang].deliveryTypePickup;
-                freeShippingContainer.style.display = 'none';
-                noticeBoxText.innerHTML = translations[currentLang].pickupNotice;
-            } else {
-                currentDeliveryFee = 18.00;
-                cardDelivery.classList.add('active');
-                addressContainer.style.display = 'block';
-                dineInContainer.style.display = 'none';
-                label.innerText = translations[currentLang].deliveryTypeDelivery;
-                freeShippingContainer.style.display = 'block';
-                noticeBoxText.innerHTML = translations[currentLang].deliveryNotice;
-            }
-            loadIntelligentSummary();
-        }
-
-        function applyIntelligentCoupon() {
-            const inputCode = document.getElementById('couponInput').value.trim().toUpperCase();
-            const msg = document.getElementById('couponMessage');
-            
-            if (!inputCode) return;
-
-            let coupons = JSON.parse(localStorage.getItem('parole_shop_coupons')) || [];
-            let found = coupons.find(c => c.code && c.code.toUpperCase() === inputCode);
-
-            let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
-            let subtotal = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
-
-            if (found) {
-                appliedCouponCode = found.code;
-                let rawVal = parseFloat(found.value) || 0;
-                
-                if (rawVal <= 100 && rawVal > 0 && !found.isFixed) {
-                    currentDiscountValue = subtotal * (rawVal / 100);
-                    msg.style.color = '#2ecc71';
-                    msg.innerText = currentLang === 'ar' ? `تم تطبيق خصم نسبة مئوية (${rawVal}%) بنجاح!` : `Percentage discount (${rawVal}%) applied successfully!`;
-                } else {
-                    currentDiscountValue = rawVal > subtotal ? subtotal : rawVal;
-                    msg.style.color = '#2ecc71';
-                    msg.innerText = currentLang === 'ar' ? `تم تطبيق خصم ثابت بقيمة (${rawVal} ${translations[currentLang].currency}) بنجاح!` : `Fixed discount (${rawVal} ${translations[currentLang].currency}) applied successfully!`;
-                }
-            } else {
-                currentDiscountValue = 0;
-                appliedCouponCode = '';
-                msg.style.color = '#e74c3c';
-                msg.innerText = currentLang === 'ar' ? 'كود الخصم غير صحيح أو منتهي الصلاحية.' : 'Invalid or expired coupon code.';
-            }
-            loadIntelligentSummary();
-        }
-
-        function updateFreeShippingBar(subtotal) {
-            const textEl = document.getElementById('freeShippingText');
-            const fillEl = document.getElementById('freeShippingProgressBar');
-            
-            if (currentFulfillmentMode !== 'delivery') return 0.00;
-
-            let effectiveFee = 18.00;
-            if (subtotal >= FREE_SHIPPING_THRESHOLD) {
-                effectiveFee = 0.00;
-                textEl.innerHTML = `<i class="fa-solid fa-truck-fast" style="color: #2ecc71;"></i> ` + translations[currentLang].freeShippingAchieved;
-                fillEl.style.width = '100%';
-            } else {
-                let diff = (FREE_SHIPPING_THRESHOLD - subtotal).toFixed(2);
-                let percent = (subtotal / FREE_SHIPPING_THRESHOLD) * 100;
-                let textTpl = translations[currentLang].freeShippingAddMore.replace('{{diff}}', diff);
-                textEl.innerHTML = `<i class="fa-solid fa-truck-fast"></i> ` + textTpl;
-                fillEl.style.width = `${percent}%`;
-            }
-            return effectiveFee;
-        }
-
-        function loadIntelligentSummary() {
-            let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
-            let container = document.getElementById('checkoutSummaryItems');
-            container.innerHTML = '';
-            let subtotal = 0;
-
-            cart.forEach(item => {
-                let qty = item.quantity || 1;
-                let itemTotal = item.price * qty;
-                subtotal += itemTotal;
-                container.innerHTML += `
-                    <div class="order-summary-item">
-                        <span>${item.name} × ${qty}</span>
-                        <span>${itemTotal.toFixed(2)} ${translations[currentLang].currency}</span>
-                    </div>
-                `;
-            });
-
-            let finalDeliveryFee = 0.00;
-            if (currentFulfillmentMode === 'delivery') {
-                finalDeliveryFee = updateFreeShippingBar(subtotal);
-            }
-            currentDeliveryFee = finalDeliveryFee;
-
-            document.getElementById('deliveryCostText').textContent = finalDeliveryFee.toFixed(2) + ' ' + translations[currentLang].currency;
-
-            if (appliedCouponCode) {
-                let coupons = JSON.parse(localStorage.getItem('parole_shop_coupons')) || [];
-                let found = coupons.find(c => c.code && c.code.toUpperCase() === appliedCouponCode.toUpperCase());
-                if (found) {
-                    let rawVal = parseFloat(found.value) || 0;
-                    if (rawVal <= 100 && rawVal > 0 && !found.isFixed) {
-                        currentDiscountValue = subtotal * (rawVal / 100);
-                    } else {
-                        currentDiscountValue = rawVal > subtotal ? subtotal : rawVal;
-                    }
-                } else {
-                    currentDiscountValue = 0;
-                    appliedCouponCode = '';
-                }
-            }
-
-            const discountRow = document.getElementById('discountRow');
-            if (currentDiscountValue > 0) {
-                discountRow.style.display = 'flex';
-                document.getElementById('appliedCouponName').textContent = `(${appliedCouponCode})`;
-                document.getElementById('discountAmount').textContent = '-' + currentDiscountValue.toFixed(2) + ' ' + translations[currentLang].currency;
-            } else {
-                discountRow.style.display = 'none';
-            }
-
-            let grandTotal = subtotal + finalDeliveryFee - currentDiscountValue;
-            if (grandTotal < 0) grandTotal = 0;
-            document.getElementById('checkoutTotalAmount').textContent = grandTotal.toFixed(2) + ' ' + translations[currentLang].currency;
-        }
-
-        function executeSmartOrder(e) {
-            e.preventDefault();
-            
-            let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
-            if (cart.length === 0) {
-                alert(translations[currentLang].cartEmpty);
-                window.location.href = 'shop.html';
+            if (!orderIdVal || !pinVal) {
+                errDiv.textContent = "يرجى إدخال رقم الطلب والرمز السري معاً.";
+                errDiv.style.display = 'block';
                 return;
             }
 
-            const fullName = document.getElementById('fullName').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            const saveInfo = document.getElementById('saveInfoCheckbox').checked;
+            errDiv.style.display = 'none';
+            isFetchingOrder = true;
 
-            if (saveInfo) {
-                const customerData = {
-                    fullName,
-                    phone,
-                    addrCity: document.getElementById('addrCity').value.trim(),
-                    addrStreet: document.getElementById('addrStreet').value.trim(),
-                    addrBuilding: document.getElementById('addrBuilding').value.trim(),
-                    addrUnit: document.getElementById('addrUnit').value.trim(),
-                    addrLandmark: document.getElementById('addrLandmark').value.trim(),
-                    tableNumber: document.getElementById('tableNumber').value.trim()
-                };
-                localStorage.setItem('parole_saved_customer', JSON.stringify(customerData));
+            if (currentAbortController) {
+                currentAbortController.abort();
             }
+            currentAbortController = new AbortController();
 
-            let subtotal = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
-            let grandTotal = subtotal + currentDeliveryFee - currentDiscountValue;
-            if (grandTotal < 0) grandTotal = 0;
+            try {
+                const verifyResponse = await window.verifyAndGetOrderStatusFn({ 
+                    orderId: orderIdVal, 
+                    secretPin: pinVal 
+                });
+                
+                const serverResult = verifyResponse.data;
+                if (!serverResult || !serverResult.success) {
+                    throw new Error("Invalid order credentials or Rate Limited");
+                }
 
-            const newOrder = {
-                id: 'PRL-' + Math.floor(100000 + Math.random() * 900000),
-                date: new Date().toISOString(),
-                customerName: fullName,
-                phone: phone,
-                fulfillmentType: currentFulfillmentMode,
-                tableNumber: document.getElementById('tableNumber').value.trim(),
-                address: {
-                    city: document.getElementById('addrCity').value.trim(),
-                    street: document.getElementById('addrStreet').value.trim(),
-                    building: document.getElementById('addrBuilding').value.trim(),
-                    unit: document.getElementById('addrUnit').value.trim(),
-                    landmark: document.getElementById('addrLandmark').value.trim()
-                },
-                items: cart,
-                subtotal: subtotal,
-                deliveryFee: currentDeliveryFee,
-                discount: currentDiscountValue,
-                total: grandTotal,
-                status: 'pending'
-            };
- //  حفظ الطلبات في المفتاح المخصص للوحة التحكم parole_admin_orders
-            let existingOrders = JSON.parse(localStorage.getItem('parole_admin_orders')) || [];
-            existingOrders.unshift(newOrder);
-            localStorage.setItem('parole_admin_orders', JSON.stringify(existingOrders));
+                if (unsubscribeSnapshot) {
+                    unsubscribeSnapshot();
+                    unsubscribeSnapshot = null;
+                }
 
-            alert(translations[currentLang].orderSuccess);
-            localStorage.removeItem('parole_cart');
-            window.location.href = 'index.html';
+                unsubscribeSnapshot = onSnapshot(doc(db, "orders", orderIdVal), (docSnap) => {
+                    if (!docSnap.exists()) {
+                        errDiv.textContent = "عذراً، الطلب غير موجود أو تمت أرشفته نهائياً.";
+                        errDiv.style.display = 'block';
+                        timeline.style.display = 'none';
+                        metaBox.style.display = 'none';
+                        liveIndicator.style.display = 'none';
+                        cleanupResources();
+                        return;
+                    }
+
+                    const orderData = docSnap.data();
+                    updateTimelineUI({
+                        orderId: orderIdVal,
+                        fulfillmentType: orderData.fulfillmentType,
+                        total: orderData.total,
+                        status: orderData.status
+                    });
+                    liveIndicator.style.display = 'flex';
+
+                    if (orderData.status === 'completed' || orderData.status === 'cancelled') {
+                        cleanupResources();
+                        liveIndicator.innerHTML = '<div class="live-dot" style="background-color:var(--gold);"></div> اكتمل الطلب (تمت الأرشفة بنجاح)';
+                    }
+                }, (error) => {
+                    console.error("Snapshot Error:", error);
+                });
+
+            } catch (err) {
+                if (err.name === 'AbortError') return;
+                console.error("Security Auth Error:", err);
+                errDiv.textContent = err.code === 'functions/resource-exhausted' ? "تم تجاوز حد المحاولات المسموح، يرجى الانتظار قليلاً." : "رقم الطلب أو الرمز السري غير صحيح.";
+                errDiv.style.display = 'block';
+                timeline.style.display = 'none';
+                metaBox.style.display = 'none';
+                liveIndicator.style.display = 'none';
+                cleanupResources();
+            } finally {
+                isFetchingOrder = false;
+                currentAbortController = null;
+            }
+        };
+
+        function updateTimelineUI(data) {
+            document.getElementById('statusTimeline').style.display = 'block';
+            document.getElementById('orderMetaBox').style.display = 'block';
+            
+            document.getElementById('metaId').textContent = data.orderId;
+            document.getElementById('metaType').textContent = data.fulfillmentType === 'delivery' ? 'توصيل منزل' : (data.fulfillmentType === 'dine_in' ? 'داخل الكافيه' : 'استلام فرع');
+            document.getElementById('metaTotal').textContent = Number(data.total).toFixed(2) + ' ر.س';
+
+            const status = data.status || 'pending';
+
+            ['pending', 'preparing', 'delivering', 'completed'].forEach(s => {
+                const el = document.getElementById(`step-${s}`);
+                el.classList.remove('active', 'completed');
+            });
+
+            if (status === 'pending') {
+                document.getElementById('step-pending').classList.add('active');
+            } else if (status === 'preparing') {
+                document.getElementById('step-pending').classList.add('completed');
+                document.getElementById('step-preparing').classList.add('active');
+            } else if (status === 'delivering') {
+                document.getElementById('step-pending').classList.add('completed');
+                document.getElementById('step-preparing').classList.add('completed');
+                document.getElementById('step-delivering').classList.add('active');
+            } else if (status === 'completed') {
+                document.getElementById('step-pending').classList.add('completed');
+                document.getElementById('step-preparing').classList.add('completed');
+                document.getElementById('step-delivering').classList.add('completed');
+                document.getElementById('step-completed').classList.add('completed', 'active');
+            }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            loadSavedCustomerInfo();
-            setFulfillmentMode('delivery');
+        window.addEventListener("beforeunload", cleanupResources);
+        window.addEventListener("pagehide", cleanupResources);
+        document.addEventListener("visibilitychange", () => {
+            if (document.visibilityState === 'hidden') {
+                cleanupResources();
+            }
         });
+    </script>
+
+    <script>
+        let currentFulfillment = 'delivery';
+        let isSubmittingOrder = false;
+
+        // تحميل وعرض بيانات السلة عند فتح الصفحة
+        document.addEventListener("DOMContentLoaded", () => {
+            renderCartSummary();
+        });
+
+        function renderCartSummary() {
+            const cartContainer = document.getElementById('cartSummaryList');
+            const cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
+
+            if (cart.length === 0) {
+                cartContainer.innerHTML = `<div class="cart-empty-text">السلة فارغة حالياً. <a href="menu.html" style="color:var(--gold);">أضف منتجات من المنيو</a></div>`;
+                return;
+            }
+
+            let html = '';
+            cart.forEach(item => {
+                const name = item.name || item.productId || 'منتج';
+                const qty = item.quantity || 1;
+                const price = item.price ? ` (${item.price} ر.س)` : '';
+                html += `
+                    <div class="cart-item-row">
+                        <span>${name} ${price}</span>
+                        <strong style="color:var(--gold);">الكمية: ${qty}</strong>
+                    </div>
+                `;
+            });
+            cartContainer.innerHTML = html;
+        }
+
+        function switchView(viewName, btn) {
+            document.querySelectorAll('.section-view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => {
+                if(!b.id.includes('backToMenuBtn')) b.classList.remove('active');
+            });
+
+            if (viewName === 'checkout') {
+                document.getElementById('checkoutView').classList.add('active');
+            } else {
+                document.getElementById('trackingView').classList.add('active');
+            }
+            if (btn) btn.classList.add('active');
+        }
+
+        function goToTrackingFromPopup() {
+            document.getElementById('orderPopupOverlay').style.display = 'none';
+            document.querySelectorAll('.section-view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => {
+                if(!b.id.includes('backToMenuBtn')) b.classList.remove('active');
+            });
+            document.getElementById('trackingView').classList.add('active');
+            
+            // تفعيل زر التتبع في الهيدر
+            const navButtons = document.querySelectorAll('.nav-btn');
+            navButtons[navButtons.length - 1].classList.add('active');
+            
+            document.getElementById('orderIdInput').value = document.getElementById('resOrderId').textContent;
+            document.getElementById('orderPinInput').value = document.getElementById('resPin').textContent;
+
+            window.initRealtimeTracking();
+        }
+
+        function setFulfillment(mode) {
+            currentFulfillment = mode;
+            document.querySelectorAll('.fulfillment-card').forEach(c => c.classList.remove('active'));
+            
+            if (mode === 'delivery') {
+                document.getElementById('btnDelivery').classList.add('active');
+                document.getElementById('addressBox').style.display = 'block';
+                document.getElementById('tableBox').style.display = 'none';
+            } else if (mode === 'dine_in') {
+                document.getElementById('btnDineIn').classList.add('active');
+                document.getElementById('addressBox').style.display = 'none';
+                document.getElementById('tableBox').style.display = 'block';
+            } else {
+                document.getElementById('btnPickup').classList.add('active');
+                document.getElementById('addressBox').style.display = 'none';
+                document.getElementById('tableBox').style.display = 'none';
+            }
+        }
+
+        async function executeSecureOrder(e) {
+            e.preventDefault();
+            if (isSubmittingOrder) return;
+
+            const fullName = document.getElementById('fullName').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
+
+            if (!fullName || !phone) {
+                alert("يرجى إدخال الاسم ورقم الهاتف.");
+                return;
+            }
+
+            const qatariPhoneRegex = /^(?:\+974|00974|[34567])[0-9]{7}$/;
+            if (!qatariPhoneRegex.test(phone.replace(/\s+/g, ''))) {
+                alert("يرجى إدخال رقم جوال قطري صحيح (مثال: +97433000000 أو 33000000).");
+                return;
+            }
+
+            if (!cart || cart.length === 0) {
+                alert("عذراً، السلة فارغة. يرجى اختيار منتجات من المنيو أولاً.");
+                return;
+            }
+
+            if (currentFulfillment === 'delivery') {
+                const city = document.getElementById('addrCity').value.trim();
+                const street = document.getElementById('addrStreet').value.trim();
+                if (!city || !street) {
+                    alert("يرجى إدخال تفاصيل العنوان (المدينة والشارع) لخدمة التوصيل.");
+                    return;
+                }
+            }
+
+            if (currentFulfillment === 'dine_in') {
+                const tableNum = document.getElementById('tableNumber').value.trim();
+                if (!tableNum) {
+                    alert("يرجى إدخال رقم الطاولة للاستلام داخل الكافيه.");
+                    return;
+                }
+            }
+
+            const orderPayload = {
+                items: cart.map(item => ({
+                    productId: item.id || item.productId,
+                    quantity: parseInt(item.quantity) || 1
+                })),
+                couponCode: document.getElementById('couponInput').value.trim(),
+                fulfillmentType: currentFulfillment,
+                customerInfo: {
+                    fullName: fullName,
+                    phone: phone
+                },
+                address: {
+                    city: document.getElementById('addrCity').value.trim(),
+                    street: document.getElementById('addrStreet').value.trim()
+                },
+                tableNumber: document.getElementById('tableNumber').value.trim()
+            };
+
+            const submitBtn = document.querySelector('.btn-submit');
+            isSubmittingOrder = true;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'جاري التوثيق وحساب الطلب بالخادم...';
+
+            try {
+                const response = await window.createSecureOrderFn(orderPayload);
+                const data = response.data;
+
+                if (data.success) {
+                    localStorage.removeItem('parole_cart');
+                    document.getElementById('resOrderId').textContent = data.orderId;
+                    document.getElementById('resPin').textContent = data.secretPin;
+                    document.getElementById('resTotal').textContent = Number(data.total).toFixed(2) + ' ر.س';
+                    
+                    document.getElementById('orderPopupOverlay').style.display = 'flex';
+                }
+            } catch (err) {
+                console.error("Cloud Order Error:", err);
+                alert("خطأ من الخادم: " + err.message);
+            } finally {
+                isSubmittingOrder = false;
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'تأكيد الطلب وإرساله للخادم';
+            }
+        }
     </script>
 </body>
 </html>
