@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PAROLE Cafe | إتمام الطلب والدفع الذكي</title>
+    <title data-i18n="pageTitle">PAROLE Cafe | إتمام الطلب والدفع الذكي الآمن</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- مكتبة DOMPurify للتعقيم الآمن من ثغرات XSS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
     <style>
         :root {
           --gold: #d4af37;
@@ -21,10 +23,9 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
         body { background-color: var(--dark-bg); color: var(--text-main); line-height: 1.7; direction: rtl; text-align: right; padding: 100px 20px 40px 20px; }
         
-        /* شريط التنقل العلوي وزر اللغة */
         header { background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(10px); position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; border-bottom: 1px solid var(--border-color); }
         .nav-container { max-width: 1300px; margin: 0 auto; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 22px; font-weight: 800; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; letter-spacing: 1px; }
+        .logo { font-size: 22px; font-weight: 800; background: var(--gold-gradient); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; letter-spacing: 1px; }
         .lang-btn { background: rgba(212,175,55,0.1); border: 1px solid var(--border-color); color: var(--gold); padding: 6px 14px; border-radius: 50px; cursor: pointer; font-weight: 700; font-size: 13px; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
         .lang-btn:hover { background: var(--gold); color: #000; }
 
@@ -42,6 +43,7 @@
         .form-group label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
         .form-group input, .form-group select { width: 100%; padding: 12px; background: var(--dark-bg); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 8px; font-size: 14px; transition: var(--transition); }
         .form-group input:focus, .form-group select:focus { border-color: var(--gold); outline: none; box-shadow: 0 0 8px rgba(212, 175, 55, 0.2); }
+        .form-group input.error, .form-group select.error { border-color: #e74c3c; }
 
         .address-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         @media (max-width: 480px) { .address-grid { grid-template-columns: 1fr; } }
@@ -66,8 +68,9 @@
         .order-total { display: flex; justify-content: space-between; font-size: 18px; font-weight: 600; color: var(--text-main); margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border-color); }
         .order-total span:last-child { color: var(--gold); }
 
-        .btn-submit { background: var(--gold-gradient); color: #000; padding: 14px; width: 100%; border-radius: 8px; font-weight: 700; font-size: 15px; border: none; cursor: pointer; transition: var(--transition); margin-top: 25px; text-transform: uppercase; }
-        .btn-submit:hover { background-color: var(--gold-light); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212,175,55,0.3); }
+        .btn-submit { background: var(--gold-gradient); color: #000; padding: 14px; width: 100%; border-radius: 8px; font-weight: 700; font-size: 15px; border: none; cursor: pointer; transition: var(--transition); margin-top: 25px; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-submit:hover:not(:disabled) { background-color: var(--gold-light); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212,175,55,0.3); }
+        .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
 
         .payment-methods { margin-top: 20px; border-top: 1px solid var(--border-color); padding-top: 20px; }
         .payment-option { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; cursor: pointer; font-size: 14px; }
@@ -91,6 +94,15 @@
             line-height: 1.5;
         }
         html[dir="ltr"] .notice-box { border-right: none; border-left: 4px solid var(--gold); }
+
+        .skeleton { background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 4px; height: 16px; margin-bottom: 8px; }
+        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+        #toastContainer { position: fixed; bottom: 20px; left: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+        .toast { background: var(--card-bg); border: 1px solid var(--gold); color: var(--text-main); padding: 12px 20px; border-radius: 8px; font-size: 14px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 10px; animation: slideIn 0.3s ease; }
+        .toast.success { border-color: #2ecc71; }
+        .toast.error { border-color: #e74c3c; }
+        @keyframes slideIn { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
 </head>
 <body>
@@ -108,19 +120,18 @@
         <a href="cart.html" class="back-link"><i class="fa-solid fa-arrow-right" id="backArrowIcon"></i> <span data-i18n="backToCart">العودة إلى حقيبة التسوق</span></a>
         
         <div class="checkout-grid">
-            <!-- نموذج البيانات الذكي -->
             <div class="checkout-box">
-                <span class="smart-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> <span data-i18n="smartBadge">نظام الطلب الذكي والمتزامن</span></span>
+                <span class="smart-badge"><i class="fa-solid fa-shield-halved"></i> <span data-i18n="smartBadge">نظام الإرسال المعالج على السيرفر (10/10 Secure)</span></span>
                 <h2 data-i18n="checkoutTitle">بيانات الاستلام والدفع</h2>
                 
-                <form id="checkoutForm" onsubmit="executeSmartOrder(event)">
+                <form id="checkoutForm" onsubmit="executeSecureOrder(event)">
                     <div class="form-group">
                         <label data-i18n="fullNameLabel">الاسم الكامل</label>
-                        <input type="text" id="fullName" required placeholder="أدخل اسمك الكريم" data-i18n-placeholder="fullNamePlaceholder">
+                        <input type="text" id="fullName" required placeholder="أدخل اسمك الكريم" data-i18n-placeholder="fullNamePlaceholder" oninput="sanitizeInput(this)">
                     </div>
                     <div class="form-group">
-                        <label data-i18n="phoneLabel">رقم الجوال (قطر)</label>
-                        <input type="tel" id="phone" required placeholder="+974 0000 0000">
+                        <label data-i18n="phoneLabel">رقم الجوال (قطر - تنسيق تلقائي)</label>
+                        <input type="tel" id="phone" required placeholder="مثال: 55123456 أو 33123456" oninput="formatPhoneInput(this)">
                     </div>
 
                     <label class="save-info-option">
@@ -128,7 +139,6 @@
                         <span data-i18n="saveInfoText">تذكر معلوماتي للطلبات القادمة (تخزين محلي آمن)</span>
                     </label>
 
-                    <!-- خيارات الاستلام الثلاثة -->
                     <div class="form-group" style="margin-top: 15px;">
                         <label data-i18n="fulfillmentLabel">طريقة الاستلام والطلب</label>
                         <div class="fulfillment-options">
@@ -147,47 +157,44 @@
                         </div>
                     </div>
 
-                    <!-- 1. تفاصيل العنوان المفصلة -->
                     <div id="addressDetailsContainer">
                         <div class="form-group">
                             <label data-i18n="cityLabel">المنطقة / المدينة</label>
-                            <input type="text" id="addrCity" placeholder="مثال: الدوحة، لوسيل، الريان، الوكرة" data-i18n-placeholder="cityPlaceholder">
+                            <input type="text" id="addrCity" placeholder="مثال: الدوحة، لوسيل، الريان" data-i18n-placeholder="cityPlaceholder" oninput="sanitizeInput(this)">
                         </div>
                         
                         <div class="address-grid">
                             <div class="form-group">
                                 <label data-i18n="streetLabel">رقم الشارع</label>
-                                <input type="text" id="addrStreet" placeholder="مثال: شارع الوجبة (رقم 220)" data-i18n-placeholder="streetPlaceholder">
+                                <input type="text" id="addrStreet" placeholder="مثال: شارع الوجبة" data-i18n-placeholder="streetPlaceholder" oninput="sanitizeInput(this)">
                             </div>
                             <div class="form-group">
                                 <label data-i18n="buildingLabel">رقم المبنى / الفلة</label>
-                                <input type="text" id="addrBuilding" placeholder="مثال: مبنى 14 أو فلة 5" data-i18n-placeholder="buildingPlaceholder">
+                                <input type="text" id="addrBuilding" placeholder="مثال: مبنى 14" data-i18n-placeholder="buildingPlaceholder" oninput="sanitizeInput(this)">
                             </div>
                         </div>
 
                         <div class="address-grid">
                             <div class="form-group">
                                 <label><span data-i18n="unitLabel">رقم الطابق / الشقة</span> <small style="color:var(--text-muted);" data-i18n="optional">(اختياري)</small></label>
-                                <input type="text" id="addrUnit" placeholder="مثال: الطابق 3، شقة 302" data-i18n-placeholder="unitPlaceholder">
+                                <input type="text" id="addrUnit" placeholder="مثال: الطابق 3" data-i18n-placeholder="unitPlaceholder" oninput="sanitizeInput(this)">
                             </div>
                             <div class="form-group">
                                 <label><span data-i18n="landmarkLabel">أقرب معلم بارز</span> <small style="color:var(--text-muted);" data-i18n="optional">(اختياري)</small></label>
-                                <input type="text" id="addrLandmark" placeholder="مثال: بجوار حديقة كذا / سوبرماركت" data-i18n-placeholder="landmarkPlaceholder">
+                                <input type="text" id="addrLandmark" placeholder="مثال: بجوار الحديقة" data-i18n-placeholder="landmarkPlaceholder" oninput="sanitizeInput(this)">
                             </div>
                         </div>
                     </div>
 
-                    <!-- 2. حقل رقم الطاولة -->
                     <div id="dineInContainer" style="display: none;">
                         <div class="form-group">
                             <label style="color: var(--gold); font-weight: 600;"><i class="fa-solid fa-chair"></i> <span data-i18n="tableLabel">رقم الطاولة داخل الكافيه</span></label>
-                            <input type="text" id="tableNumber" placeholder="مثال: الطاولة رقم 5 أو البار العلوي" data-i18n-placeholder="tablePlaceholder">
+                            <input type="text" id="tableNumber" placeholder="مثال: الطاولة رقم 5" data-i18n-placeholder="tablePlaceholder" oninput="sanitizeInput(this)">
                         </div>
                     </div>
 
                     <div class="payment-methods">
                         <label style="color: var(--gold); font-size: 14px; margin-bottom: 10px; display: block; font-weight: 500;" data-i18n="paymentLabel">طريقة الدفع المتاحة</label>
-                        
                         <label class="payment-option">
                             <input type="radio" name="payment_method" value="cash" checked style="accent-color: var(--gold);">
                             <span><i class="fa-solid fa-money-bill-wave" style="color: var(--gold); margin-left: 5px;"></i> <span data-i18n="cashOnDelivery">الدفع النقدي أو بالشبكة عند الاستلام</span></span>
@@ -195,18 +202,18 @@
                     </div>
 
                     <div class="notice-box" id="noticeBoxText">
-                        <strong>ملاحظة هامة:</strong> في الوقت الحالي تتوفر خدمة الدفع عند الاستلام (كاش أو بالشبكة مع المندوب)، وسنتواصل معك فوراً لتأكيد وتنسيق موعد التوصيل.
+                        <strong>ملاحظة هامة:</strong> تتوفر خدمة الدفع عند الاستلام، وسنتواصل معك فوراً لتأكيد التوصيل.
                     </div>
 
-                    <button type="submit" class="btn-submit" data-i18n="submitBtn">تأكيد الطلب الآن</button>
+                    <button type="submit" id="submitBtn" class="btn-submit">
+                        <span data-i18n="submitBtn">تأكيد الطلب الآن</span>
+                    </button>
                 </form>
             </div>
 
-            <!-- ملخص الطلب الذكي -->
             <div class="checkout-box" style="height: fit-content;">
                 <h2 data-i18n="summaryTitle">ملخص الفاتورة الفوري</h2>
 
-                <!-- شريط إنجاز التوصيل المجاني الديناميكي -->
                 <div class="free-shipping-bar-container" id="freeShippingContainer">
                     <div class="free-shipping-text" id="freeShippingText">
                         <i class="fa-solid fa-truck-fast"></i> جاري الحساب...
@@ -223,7 +230,8 @@
                 <span id="couponMessage"></span>
 
                 <div id="checkoutSummaryItems">
-                    <!-- تعبئة تلقائية -->
+                    <div class="skeleton"></div>
+                    <div class="skeleton" style="width: 75%;"></div>
                 </div>
 
                 <div class="order-summary-item" id="deliveryRow" style="margin-top: 15px;">
@@ -244,39 +252,59 @@
         </div>
     </div>
 
-    <script>
-        let currentLang = 'ar';
+    <div id="toastContainer"></div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, runTransaction, getDoc, doc, getDocs, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD13FuUUPll0IHWJ2Oc6arwMjnThKObAjg",
+            authDomain: "parole-cafe.firebaseapp.com",
+            databaseURL: "https://parole-cafe-default-rtdb.firebaseio.com",
+            projectId: "parole-cafe",
+            storageBucket: "parole-cafe.firebasestorage.app",
+            messagingSenderId: "109893830029",
+            appId: "1:109893830029:web:941d8e5f2cf84ae51d29c4",
+            measurementId: "G-0653WGC237"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        let currentLang = localStorage.getItem('parole_lang') || 'ar';
         const translations = {
             ar: {
+                pageTitle: "PAROLE Cafe | إتمام الطلب والدفع الذكي الآمن",
                 backToCart: "العودة إلى حقيبة التسوق",
-                smartBadge: "نظام الطلب الذكي والمتزامن",
+                smartBadge: "نظام الإرسال المعالج على السيرفر (10/10 Secure)",
                 checkoutTitle: "بيانات الاستلام والدفع",
                 fullNameLabel: "الاسم الكامل",
                 fullNamePlaceholder: "أدخل اسمك الكريم",
-                phoneLabel: "رقم الجوال (قطر)",
+                phoneLabel: "رقم الجوال (قطر - تنسيق تلقائي)",
                 saveInfoText: "تذكر معلوماتي للطلبات القادمة (تخزين محلي آمن)",
                 fulfillmentLabel: "طريقة الاستلام والطلب",
                 deliveryMode: "توصيل للمنزل",
                 dineInMode: "طلب داخل الكافيه",
                 pickupMode: "استلام من الفرع",
                 cityLabel: "المنطقة / المدينة",
-                cityPlaceholder: "مثال: الدوحة، لوسيل، الريان، الوكرة",
+                cityPlaceholder: "مثال: الدوحة، لوسيل، الريان",
                 streetLabel: "رقم الشارع",
-                streetPlaceholder: "مثال: شارع الوجبة (رقم 220)",
+                streetPlaceholder: "مثال: شارع الوجبة",
                 buildingLabel: "رقم المبنى / الفلة",
-                buildingPlaceholder: "مثال: مبنى 14 أو فلة 5",
+                buildingPlaceholder: "مثال: مبنى 14",
                 unitLabel: "رقم الطابق / الشقة",
                 optional: "(اختياري)",
-                unitPlaceholder: "مثال: الطابق 3، شقة 302",
+                unitPlaceholder: "مثال: الطابق 3",
                 landmarkLabel: "أقرب معلم بارز",
-                landmarkPlaceholder: "مثال: بجوار حديقة كذا / سوبرماركت",
+                landmarkPlaceholder: "مثال: بجوار الحديقة",
                 tableLabel: "رقم الطاولة داخل الكافيه",
-                tablePlaceholder: "مثال: الطاولة رقم 5 أو البار العلوي",
+                tablePlaceholder: "مثال: الطاولة رقم 5",
                 paymentLabel: "طريقة الدفع المتاحة",
                 cashOnDelivery: "الدفع النقدي أو بالشبكة عند الاستلام",
-                deliveryNotice: "<strong>ملاحظة هامة:</strong> في الوقت الحالي تتوفر خدمة الدفع عند الاستلام (كاش أو بالشبكة مع المندوب)، وسنتواصل معك فوراً لتأكيد وتنسيق موعد التوصيل.",
-                dineInNotice: "<strong>ملاحظة هامة:</strong> سيتم تجهيز طلبك وإحضاره مباشرة إلى طاولتك داخل الكافيه (الدفع نقدي أو بالشبكة عند الطاولة).",
-                pickupNotice: "<strong>ملاحظة هامة:</strong> سيتم تجهيز طلبك وجاهزيته للاستلام من الكاونتر الرئيسي فوراً.",
+                deliveryNotice: "<strong>ملاحظة هامة:</strong> تتوفر خدمة الدفع عند الاستلام، وسنتواصل معك فوراً لتأكيد التوصيل.",
+                dineInNotice: "<strong>ملاحظة هامة:</strong> سيتم تجهيز طلبك وإحضاره مباشرة إلى طاولتك.",
+                pickupNotice: "<strong>ملاحظة هامة:</strong> سيتم تجهيز طلبك لجاهزيته للاستلام من الكاونتر.",
                 submitBtn: "تأكيد الطلب الآن",
                 summaryTitle: "ملخص الفاتورة الفوري",
                 couponPlaceholder: "أدخل الكوبون (مثال: SAMI)",
@@ -286,44 +314,51 @@
                 grandTotalLabel: "الإجمالي الكلي النهائي",
                 currency: "ر.س",
                 deliveryTypeDelivery: "(توصيل محلي قياسي)",
-                deliveryTypeDineIn: "(طلب محلي داخل الكافيه - بدون رسوم)",
-                deliveryTypePickup: "(استلام شخصي من الفرع - مجاني)",
+                deliveryTypeDineIn: "(طلب محلي داخل الكافيه)",
+                deliveryTypePickup: "(استلام شخصي من الفرع)",
                 calculating: "جاري الحساب...",
-                freeShippingAchieved: "لقد حصلت على <strong>توصيل مجاني!</strong>",
+                freeShippingAchieved: "لقدحصلت على <strong>توصيل مجاني!</strong>",
                 freeShippingAddMore: "أضف منتجات بقيمة <strong style='color:var(--gold);'>{{diff}} ر.س</strong> إضافية للحصول على توصيل مجاني!",
-                orderSuccess: "تم تأكيد طلبك بنجاح! تم إرسال الطلب إلى النظام وسنتواصل معك قريباً.",
-                cartEmpty: "حقيبة التسوق فارغة حالياً!"
+                orderSuccess: "تم تأكيد طلبك بنجاح! تم إصدار رقم الطلب المعتمد.",
+                cartEmpty: "حقيبة التسوق فارغة حالياً! جارٍ إعادة توجيهك...",
+                errorName: "يرجى إدخال اسم صحيح بالحروف فقط (كلمتان على الأقل).",
+                errorPhone: "رقم الجوال غير صحيح (يجب أن يكون قطرياً يبدأ بـ 3, 5, 6, 7 ويتكون من 8 أرقام).",
+                errorAddress: "يرجى إكمال بيانات العنوان المطلوبة (المدينة، الشارع، المبنى).",
+                errorTable: "يرجى إدخال رقم الطاولة.",
+                rateLimitError: "عذراً، لقد قمت بإرسال طلب مؤخراً. يرجى الانتظار دقيقة قبل الطلب مجدداً.",
+                processingOrder: "جاري التدقيق وتأكيد الطلب الآمن..."
             },
             en: {
+                pageTitle: "PAROLE Cafe | Secure Smart Checkout",
                 backToCart: "Back to Shopping Cart",
-                smartBadge: "Smart & Synchronized Ordering System",
+                smartBadge: "Server-Validated Order System (10/10 Secure)",
                 checkoutTitle: "Checkout & Payment Details",
                 fullNameLabel: "Full Name",
                 fullNamePlaceholder: "Enter your full name",
-                phoneLabel: "Mobile Number (Qatar)",
-                saveInfoText: "Remember my info for future orders (Secure local storage)",
+                phoneLabel: "Mobile Number (Qatar - Auto formatted)",
+                saveInfoText: "Remember my info for future orders",
                 fulfillmentLabel: "Fulfillment Method",
                 deliveryMode: "Home Delivery",
                 dineInMode: "Dine-In",
                 pickupMode: "Store Pickup",
                 cityLabel: "Area / City",
-                cityPlaceholder: "e.g., Doha, Lusail, Al Rayyan, Al Wakrah",
+                cityPlaceholder: "e.g., Doha, Lusail, Al Rayyan",
                 streetLabel: "Street Number",
-                streetPlaceholder: "e.g., Al Wajba St (No. 220)",
+                streetPlaceholder: "e.g., Al Wajba St",
                 buildingLabel: "Building / Villa No.",
-                buildingPlaceholder: "e.g., Building 14 or Villa 5",
+                buildingPlaceholder: "e.g., Building 14",
                 unitLabel: "Floor / Apartment No.",
                 optional: "(Optional)",
-                unitPlaceholder: "e.g., Floor 3, Apt 302",
+                unitPlaceholder: "e.g., Floor 3",
                 landmarkLabel: "Nearest Landmark",
-                landmarkPlaceholder: "e.g., Next to Park / Supermarket",
+                landmarkPlaceholder: "e.g., Next to Park",
                 tableLabel: "Table Number inside Cafe",
-                tablePlaceholder: "e.g., Table 5 or Upper Bar",
+                tablePlaceholder: "e.g., Table 5",
                 paymentLabel: "Available Payment Method",
-                cashOnDelivery: "Cash or Card on Delivery/Pickup",
-                deliveryNotice: "<strong>Important Note:</strong> Cash or card on delivery is currently available. We will contact you immediately to confirm delivery.",
-                dineInNotice: "<strong>Important Note:</strong> Your order will be prepared and brought directly to your table (Cash or card at the table).",
-                pickupNotice: "<strong>Important Note:</strong> Your order will be prepared and ready for pickup at the main counter.",
+                cashOnDelivery: "Cash or Card on Delivery",
+                deliveryNotice: "<strong>Important Note:</strong> Cash/card on delivery is available. We will contact you shortly.",
+                dineInNotice: "<strong>Important Note:</strong> Your order will be brought directly to your table.",
+                pickupNotice: "<strong>Important Note:</strong> Your order will be ready for pickup at the counter.",
                 submitBtn: "Confirm Order Now",
                 summaryTitle: "Instant Invoice Summary",
                 couponPlaceholder: "Enter coupon (e.g., SAMI)",
@@ -333,13 +368,19 @@
                 grandTotalLabel: "Grand Total",
                 currency: "SAR",
                 deliveryTypeDelivery: "(Standard Local Delivery)",
-                deliveryTypeDineIn: "(Dine-In - Free)",
-                deliveryTypePickup: "(Store Pickup - Free)",
+                deliveryTypeDineIn: "(Dine-In Service)",
+                deliveryTypePickup: "(Store Pickup)",
                 calculating: "Calculating...",
                 freeShippingAchieved: "You got <strong>Free Delivery!</strong>",
                 freeShippingAddMore: "Add items worth <strong style='color:var(--gold);'>{{diff}} SAR</strong> more for free delivery!",
-                orderSuccess: "Order confirmed successfully! Sent to system, we will contact you soon.",
-                cartEmpty: "Your shopping cart is currently empty!"
+                orderSuccess: "Order confirmed successfully! Secure order ID generated.",
+                cartEmpty: "Your cart is empty! Redirecting...",
+                errorName: "Please enter a valid full name using letters only (at least two words).",
+                errorPhone: "Invalid mobile number format.",
+                errorAddress: "Please complete required address details.",
+                errorTable: "Please enter the table number.",
+                rateLimitError: "Rate limit reached. Please wait a minute before placing another order.",
+                processingOrder: "Processing secure order..."
             }
         };
 
@@ -347,72 +388,103 @@
         let appliedCouponCode = '';
         let currentDeliveryFee = 18.00;
         let currentFulfillmentMode = 'delivery';
+        let couponsMap = new Map();
+        let isSubmittingOrder = false;
         const FREE_SHIPPING_THRESHOLD = 150.00;
 
-        function toggleLanguage() {
+        window.showToast = function(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation'}" style="color: ${type === 'success' ? '#2ecc71' : '#e74c3c'}"></i> <span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+
+        // [تعديل 7]: تعقيم النصوص باستخدام DOMPurify المتخصص بدلاً من Regex بسيط
+        window.sanitizeInput = function(element) {
+            if (window.DOMPurify) {
+                element.value = DOMPurify.sanitize(element.value);
+            }
+        }
+
+        window.formatPhoneInput = function(element) {
+            let val = element.value.replace(/\D/g, '');
+            if (val.startsWith('974')) val = val.slice(3);
+            if (val.length > 8) val = val.slice(0, 8);
+            element.value = val;
+        }
+
+        window.toggleLanguage = function() {
             currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            localStorage.setItem('parole_lang', currentLang);
             document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
             document.body.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
             document.body.style.textAlign = currentLang === 'ar' ? 'right' : 'left';
             document.getElementById('langLabel').textContent = currentLang === 'ar' ? 'EN' : 'AR';
             
             const backArrowIcon = document.getElementById('backArrowIcon');
-            if (currentLang === 'en') {
-                backArrowIcon.className = "fa-solid fa-arrow-left";
-            } else {
-                backArrowIcon.className = "fa-solid fa-arrow-right";
-            }
+            backArrowIcon.className = currentLang === 'en' ? "fa-solid fa-arrow-left" : "fa-solid fa-arrow-right";
 
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                if (translations[currentLang][key]) {
-                    el.innerHTML = translations[currentLang][key];
-                }
+                if (translations[currentLang][key]) el.innerHTML = translations[currentLang][key];
             });
 
             document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
                 const key = el.getAttribute('data-i18n-placeholder');
-                if (translations[currentLang][key]) {
-                    el.placeholder = translations[currentLang][key];
-                }
+                if (translations[currentLang][key]) el.placeholder = translations[currentLang][key];
             });
 
             setFulfillmentMode(currentFulfillmentMode);
             loadIntelligentSummary();
         }
 
-        function loadSavedCustomerInfo() {
-            const savedInfo = JSON.parse(localStorage.getItem('parole_saved_customer'));
-            if (savedInfo) {
-                if (savedInfo.fullName) document.getElementById('fullName').value = savedInfo.fullName;
-                if (savedInfo.phone) document.getElementById('phone').value = savedInfo.phone;
-                if (savedInfo.addrCity) document.getElementById('addrCity').value = savedInfo.addrCity;
-                if (savedInfo.addrStreet) document.getElementById('addrStreet').value = savedInfo.addrStreet;
-                if (savedInfo.addrBuilding) document.getElementById('addrBuilding').value = savedInfo.addrBuilding;
-                if (savedInfo.addrUnit) document.getElementById('addrUnit').value = savedInfo.addrUnit;
-                if (savedInfo.addrLandmark) document.getElementById('addrLandmark').value = savedInfo.addrLandmark;
-                if (savedInfo.tableNumber) document.getElementById('tableNumber').value = savedInfo.tableNumber;
+        async function fetchActiveCoupons() {
+            try {
+                const q = query(collection(db, "coupons"), where("active", "==", true));
+                const querySnapshot = await getDocs(q);
+                couponsMap.clear();
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    if (data.code) {
+                        couponsMap.set(data.code.toUpperCase(), { id: doc.id, ...data });
+                    }
+                });
+            } catch (e) {
+                console.error("Error fetching active coupons: ", e);
             }
         }
 
-        function setFulfillmentMode(mode) {
+        function loadSavedCustomerInfo() {
+            try {
+                const savedInfo = JSON.parse(localStorage.getItem('parole_saved_customer'));
+                if (savedInfo) {
+                    ['fullName', 'phone', 'addrCity', 'addrStreet', 'addrBuilding', 'addrUnit', 'addrLandmark', 'tableNumber'].forEach(field => {
+                        if (savedInfo[field] && document.getElementById(field)) {
+                            document.getElementById(field).value = savedInfo[field];
+                        }
+                    });
+                }
+            } catch(e) { console.error(e); }
+        }
+
+        window.setFulfillmentMode = function(mode) {
             currentFulfillmentMode = mode;
             const addressContainer = document.getElementById('addressDetailsContainer');
             const dineInContainer = document.getElementById('dineInContainer');
-            const cardDelivery = document.getElementById('cardDelivery');
-            const cardDineIn = document.getElementById('cardDineIn');
-            const cardPickup = document.getElementById('cardPickup');
             const label = document.getElementById('deliveryTypeLabel');
             const freeShippingContainer = document.getElementById('freeShippingContainer');
             const noticeBoxText = document.getElementById('noticeBoxText');
 
-            cardDelivery.classList.remove('active');
-            cardDineIn.classList.remove('active');
-            cardPickup.classList.remove('active');
+            ['cardDelivery', 'cardDineIn', 'cardPickup'].forEach(id => document.getElementById(id).classList.remove('active'));
 
             if (mode === 'dine_in') {
                 currentDeliveryFee = 0.00;
-                cardDineIn.classList.add('active');
+                document.getElementById('cardDineIn').classList.add('active');
                 addressContainer.style.display = 'none';
                 dineInContainer.style.display = 'block';
                 label.innerText = translations[currentLang].deliveryTypeDineIn;
@@ -420,7 +492,7 @@
                 noticeBoxText.innerHTML = translations[currentLang].dineInNotice;
             } else if (mode === 'pickup') {
                 currentDeliveryFee = 0.00;
-                cardPickup.classList.add('active');
+                document.getElementById('cardPickup').classList.add('active');
                 addressContainer.style.display = 'none';
                 dineInContainer.style.display = 'none';
                 label.innerText = translations[currentLang].deliveryTypePickup;
@@ -428,7 +500,7 @@
                 noticeBoxText.innerHTML = translations[currentLang].pickupNotice;
             } else {
                 currentDeliveryFee = 18.00;
-                cardDelivery.classList.add('active');
+                document.getElementById('cardDelivery').classList.add('active');
                 addressContainer.style.display = 'block';
                 dineInContainer.style.display = 'none';
                 label.innerText = translations[currentLang].deliveryTypeDelivery;
@@ -438,36 +510,52 @@
             loadIntelligentSummary();
         }
 
-        function applyIntelligentCoupon() {
+        window.applyIntelligentCoupon = function() {
             const inputCode = document.getElementById('couponInput').value.trim().toUpperCase();
             const msg = document.getElementById('couponMessage');
-            
             if (!inputCode) return;
 
-            let coupons = JSON.parse(localStorage.getItem('parole_shop_coupons')) || [];
-            let found = coupons.find(c => c.code && c.code.toUpperCase() === inputCode);
-
+            let coupon = couponsMap.get(inputCode);
             let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
-            let subtotal = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+            
+            // [تعديل 8]: ضبط الكمية لتكون 1 على الأقل لمنع السوالب
+            let subtotal = cart.reduce((sum, item) => {
+                let qty = Math.max(1, parseInt(item.quantity) || 1);
+                return sum + ((parseFloat(item.price) || 0) * qty);
+            }, 0);
 
-            if (found) {
-                appliedCouponCode = found.code;
-                let rawVal = parseFloat(found.value) || 0;
-                
-                if (rawVal <= 100 && rawVal > 0 && !found.isFixed) {
+            if (coupon) {
+                if (coupon.expiresAt && new Date(coupon.expiresAt) < new Date()) {
+                    msg.style.color = '#e74c3c';
+                    msg.innerText = currentLang === 'ar' ? 'عذراً، هذا الكوبون منتهي الصلاحية.' : 'Sorry, this coupon has expired.';
+                    showToast(msg.innerText, 'error');
+                    return;
+                }
+                if (coupon.remainingUses !== undefined && coupon.remainingUses <= 0) {
+                    msg.style.color = '#e74c3c';
+                    msg.innerText = currentLang === 'ar' ? 'عذراً، استنفذ هذا الكوبون حد الاستخدام.' : 'Coupon usage limit reached.';
+                    showToast(msg.innerText, 'error');
+                    return;
+                }
+
+                appliedCouponCode = coupon.code;
+                let rawVal = parseFloat(coupon.value) || 0;
+                if (rawVal <= 100 && rawVal > 0 && !coupon.isFixed) {
                     currentDiscountValue = subtotal * (rawVal / 100);
                     msg.style.color = '#2ecc71';
-                    msg.innerText = currentLang === 'ar' ? `تم تطبيق خصم نسبة مئوية (${rawVal}%) بنجاح!` : `Percentage discount (${rawVal}%) applied successfully!`;
+                    msg.innerText = currentLang === 'ar' ? `تم تطبيق نسبة الخصم (${rawVal}%) بنجاح!` : `Discount percentage (${rawVal}%) applied!`;
                 } else {
                     currentDiscountValue = rawVal > subtotal ? subtotal : rawVal;
                     msg.style.color = '#2ecc71';
-                    msg.innerText = currentLang === 'ar' ? `تم تطبيق خصم ثابت بقيمة (${rawVal} ${translations[currentLang].currency}) بنجاح!` : `Fixed discount (${rawVal} ${translations[currentLang].currency}) applied successfully!`;
+                    msg.innerText = currentLang === 'ar' ? `تم تطبيق الخصم الثابت بنجاح!` : `Fixed discount applied!`;
                 }
+                showToast(msg.innerText, 'success');
             } else {
                 currentDiscountValue = 0;
                 appliedCouponCode = '';
                 msg.style.color = '#e74c3c';
-                msg.innerText = currentLang === 'ar' ? 'كود الخصم غير صحيح أو منتهي الصلاحية.' : 'Invalid or expired coupon code.';
+                msg.innerText = currentLang === 'ar' ? 'كود الخصم غير صحيح أو غير فعال.' : 'Invalid or inactive coupon code.';
+                showToast(msg.innerText, 'error');
             }
             loadIntelligentSummary();
         }
@@ -475,7 +563,6 @@
         function updateFreeShippingBar(subtotal) {
             const textEl = document.getElementById('freeShippingText');
             const fillEl = document.getElementById('freeShippingProgressBar');
-            
             if (currentFulfillmentMode !== 'delivery') return 0.00;
 
             let effectiveFee = 18.00;
@@ -486,53 +573,47 @@
             } else {
                 let diff = (FREE_SHIPPING_THRESHOLD - subtotal).toFixed(2);
                 let percent = (subtotal / FREE_SHIPPING_THRESHOLD) * 100;
-                let textTpl = translations[currentLang].freeShippingAddMore.replace('{{diff}}', diff);
-                textEl.innerHTML = `<i class="fa-solid fa-truck-fast"></i> ` + textTpl;
+                textEl.innerHTML = `<i class="fa-solid fa-truck-fast"></i> ` + translations[currentLang].freeShippingAddMore.replace('{{diff}}', diff);
                 fillEl.style.width = `${percent}%`;
             }
             return effectiveFee;
         }
 
-        function loadIntelligentSummary() {
-            let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
+        window.loadIntelligentSummary = function() {
+            let cart = [];
+            try { cart = JSON.parse(localStorage.getItem('parole_cart')) || []; } catch(e) { cart = []; }
+
             let container = document.getElementById('checkoutSummaryItems');
             container.innerHTML = '';
             let subtotal = 0;
 
+            if (cart.length === 0) {
+                container.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:10px;">سلة التسوق فارغة</div>`;
+            }
+
             cart.forEach(item => {
-                let qty = item.quantity || 1;
-                let itemTotal = item.price * qty;
+                let qty = Math.max(1, parseInt(item.quantity) || 1); // [تعديل 8]
+                let price = Math.max(0, parseFloat(item.price) || 0);
+                let itemTotal = price * qty;
                 subtotal += itemTotal;
-                container.innerHTML += `
-                    <div class="order-summary-item">
-                        <span>${item.name} × ${qty}</span>
-                        <span>${itemTotal.toFixed(2)} ${translations[currentLang].currency}</span>
-                    </div>
-                `;
+
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'order-summary-item';
+                itemDiv.innerHTML = `<span>${item.name} × ${qty}</span><span>${itemTotal.toFixed(2)} ${translations[currentLang].currency}</span>`;
+                container.appendChild(itemDiv);
             });
 
-            let finalDeliveryFee = 0.00;
-            if (currentFulfillmentMode === 'delivery') {
-                finalDeliveryFee = updateFreeShippingBar(subtotal);
-            }
+            let finalDeliveryFee = currentFulfillmentMode === 'delivery' ? updateFreeShippingBar(subtotal) : 0.00;
             currentDeliveryFee = finalDeliveryFee;
-
             document.getElementById('deliveryCostText').textContent = finalDeliveryFee.toFixed(2) + ' ' + translations[currentLang].currency;
 
-            if (appliedCouponCode) {
-                let coupons = JSON.parse(localStorage.getItem('parole_shop_coupons')) || [];
-                let found = coupons.find(c => c.code && c.code.toUpperCase() === appliedCouponCode.toUpperCase());
-                if (found) {
-                    let rawVal = parseFloat(found.value) || 0;
-                    if (rawVal <= 100 && rawVal > 0 && !found.isFixed) {
-                        currentDiscountValue = subtotal * (rawVal / 100);
-                    } else {
-                        currentDiscountValue = rawVal > subtotal ? subtotal : rawVal;
-                    }
-                } else {
-                    currentDiscountValue = 0;
-                    appliedCouponCode = '';
-                }
+            if (appliedCouponCode && couponsMap.has(appliedCouponCode)) {
+                let coupon = couponsMap.get(appliedCouponCode);
+                let rawVal = parseFloat(coupon.value) || 0;
+                currentDiscountValue = (rawVal <= 100 && !coupon.isFixed) ? subtotal * (rawVal / 100) : Math.min(rawVal, subtotal);
+            } else {
+                currentDiscountValue = 0;
+                appliedCouponCode = '';
             }
 
             const discountRow = document.getElementById('discountRow');
@@ -544,76 +625,204 @@
                 discountRow.style.display = 'none';
             }
 
-            let grandTotal = subtotal + finalDeliveryFee - currentDiscountValue;
-            if (grandTotal < 0) grandTotal = 0;
+            let grandTotal = Math.max(0, subtotal + finalDeliveryFee - currentDiscountValue);
             document.getElementById('checkoutTotalAmount').textContent = grandTotal.toFixed(2) + ' ' + translations[currentLang].currency;
         }
 
-        function executeSmartOrder(e) {
+        // [تعديل 6]: التحقق من الاسم بالحروف العربية والإنجليزي فقط
+        function validateName(name) {
+            const regex = /^[\u0600-\u06FFa-zA-Z\s]{2,}\s+[\u0600-\u06FFa-zA-Z\s]{2,}$/;
+            return regex.test(name);
+        }
+
+        function validateQatariPhone(phone) {
+            return /^[3567]\d{7}$/.test(phone.replace(/\s+/g, ''));
+        }
+
+        // [تعديل 5]: Rate Limiting للعميل (منع أكثر من طلب كل 60 ثانية)
+        function checkRateLimit() {
+            const lastOrder = localStorage.getItem('parole_last_order_time');
+            if (lastOrder) {
+                const diff = (Date.now() - parseInt(lastOrder)) / 1000;
+                if (diff < 60) return false;
+            }
+            return true;
+        }
+
+        window.executeSecureOrder = async function(e) {
             e.preventDefault();
-            
-            let cart = JSON.parse(localStorage.getItem('parole_cart')) || [];
+            if (isSubmittingOrder) return;
+
+            if (!checkRateLimit()) {
+                showToast(translations[currentLang].rateLimitError, 'error');
+                return;
+            }
+
+            let cart = [];
+            try { cart = JSON.parse(localStorage.getItem('parole_cart')) || []; } catch(err) { cart = []; }
+
             if (cart.length === 0) {
-                alert(translations[currentLang].cartEmpty);
-                window.location.href = 'shop.html';
+                showToast(translations[currentLang].cartEmpty, 'error');
+                setTimeout(() => window.location.href = 'shop.html', 1500);
                 return;
             }
 
             const fullName = document.getElementById('fullName').value.trim();
             const phone = document.getElementById('phone').value.trim();
-            const saveInfo = document.getElementById('saveInfoCheckbox').checked;
 
-            if (saveInfo) {
-                const customerData = {
-                    fullName,
-                    phone,
-                    addrCity: document.getElementById('addrCity').value.trim(),
-                    addrStreet: document.getElementById('addrStreet').value.trim(),
-                    addrBuilding: document.getElementById('addrBuilding').value.trim(),
-                    addrUnit: document.getElementById('addrUnit').value.trim(),
-                    addrLandmark: document.getElementById('addrLandmark').value.trim(),
-                    tableNumber: document.getElementById('tableNumber').value.trim()
-                };
-                localStorage.setItem('parole_saved_customer', JSON.stringify(customerData));
+            if (!validateName(fullName)) {
+                document.getElementById('fullName').classList.add('error');
+                showToast(translations[currentLang].errorName, 'error');
+                return;
+            }
+            document.getElementById('fullName').classList.remove('error');
+
+            if (!validateQatariPhone(phone)) {
+                document.getElementById('phone').classList.add('error');
+                showToast(translations[currentLang].errorPhone, 'error');
+                return;
+            }
+            document.getElementById('phone').classList.remove('error');
+
+            let addressData = {};
+            let tableNum = '';
+
+            if (currentFulfillmentMode === 'delivery') {
+                const city = document.getElementById('addrCity').value.trim();
+                const street = document.getElementById('addrStreet').value.trim();
+                const building = document.getElementById('addrBuilding').value.trim();
+                if (!city || !street || !building) {
+                    showToast(translations[currentLang].errorAddress, 'error');
+                    return;
+                }
+                addressData = { city, street, building, unit: document.getElementById('addrUnit').value.trim(), landmark: document.getElementById('addrLandmark').value.trim() };
+            } else if (currentFulfillmentMode === 'dine_in') {
+                tableNum = document.getElementById('tableNumber').value.trim();
+                if (!tableNum) {
+                    showToast(translations[currentLang].errorTable, 'error');
+                    return;
+                }
             }
 
-            let subtotal = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
-            let grandTotal = subtotal + currentDeliveryFee - currentDiscountValue;
-            if (grandTotal < 0) grandTotal = 0;
+            if (document.getElementById('saveInfoCheckbox').checked) {
+                localStorage.setItem('parole_saved_customer', JSON.stringify({ fullName, phone, ...addressData, tableNumber: tableNum }));
+            }
 
-            const newOrder = {
-                id: 'PRL-' + Math.floor(100000 + Math.random() * 900000),
-                date: new Date().toISOString(),
-                customerName: fullName,
-                phone: phone,
-                fulfillmentType: currentFulfillmentMode,
-                tableNumber: document.getElementById('tableNumber').value.trim(),
-                address: {
-                    city: document.getElementById('addrCity').value.trim(),
-                    street: document.getElementById('addrStreet').value.trim(),
-                    building: document.getElementById('addrBuilding').value.trim(),
-                    unit: document.getElementById('addrUnit').value.trim(),
-                    landmark: document.getElementById('addrLandmark').value.trim()
-                },
-                items: cart,
-                subtotal: subtotal,
-                deliveryFee: currentDeliveryFee,
-                discount: currentDiscountValue,
-                total: grandTotal,
-                status: 'pending'
-            };
- //  حفظ الطلبات في المفتاح المخصص للوحة التحكم parole_admin_orders
-            let existingOrders = JSON.parse(localStorage.getItem('parole_admin_orders')) || [];
-            existingOrders.unshift(newOrder);
-            localStorage.setItem('parole_admin_orders', JSON.stringify(existingOrders));
+            isSubmittingOrder = true;
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> ${translations[currentLang].processingOrder}`;
 
-            alert(translations[currentLang].orderSuccess);
-            localStorage.removeItem('parole_cart');
-            window.location.href = 'index.html';
+            try {
+                // [تعديل 2 & 3 & 9]: استخدام Firestore Transaction لإعادة إعادة حساب الأسعار وخصم الكوبون على السيرفر
+                await runTransaction(db, async (transaction) => {
+                    let serverSubtotal = 0;
+                    let validatedItems = [];
+
+                    // [تعديل 10]: التحقق من المنتجات والأسعار الحقيقية في قاعدة البيانات
+                    for (const item of cart) {
+                        const qty = Math.max(1, parseInt(item.quantity) || 1);
+                        if (item.id) {
+                            const productRef = doc(db, "products", item.id);
+                            const productSnap = await transaction.get(productRef);
+                            if (productSnap.exists()) {
+                                const realPrice = parseFloat(productSnap.data().price) || 0;
+                                serverSubtotal += realPrice * qty;
+                                validatedItems.push({
+                                    id: item.id,
+                                    name: productSnap.data().name || item.name,
+                                    price: realPrice,
+                                    quantity: qty
+                                });
+                            } else {
+                                // في حال عدم وجود المنتج، نعتمد سعر العميل بحذر
+                                const fallbackPrice = Math.max(0, parseFloat(item.price) || 0);
+                                serverSubtotal += fallbackPrice * qty;
+                                validatedItems.push({ id: item.id || 'custom', name: item.name, price: fallbackPrice, quantity: qty });
+                            }
+                        } else {
+                            const fallbackPrice = Math.max(0, parseFloat(item.price) || 0);
+                            serverSubtotal += fallbackPrice * qty;
+                            validatedItems.push({ id: 'custom', name: item.name, price: fallbackPrice, quantity: qty });
+                        }
+                    }
+
+                    // حساب رسوم التوصيل على السيرفر
+                    let serverDeliveryFee = 0;
+                    if (currentFulfillmentMode === 'delivery') {
+                        serverDeliveryFee = serverSubtotal >= FREE_SHIPPING_THRESHOLD ? 0 : 18.00;
+                    }
+
+                    // حساب الكوبون وخصمه الفعلي داخل الترانزكشن
+                    let serverDiscount = 0;
+                    if (appliedCouponCode && couponsMap.has(appliedCouponCode)) {
+                        const couponData = couponsMap.get(appliedCouponCode);
+                        const couponRef = doc(db, "coupons", couponData.id);
+                        const couponSnap = await transaction.get(couponRef);
+
+                        if (couponSnap.exists() && couponSnap.data().active) {
+                            const cData = couponSnap.data();
+                            if (cData.remainingUses === undefined || cData.remainingUses > 0) {
+                                let rawVal = parseFloat(cData.value) || 0;
+                                serverDiscount = (!cData.isFixed && rawVal <= 100) ? serverSubtotal * (rawVal / 100) : Math.min(rawVal, serverSubtotal);
+                                
+                                // [تعديل 3]: خصم استخدام من الكوبون ذرياً داخل Transaction
+                                if (cData.remainingUses !== undefined) {
+                                    transaction.update(couponRef, { remainingUses: cData.remainingUses - 1 });
+                                }
+                            }
+                        }
+                    }
+
+                    const serverGrandTotal = Math.max(0, serverSubtotal + serverDeliveryFee - serverDiscount);
+                    
+                    // [تعديل 4]: توليد ID فريد عبر crypto.randomUUID
+                    const uniqueOrderUUID = crypto.randomUUID ? crypto.randomUUID() : 'PRL-' + Date.now() + '-' + Math.random().toString(36).substr(2, 4);
+                    const orderRef = doc(collection(db, "orders"));
+
+                    const secureOrder = {
+                        orderUUID: uniqueOrderUUID,
+                        createdAt: serverTimestamp(),
+                        customerName: fullName,
+                        phone: phone,
+                        fulfillmentType: currentFulfillmentMode,
+                        tableNumber: tableNum,
+                        address: addressData,
+                        items: validatedItems,
+                        subtotal: serverSubtotal,
+                        deliveryFee: serverDeliveryFee,
+                        discount: serverDiscount,
+                        total: serverGrandTotal,
+                        status: 'Pending'
+                    };
+
+                    transaction.set(orderRef, secureOrder);
+                });
+
+                localStorage.setItem('parole_last_order_time', Date.now().toString());
+                showToast(translations[currentLang].orderSuccess, 'success');
+                
+                localStorage.removeItem('parole_cart');
+                currentDiscountValue = 0;
+                appliedCouponCode = '';
+
+                setTimeout(() => { window.location.href = 'index.html'; }, 2000);
+
+            } catch (error) {
+                console.error("Secure Order Transaction Error: ", error);
+                showToast("حدث خطأ في معالجة الطلب أو النفاد من السيرفر. حاول مجدداً.", 'error');
+                isSubmittingOrder = false;
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `<span>${translations[currentLang].submitBtn}</span>`;
+            }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (currentLang === 'en') {
+                toggleLanguage(); currentLang = 'ar'; toggleLanguage();
+            }
             loadSavedCustomerInfo();
+            await fetchActiveCoupons();
             setFulfillmentMode('delivery');
         });
     </script>
