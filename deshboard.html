@@ -419,14 +419,15 @@
         import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
         import { getDatabase, ref, set, push, onValue, remove, update, query, limitToLast, get } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
 
-        const firebaseConfig = {
-          apiKey: "AIzaSyD13FuUUPll0IHWJ2Oc6arwMjnThKObAjg",
-          authDomain: "parole-cafe.firebaseapp.com",
-          projectId: "parole-cafe",
-          storageBucket: "parole-cafe.firebasestorage.app",
-          messagingSenderId: "109893830029",
-          appId: "1:109893830029:web:941d8e5f2cf84ae51d29c4",
-          measurementId: "G-0653WGC237"
+       const firebaseConfig = {
+  apiKey: "AIzaSyD13FuUUPll0IHWJ2Oc6arwMjnThKObAjg",
+  authDomain: "parole-cafe.firebaseapp.com",
+  databaseURL: "https://parole-cafe-default-rtdb.firebaseio.com",
+  projectId: "parole-cafe",
+  storageBucket: "parole-cafe.firebasestorage.app",
+  messagingSenderId: "109893830029",
+  appId: "1:109893830029:web:941d8e5f2cf84ae51d29c4",
+  measurementId: "G-0653WGC237"
         };
 
         const app = initializeApp(firebaseConfig);
